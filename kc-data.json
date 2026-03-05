@@ -130,6 +130,12 @@
         "name": "Besin & Takviye & Teçhizat",
         "desc": "Doğal karışımlar, canlı yem ve ekipmanlar.",
         "img": ""
+      },
+      {
+        "key": "cat_1772745976612",
+        "name": "Yeni Kategori",
+        "desc": "",
+        "img": ""
       }
     ],
     "steps": [
@@ -374,5 +380,5 @@
       "silent": false
     }
   ],
-  "updatedAt": "2026-03-05T21:25:56.588Z"
+  "updatedAt": "2026-03-05T21:26:16.620Z"
 }
