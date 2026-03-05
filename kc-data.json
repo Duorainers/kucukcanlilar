@@ -98,8 +98,8 @@
   ],
   "sett": {
     "siteName": "küçükcanlılar",
-    "tagline": "Türkiye'nin Küçük Canlı Dünyası",
-    "phone": "905389886876",
+    "tagline": "",
+    "phone": "",
     "shipping": 100,
     "minOrder": 250,
     "shipNote": "2-4 iş günü",
@@ -403,5 +403,5 @@
       "silent": false
     }
   ],
-  "updatedAt": "2026-03-05T21:41:00.124Z"
+  "updatedAt": "2026-03-05T21:41:28.553Z"
 }
