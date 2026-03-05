@@ -136,6 +136,12 @@
         "name": "test",
         "desc": "",
         "img": ""
+      },
+      {
+        "key": "cat_1772746379805",
+        "name": "Yeni Kategori",
+        "desc": "",
+        "img": ""
       }
     ],
     "steps": [
@@ -380,5 +386,5 @@
       "silent": false
     }
   ],
-  "updatedAt": "2026-03-05T21:31:49.240Z"
+  "updatedAt": "2026-03-05T21:32:59.813Z"
 }
