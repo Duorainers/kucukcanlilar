@@ -2,7 +2,7 @@
   "prods": [
     {
       "id": 1,
-      "name": "Tropical White Springtail",
+      "name": "tester53454353453",
       "cat": "springtail",
       "price": 150,
       "priceKr": 0,
@@ -11,7 +11,9 @@
       "img": "",
       "badge": "pop",
       "stock": "in",
-      "label": ""
+      "label": "",
+      "oldPrice": 0,
+      "stockQty": 0
     },
     {
       "id": 2,
@@ -401,5 +403,5 @@
       "silent": false
     }
   ],
-  "updatedAt": "2026-03-05T21:33:22.245Z"
+  "updatedAt": "2026-03-05T21:35:31.517Z"
 }
