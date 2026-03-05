@@ -132,14 +132,8 @@
         "img": ""
       },
       {
-        "key": "cat_1772745976612",
-        "name": "Yeni Kategori",
-        "desc": "",
-        "img": ""
-      },
-      {
         "key": "cat_1772745978688",
-        "name": "Yeni Kategori",
+        "name": "test",
         "desc": "",
         "img": ""
       }
@@ -386,5 +380,5 @@
       "silent": false
     }
   ],
-  "updatedAt": "2026-03-05T21:26:18.696Z"
+  "updatedAt": "2026-03-05T21:26:23.643Z"
 }
