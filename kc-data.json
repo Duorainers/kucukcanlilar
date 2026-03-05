@@ -134,7 +134,7 @@
         "key": "springtail",
         "name": "Springtailler",
         "desc": "Teraryum ve paludaryumlar için mikrofauna.",
-        "img": ""
+        "img": "https://raw.githubusercontent.com/Duorainers/kucukcanlilar/main/assets/imgs/img_1772747048123_l4h5.jpeg"
       },
       {
         "key": "isopod",
@@ -397,5 +397,5 @@
       "silent": false
     }
   ],
-  "updatedAt": "2026-03-05T21:42:34.105Z"
+  "updatedAt": "2026-03-05T21:44:09.611Z"
 }
