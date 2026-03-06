@@ -8,7 +8,7 @@
       "priceKr": 0,
       "minQty": 50,
       "desc": "Tropikal ortamlar için nemli zemin canlısı.",
-      "img": "",
+      "img": "https://raw.githubusercontent.com/Duorainers/kucukcanlilar/main/assets/imgs/img_1772786021941_n8jt.webp",
       "badge": "pop",
       "stock": "in",
       "label": "",
@@ -397,5 +397,5 @@
       "silent": false
     }
   ],
-  "updatedAt": "2026-03-06T08:33:27.903Z"
+  "updatedAt": "2026-03-06T08:33:43.598Z"
 }
