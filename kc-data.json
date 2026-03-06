@@ -190,6 +190,11 @@
         "num": 4,
         "title": "WhatsApp",
         "desc": "Sipariş otomatik mesaj olarak gelir."
+      },
+      {
+        "num": 5,
+        "title": "Yeni Adım",
+        "desc": "Açıklama..."
       }
     ],
     "faq": [
@@ -289,7 +294,17 @@
     },
     "rozetler": [],
     "diffCards": null,
-    "stockCalendar": []
+    "stockCalendar": [],
+    "facts": [
+      {
+        "val": "1",
+        "lbl": "test"
+      },
+      {
+        "val": "2",
+        "lbl": "test"
+      }
+    ]
   },
   "gallery": [
     {
@@ -362,5 +377,5 @@
       "silent": false
     }
   ],
-  "updatedAt": "2026-03-06T18:55:50.971Z"
+  "updatedAt": "2026-03-06T18:55:58.194Z"
 }
