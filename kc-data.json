@@ -93,7 +93,7 @@
     {
       "name": "tester53454353453",
       "desc": "",
-      "price": 0,
+      "price": 12432,
       "priceKr": 0,
       "oldPrice": 0,
       "stockQty": 0,
@@ -103,7 +103,7 @@
       "badge": "",
       "label": "",
       "img": "",
-      "id": 1772823487994
+      "id": 1772823513250
     }
   ],
   "sett": {
@@ -168,30 +168,6 @@
         "key": "food",
         "name": "Besin & Takviye",
         "desc": "Doğal karışımlar ve ekipmanlar.",
-        "img": ""
-      },
-      {
-        "key": "cat_1772823474608",
-        "name": "Yeni Kategori",
-        "desc": "",
-        "img": ""
-      },
-      {
-        "key": "cat_1772823475617",
-        "name": "Yeni Kategori",
-        "desc": "",
-        "img": ""
-      },
-      {
-        "key": "cat_1772823476162",
-        "name": "Yeni Kategori",
-        "desc": "",
-        "img": ""
-      },
-      {
-        "key": "cat_1772823477899",
-        "name": "Yeni Kategori",
-        "desc": "",
         "img": ""
       }
     ],
@@ -389,5 +365,5 @@
       "silent": false
     }
   ],
-  "updatedAt": "2026-03-06T18:58:07.994Z"
+  "updatedAt": "2026-03-06T18:58:33.546Z"
 }
