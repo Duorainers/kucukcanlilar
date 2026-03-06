@@ -2417,7 +2417,7 @@ function applySett(){
   // Ensure sett has all fields from DEF_SETT
   const def=DEF_SETT;
   ['heroBadge','facts','orderTitle','orderDesc','heroPhotos','splashPhotos','categories','steps','legalDocs','faq','sayac'].forEach(k=>{
-    if(sett[k]===undefined)sett[k]=JSON.parse(JSON.stringify(def[k]));
+    if(sett[k]===undefined && def[k]!==undefined)sett[k]=JSON.parse(JSON.stringify(def[k]));
   });
 
   const sn=sett.siteName||'küçükcanlılar';
@@ -3258,10 +3258,10 @@ function delAdmin(id){if(!confirm('Bu admini sil?'))return;admins=admins.filter(
 ════════════════════════════════════════ */
 function fillSForm(){
   fillGistFields();
-  updateGistStatus(!!getGistToken());
+  updateGistStatus(!!getGhToken());
   // ensure sett fields exist
   ['heroBadge','facts','orderTitle','orderDesc','heroPhotos','splashPhotos','categories','steps','legalDocs','faq','sayac'].forEach(k=>{
-    if(sett[k]===undefined)sett[k]=JSON.parse(JSON.stringify(DEF_SETT[k]));
+    if(sett[k]===undefined && DEF_SETT[k]!==undefined)sett[k]=JSON.parse(JSON.stringify(DEF_SETT[k]));
   });
   const s=id=>document.getElementById(id);
   if(s('s-name'))s('s-name').value=sett.siteName||'';
