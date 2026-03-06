@@ -157,8 +157,8 @@
       },
       {
         "key": "cat_1772827264201",
-        "name": "Yeni Kategori",
-        "desc": "",
+        "name": "test312",
+        "desc": "fsdfasdfadf",
         "img": ""
       }
     ],
@@ -284,7 +284,7 @@
     "rozetler": [],
     "diffCards": null,
     "stockCalendar": [],
-    "_syncUpdAt": "2026-03-06T20:00:42.402Z"
+    "_syncUpdAt": "2026-03-06T20:01:04.201Z"
   },
   "gallery": [
     {
@@ -357,5 +357,5 @@
       "silent": false
     }
   ],
-  "updatedAt": "2026-03-06T20:01:04.201Z"
+  "updatedAt": "2026-03-06T20:01:10.591Z"
 }
