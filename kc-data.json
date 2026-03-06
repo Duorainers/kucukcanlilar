@@ -2,18 +2,18 @@
   "prods": [
     {
       "id": 1,
-      "name": "tester53454353453",
+      "name": "Tropical White Springtail",
       "cat": "springtail",
       "price": 150,
       "priceKr": 0,
+      "oldPrice": 0,
       "minQty": 50,
+      "stockQty": 0,
       "desc": "Tropikal ortamlar için nemli zemin canlısı.",
-      "img": "https://raw.githubusercontent.com/Duorainers/kucukcanlilar/main/assets/imgs/img_1772786021941_n8jt.webp",
+      "img": "",
       "badge": "pop",
       "stock": "in",
-      "label": "",
-      "oldPrice": 0,
-      "stockQty": 0
+      "label": ""
     },
     {
       "id": 2,
@@ -21,7 +21,9 @@
       "cat": "springtail",
       "price": 130,
       "priceKr": 50,
+      "oldPrice": 0,
       "minQty": 50,
+      "stockQty": 0,
       "desc": "Kuru ortamlara uygun, dayanıklı tür.",
       "img": "",
       "badge": "new",
@@ -34,7 +36,9 @@
       "cat": "isopod",
       "price": 200,
       "priceKr": 0,
+      "oldPrice": 0,
       "minQty": 8,
+      "stockQty": 0,
       "desc": "Klasik top böceği. Kolay bakım.",
       "img": "",
       "badge": "pop",
@@ -47,7 +51,9 @@
       "cat": "isopod",
       "price": 180,
       "priceKr": 0,
+      "oldPrice": 0,
       "minQty": 8,
+      "stockQty": 0,
       "desc": "Dayanıklı, aktif, bakımı kolay tür.",
       "img": "",
       "badge": "new",
@@ -60,7 +66,9 @@
       "cat": "food",
       "price": 80,
       "priceKr": 0,
+      "oldPrice": 0,
       "minQty": 1,
+      "stockQty": 0,
       "desc": "Doğal protein karışımı.",
       "img": "",
       "badge": "",
@@ -73,33 +81,20 @@
       "cat": "food",
       "price": 60,
       "priceKr": 0,
+      "oldPrice": 0,
       "minQty": 1,
+      "stockQty": 0,
       "desc": "Kurutulmuş substrat takviyesi.",
       "img": "",
       "badge": "",
       "stock": "in",
       "label": ""
-    },
-    {
-      "name": "test",
-      "desc": "",
-      "price": 0,
-      "priceKr": 0,
-      "oldPrice": 0,
-      "stockQty": 0,
-      "minQty": 1,
-      "cat": "springtail",
-      "stock": "in",
-      "badge": "",
-      "label": "",
-      "img": "",
-      "id": 1772746396181
     }
   ],
   "sett": {
     "siteName": "küçükcanlılar",
-    "tagline": "",
-    "phone": "",
+    "tagline": "Türkiye'nin Küçük Canlı Dünyası",
+    "phone": "905389886876",
     "shipping": 100,
     "minOrder": 250,
     "shipNote": "2-4 iş günü",
@@ -146,7 +141,7 @@
         "key": "springtail",
         "name": "Springtailler",
         "desc": "Teraryum ve paludaryumlar için mikrofauna.",
-        "img": "https://raw.githubusercontent.com/Duorainers/kucukcanlilar/main/assets/imgs/img_1772747048123_l4h5.jpeg"
+        "img": ""
       },
       {
         "key": "isopod",
@@ -156,14 +151,8 @@
       },
       {
         "key": "food",
-        "name": "Besin & Takviye & Teçhizat",
-        "desc": "Doğal karışımlar, canlı yem ve ekipmanlar.",
-        "img": ""
-      },
-      {
-        "key": "cat_1772822744532",
-        "name": "test",
-        "desc": "",
+        "name": "Besin & Takviye",
+        "desc": "Doğal karışımlar ve ekipmanlar.",
         "img": ""
       }
     ],
@@ -194,39 +183,39 @@
     "faq": [
       {
         "q": "Springtail nedir, ne işe yarar?",
-        "a": "Springtail'ler (Collembola) teraryum ve paludaryumlarda küf, mantar ve organik atıkları tüketerek ekosistemi dengede tutan küçük canlılardır. Zararsız, görünmez derecede küçük ve son derece faydalıdırlar."
+        "a": "Springtail'ler (Collembola) teraryum ve paludaryumlarda küf, mantar ve organik atıkları tüketerek ekosistemi dengede tutan küçük canlılardır."
       },
       {
         "q": "Kaç adet sipariş vermem gerekiyor?",
-        "a": "Springtaillar için minimum 50 adet, isopodlar için minimum 8 adet sipariş alıyoruz. Sepet tutarı ₺250'nin altında kalan siparişler işleme alınamaz."
+        "a": "Springtailler için minimum 50 adet, isopodlar için minimum 8 adet. Sepet ₺250'nin altında kalan siparişler işleme alınamaz."
       },
       {
         "q": "Kargo süreci nasıl işliyor?",
-        "a": "Siparişiniz WhatsApp üzerinden onaylandıktan sonra 2-4 iş günü içinde kargoya verilir. Canlı hayvan gönderimlerinde sağlıklı ulaşım için özel havalandırmalı paketleme yapılır."
+        "a": "WhatsApp onayından sonra 2-4 iş günü içinde kargoya verilir. Özel havalandırmalı paketleme yapılır."
       },
       {
         "q": "Sipariş verirken ödeme yapıyor muyum?",
-        "a": "Hayır! Sitemizde ön ödeme yoktur. Sipariş WhatsApp'a yönlendirilir, ödeme ve teslimat detayları birebir görüşülür."
+        "a": "Hayır! Ön ödeme yoktur. WhatsApp'a yönlendirilirsin, ödeme birebir görüşülür."
       },
       {
         "q": "İsopod ve springtail aynı kapta yaşayabilir mi?",
-        "a": "Evet, birçok türde birlikte yaşarlar. Springtailler isopodların yemediği küfü temizlerken isopodlar daha büyük organik maddeleri parçalar. Mükemmel bir iş birliği!"
+        "a": "Evet! Springtailler küfü, isopodlar büyük organik maddeleri parçalar. Mükemmel iş birliği."
       },
       {
-        "q": "Teraryum sahibi değilim, yine de sipariş verebilir miyim?",
-        "a": "Evet! Canlılar başlangıç konteynerleriyle de kolayca bakılabilir. Sipariş öncesinde sorularınızı WhatsApp'tan bize iletebilirsiniz, yönlendirme yaparız."
+        "q": "Teraryum sahibi değilim sipariş verebilir miyim?",
+        "a": "Evet! Başlangıç konteynerleriyle bakılabilir. Sorularını WhatsApp'tan sor, yönlendiririz."
       }
     ],
     "reviews": [
       {
         "author": "Ayşe T.",
-        "text": "Springtailler süper sağlıklı geldi, teraryumum artık çok daha temiz!",
+        "text": "Springtailler süper sağlıklı geldi, teraryumum çok daha temiz!",
         "stars": 5,
         "prod": "Tropical White Springtail"
       },
       {
         "author": "Mehmet K.",
-        "text": "Paketleme mükemmeldi, hiçbir canlı kayıp olmadan geldi. Kesinlikle tavsiye ederim.",
+        "text": "Paketleme mükemmeldi, hiçbir canlı kayıp olmadan geldi.",
         "stars": 5,
         "prod": "Armadillidium Vulgare"
       },
@@ -248,7 +237,7 @@
     },
     "campBanner": {
       "active": false,
-      "text": "",
+      "text": "🎉 Yaz kampanyası! %10 indirim →",
       "color": "#2d6e2d",
       "textColor": "#ffffff"
     },
@@ -278,7 +267,7 @@
         "id": "mesafe",
         "title": "Uzak Mesafeli Satış Sözleşmesi",
         "icon": "📄",
-        "content": "<h4>Taraflar</h4><p>Satıcı: küçükcanlılar. Alıcı: Sipariş veren kişi.</p><h4>Ürün ve Fiyat</h4><p>Fiyatlar WhatsApp sipariş özetinde belirtilir. Türk Lirası (₺) KDV dahildir.</p><h4>Teslimat</h4><p>Kargo süresi 2–4 iş günüdür. Canlı hayvan gönderiminde özel paketleme yapılır.</p><h4>İptal & İade</h4><p>Canlı hayvan teslimattan itibaren 24 saat içinde fotoğraflı bildirimle iade kapsamındadır.</p><h4>Cayma Hakkı</h4><p>Canlı organizmalarda hijyen kuralları gereği cayma hakkı kullanılamaz (TKHK m.15/ğ).</p>"
+        "content": "<h4>Taraflar</h4><p>Satıcı: küçükcanlılar. Alıcı: Sipariş veren kişi.</p><h4>Ürün ve Fiyat</h4><p>Fiyatlar WhatsApp sipariş özetinde belirtilir.</p><h4>Teslimat</h4><p>Kargo süresi 2–4 iş günüdür.</p><h4>İptal & İade</h4><p>Canlı hayvan teslimattan itibaren 24 saat içinde fotoğraflı bildirimle iade kapsamındadır.</p>"
       }
     ],
     "viewBubble": {
@@ -286,45 +275,9 @@
       "min": 8,
       "max": 24
     },
-    "rozetler": [
-      {
-        "icon": "🌿",
-        "text": "%100 Doğal Yetiştirme"
-      },
-      {
-        "icon": "✅",
-        "text": "Sağlıklı Teslimat Garantisi"
-      },
-      {
-        "icon": "📦",
-        "text": "Özel Havalandırmalı Paketleme"
-      },
-      {
-        "icon": "🇹🇷",
-        "text": "Türkiye Geneli Kargo"
-      },
-      {
-        "icon": "💬",
-        "text": "WhatsApp Destek"
-      }
-    ],
+    "rozetler": [],
     "diffCards": null,
-    "stockCalendar": [],
-    "facts": [
-      {
-        "val": "10+",
-        "lbl": "Tür"
-      },
-      {
-        "val": "100%",
-        "lbl": "Doğal"
-      },
-      {
-        "val": "TR",
-        "lbl": "Geneli"
-      }
-    ],
-    "gistId": "0bd86a541d33677eeffbc7eb6ccfed64"
+    "stockCalendar": []
   },
   "gallery": [
     {
@@ -397,5 +350,5 @@
       "silent": false
     }
   ],
-  "updatedAt": "2026-03-06T18:45:52.535Z"
+  "updatedAt": "2026-03-06T18:55:20.191Z"
 }
