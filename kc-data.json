@@ -89,6 +89,21 @@
       "badge": "",
       "stock": "in",
       "label": ""
+    },
+    {
+      "name": "tester53454353453",
+      "desc": "",
+      "price": 0,
+      "priceKr": 0,
+      "oldPrice": 0,
+      "stockQty": 0,
+      "minQty": 1,
+      "cat": "springtail",
+      "stock": "in",
+      "badge": "",
+      "label": "",
+      "img": "",
+      "id": 1772823487994
     }
   ],
   "sett": {
@@ -374,5 +389,5 @@
       "silent": false
     }
   ],
-  "updatedAt": "2026-03-06T18:57:57.899Z"
+  "updatedAt": "2026-03-06T18:58:07.994Z"
 }
