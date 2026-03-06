@@ -2101,40 +2101,58 @@ async function fetchFromGist(){
   const repo  = getGhRepo();
   if(!user || !repo) return false;
 
-  // Okuma için raw.githubusercontent.com kullan:
-  // - Token gerektirmez (public repo)
-  // - Rate limit yok
-  // - Tüm ziyaretçiler sorunsuz çeker
-  const rawUrl = `https://raw.githubusercontent.com/${user}/${repo}/main/kc-data.json?t=${Date.now()}`;
+  /* ── OKUMA STRATEJİSİ (öncelik sırası) ─────────────────────────────
+     1. Göreli yol: ./kc-data.json
+        → GitHub Pages'de aynı origin'den gelir, CORS sorunu olmaz.
+        → En hızlı, en güvenilir yöntem.
+     2. raw.githubusercontent.com fallback
+        → Farklı bir sunucudan erişildiğinde devreye girer.
+     Her iki yöntem de token gerektirmez (public repo).
+  ──────────────────────────────────────────────────────────────────── */
+  async function tryFetch(url){
+    const r = await fetch(url, { cache: 'no-store' });
+    if(!r.ok) throw new Error('HTTP ' + r.status);
+    return r.json();
+  }
+
+  let d = null;
+  let source = '';
+
+  // 1. Göreli yol (GitHub Pages / aynı sunucu)
   try{
-    const r = await fetch(rawUrl, { cache: 'no-store' });
-    if(!r.ok){
-      console.warn('[KC Sync] raw fetch failed:', r.status);
+    d = await tryFetch('./kc-data.json?t=' + Date.now());
+    source = 'göreli yol';
+  }catch(e1){
+    console.warn('[KC Sync] Göreli yol başarısız:', e1.message, '— raw URL deneniyor...');
+    // 2. raw.githubusercontent.com
+    try{
+      d = await tryFetch(`https://raw.githubusercontent.com/${user}/${repo}/main/kc-data.json?t=${Date.now()}`);
+      source = 'raw.githubusercontent.com';
+    }catch(e2){
+      console.warn('[KC Sync] raw URL da başarısız:', e2.message);
       return false;
     }
-    const d = await r.json();
-
-    if(d.prods)     { prods     = d.prods; }
-    if(d.sett)      { sett      = {...DEF_SETT,...d.sett}; }
-    if(d.gallery)   { gallery   = d.gallery; }
-    if(d.creatures) { creatures = d.creatures; }
-    if(d.admins)    { admins    = d.admins; }
-    console.log('[KC Sync] ✅ Veri yüklendi (raw.githubusercontent.com)');
-
-    // SHA'yı ayrıca çek — sadece token varsa, sadece write için lazım
-    const token = getGhToken();
-    if(token){
-      try{
-        const apiUrl = `https://api.github.com/repos/${user}/${repo}/contents/kc-data.json`;
-        const mr = await fetch(apiUrl,{headers:{'Authorization':'token '+token,'Accept':'application/vnd.github.v3+json'}});
-        if(mr.ok){ const meta=await mr.json(); if(meta.sha) _syncSHA=meta.sha; }
-      }catch(e){ /* SHA alınamazsa sorun değil */ }
-    }
-    return true;
-  }catch(e){
-    console.warn('[KC Sync] Fetch hatası:', e.message);
-    return false;
   }
+
+  if(!d){ return false; }
+
+  if(d.prods)     { prods     = d.prods; }
+  if(d.sett)      { sett      = {...DEF_SETT,...d.sett}; }
+  if(d.gallery)   { gallery   = d.gallery; }
+  if(d.creatures) { creatures = d.creatures; }
+  if(d.admins)    { admins    = d.admins; }
+  console.log('[KC Sync] ✅ Veri yüklendi (' + source + ')');
+
+  // SHA'yı çek — sadece token varsa gerekli (admin yazma işlemi için)
+  const token = getGhToken();
+  if(token && !_syncSHA){
+    try{
+      const apiUrl = `https://api.github.com/repos/${user}/${repo}/contents/kc-data.json`;
+      const mr = await fetch(apiUrl,{headers:{'Authorization':'token '+token,'Accept':'application/vnd.github.v3+json'}});
+      if(mr.ok){ const meta=await mr.json(); if(meta.sha) _syncSHA=meta.sha; }
+    }catch(e){ /* SHA alınamazsa sorun değil */ }
+  }
+  return true;
 }
 
 /* ── PUSH (yazma — sadece admin token ile) ── */
