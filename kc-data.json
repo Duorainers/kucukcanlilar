@@ -160,6 +160,12 @@
         "name": "Yeni Kategori",
         "desc": "",
         "img": ""
+      },
+      {
+        "key": "cat_1772824549956",
+        "name": "Yeni Kategori",
+        "desc": "",
+        "img": ""
       }
     ],
     "orderTitle": "Nasıl Sipariş Verilir?",
@@ -356,5 +362,5 @@
       "silent": false
     }
   ],
-  "updatedAt": "2026-03-06T19:15:48.642Z"
+  "updatedAt": "2026-03-06T19:15:49.956Z"
 }
