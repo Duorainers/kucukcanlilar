@@ -190,11 +190,6 @@
         "num": 4,
         "title": "WhatsApp",
         "desc": "Sipariş otomatik mesaj olarak gelir."
-      },
-      {
-        "num": 5,
-        "title": "Yeni Adım",
-        "desc": "Açıklama..."
       }
     ],
     "faq": [
@@ -377,5 +372,5 @@
       "silent": false
     }
   ],
-  "updatedAt": "2026-03-06T18:55:58.194Z"
+  "updatedAt": "2026-03-06T18:56:01.982Z"
 }
