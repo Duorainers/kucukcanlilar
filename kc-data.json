@@ -89,6 +89,21 @@
       "badge": "",
       "stock": "in",
       "label": ""
+    },
+    {
+      "name": "test32112341341341431",
+      "desc": "",
+      "price": 0,
+      "priceKr": 0,
+      "oldPrice": 0,
+      "stockQty": 0,
+      "minQty": 1,
+      "cat": "springtail",
+      "stock": "in",
+      "badge": "",
+      "label": "",
+      "img": "",
+      "id": 1772827324557
     }
   ],
   "sett": {
@@ -284,7 +299,7 @@
     "rozetler": [],
     "diffCards": null,
     "stockCalendar": [],
-    "_syncUpdAt": "2026-03-06T20:01:15.273Z"
+    "_syncUpdAt": "2026-03-06T20:01:16.445Z"
   },
   "gallery": [
     {
@@ -357,5 +372,5 @@
       "silent": false
     }
   ],
-  "updatedAt": "2026-03-06T20:01:16.445Z"
+  "updatedAt": "2026-03-06T20:02:04.557Z"
 }
