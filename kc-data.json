@@ -154,12 +154,6 @@
         "name": "Besin & Takviye",
         "desc": "Doğal karışımlar ve ekipmanlar.",
         "img": ""
-      },
-      {
-        "key": "cat_1772826726035",
-        "name": "Yeni Kategori",
-        "desc": "",
-        "img": ""
       }
     ],
     "orderTitle": "Nasıl Sipariş Verilir?",
@@ -356,5 +350,5 @@
       "silent": false
     }
   ],
-  "updatedAt": "2026-03-06T19:52:06.035Z"
+  "updatedAt": "2026-03-06T19:52:16.533Z"
 }
