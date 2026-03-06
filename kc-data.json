@@ -110,188 +110,7 @@
     "a1": "küçükcanlılar, springtail ve isopod tutkunları tarafından kurulmuş küçük bir işletmedir.",
     "a2": "Her canlı doğal ortamına en yakın koşullarda yetiştirilir.",
     "a3": "Teraryum ve paludaryum konularında da yardımcı oluruz. 🌱",
-    "facts": [
-      {
-        "val": "10+",
-        "lbl": "Tür"
-      },
-      {
-        "val": "100%",
-        "lbl": "Doğal"
-      },
-      {
-        "val": "TR",
-        "lbl": "Geneli"
-      }
-    ],
-    "orderTitle": "Nasıl Sipariş Verilir?",
-    "orderDesc": "Ödeme yok, karmaşık form yok.",
     "aboutImg": "",
-    "heroPhotos": [],
-    "splashPhotos": [],
-    "categories": [
-      {
-        "key": "springtail",
-        "name": "Springtailler",
-        "desc": "Teraryum ve paludaryumlar için mikrofauna.",
-        "img": "https://raw.githubusercontent.com/Duorainers/kucukcanlilar/main/assets/imgs/img_1772747048123_l4h5.jpeg"
-      },
-      {
-        "key": "isopod",
-        "name": "İsopodlar",
-        "desc": "Farklı türlerde sağlıklı isopod kolonileri.",
-        "img": ""
-      },
-      {
-        "key": "food",
-        "name": "Besin & Takviye & Teçhizat",
-        "desc": "Doğal karışımlar, canlı yem ve ekipmanlar.",
-        "img": ""
-      },
-      {
-        "key": "cat_1772746889991",
-        "name": "Yeni Kategori",
-        "desc": "",
-        "img": ""
-      }
-    ],
-    "steps": [
-      {
-        "num": 1,
-        "title": "Ürünleri Seçin",
-        "desc": "İstediğiniz ürünleri sepete ekleyin."
-      },
-      {
-        "num": 2,
-        "title": "Kontrol Edin",
-        "desc": "Kargo dahil toplam görünür."
-      },
-      {
-        "num": 3,
-        "title": "Bilgileri Girin",
-        "desc": "Telefon ve adresinizi girin."
-      },
-      {
-        "num": 4,
-        "title": "WhatsApp",
-        "desc": "Sipariş otomatik mesaj olarak gelir."
-      }
-    ],
-    "legalDocs": [
-      {
-        "id": "kvkk",
-        "title": "KVKK Aydınlatma Metni",
-        "icon": "🔒",
-        "content": "<h4>Veri Sorumlusu</h4><p>küçükcanlılar olarak kişisel verilerinizi 6698 sayılı KVKK kapsamında işlemekteyiz.</p><h4>Toplanan Veriler</h4><p>Sipariş sürecinde adınız, telefon numaranız ve teslimat adresiniz işlenmektedir.</p><h4>Kullanım Amacı</h4><p>Verileriniz yalnızca sipariş teslimatı için kullanılır; üçüncü şahıslarla paylaşılmaz.</p><h4>Haklarınız</h4><p>KVKK madde 11 kapsamında verilerinize erişim, düzeltme, silme ve itiraz haklarına sahipsiniz.</p>"
-      },
-      {
-        "id": "mesafe",
-        "title": "Uzak Mesafeli Satış Sözleşmesi",
-        "icon": "📄",
-        "content": "<h4>Taraflar</h4><p>Satıcı: küçükcanlılar. Alıcı: Sipariş veren kişi.</p><h4>Ürün ve Fiyat</h4><p>Fiyatlar WhatsApp sipariş özetinde belirtilir. Türk Lirası (₺) KDV dahildir.</p><h4>Teslimat</h4><p>Kargo süresi 2–4 iş günüdür. Canlı hayvan gönderiminde özel paketleme yapılır.</p><h4>İptal & İade</h4><p>Canlı hayvan teslimattan itibaren 24 saat içinde fotoğraflı bildirimle iade kapsamındadır.</p><h4>Cayma Hakkı</h4><p>Canlı organizmalarda hijyen kuralları gereği cayma hakkı kullanılamaz (TKHK m.15/ğ).</p>"
-      }
-    ],
-    "instagram": "",
-    "youtube": "",
-    "youtubeVideoId": "",
-    "discord": "",
-    "workHours": {
-      "start": "09:00",
-      "end": "21:00",
-      "days": "Pazartesi–Pazar"
-    },
-    "campBanner": {
-      "active": false,
-      "text": "",
-      "color": "#2d6e2d",
-      "textColor": "#ffffff"
-    },
-    "viewBubble": {
-      "show": false,
-      "min": 8,
-      "max": 24
-    },
-    "reviews": [
-      {
-        "author": "Ayşe T.",
-        "text": "Springtailler süper sağlıklı geldi, teraryumum artık çok daha temiz!",
-        "stars": 5,
-        "prod": "Tropical White Springtail"
-      },
-      {
-        "author": "Mehmet K.",
-        "text": "Paketleme mükemmeldi, hiçbir canlı kayıp olmadan geldi. Kesinlikle tavsiye ederim.",
-        "stars": 5,
-        "prod": "Armadillidium Vulgare"
-      },
-      {
-        "author": "Selin A.",
-        "text": "Hızlı kargo, iletişim çok iyiydi. Tekrar alacağım.",
-        "stars": 5,
-        "prod": ""
-      }
-    ],
-    "deliveryPhotos": [],
-    "stockCalendar": [],
-    "rozetler": [
-      {
-        "icon": "🌿",
-        "text": "%100 Doğal Yetiştirme"
-      },
-      {
-        "icon": "✅",
-        "text": "Sağlıklı Teslimat Garantisi"
-      },
-      {
-        "icon": "📦",
-        "text": "Özel Havalandırmalı Paketleme"
-      },
-      {
-        "icon": "🇹🇷",
-        "text": "Türkiye Geneli Kargo"
-      },
-      {
-        "icon": "💬",
-        "text": "WhatsApp Destek"
-      }
-    ],
-    "featured": {
-      "active": false,
-      "id": 1,
-      "customDesc": ""
-    },
-    "subSection": {
-      "active": false,
-      "desc": "",
-      "formDesc": ""
-    },
-    "diffCards": null,
-    "faq": [
-      {
-        "q": "Springtail nedir, ne işe yarar?",
-        "a": "Springtail'ler (Collembola) teraryum ve paludaryumlarda küf, mantar ve organik atıkları tüketerek ekosistemi dengede tutan küçük canlılardır. Zararsız, görünmez derecede küçük ve son derece faydalıdırlar."
-      },
-      {
-        "q": "Kaç adet sipariş vermem gerekiyor?",
-        "a": "Springtaillar için minimum 50 adet, isopodlar için minimum 8 adet sipariş alıyoruz. Sepet tutarı ₺250'nin altında kalan siparişler işleme alınamaz."
-      },
-      {
-        "q": "Kargo süreci nasıl işliyor?",
-        "a": "Siparişiniz WhatsApp üzerinden onaylandıktan sonra 2-4 iş günü içinde kargoya verilir. Canlı hayvan gönderimlerinde sağlıklı ulaşım için özel havalandırmalı paketleme yapılır."
-      },
-      {
-        "q": "Sipariş verirken ödeme yapıyor muyum?",
-        "a": "Hayır! Sitemizde ön ödeme yoktur. Sipariş WhatsApp'a yönlendirilir, ödeme ve teslimat detayları birebir görüşülür."
-      },
-      {
-        "q": "İsopod ve springtail aynı kapta yaşayabilir mi?",
-        "a": "Evet, birçok türde birlikte yaşarlar. Springtailler isopodların yemediği küfü temizlerken isopodlar daha büyük organik maddeleri parçalar. Mükemmel bir iş birliği!"
-      },
-      {
-        "q": "Teraryum sahibi değilim, yine de sipariş verebilir miyim?",
-        "a": "Evet! Canlılar başlangıç konteynerleriyle de kolayca bakılabilir. Sipariş öncesinde sorularınızı WhatsApp'tan bize iletebilirsiniz, yönlendirme yaparız."
-      }
-    ],
     "sayac": [
       {
         "num": 500,
@@ -322,9 +141,190 @@
         "color": "#d4f0d4"
       }
     ],
-    "gistId": "0bd86a541d33677eeffbc7eb6ccfed64",
+    "categories": [
+      {
+        "key": "springtail",
+        "name": "Springtailler",
+        "desc": "Teraryum ve paludaryumlar için mikrofauna.",
+        "img": "https://raw.githubusercontent.com/Duorainers/kucukcanlilar/main/assets/imgs/img_1772747048123_l4h5.jpeg"
+      },
+      {
+        "key": "isopod",
+        "name": "İsopodlar",
+        "desc": "Farklı türlerde sağlıklı isopod kolonileri.",
+        "img": ""
+      },
+      {
+        "key": "food",
+        "name": "Besin & Takviye & Teçhizat",
+        "desc": "Doğal karışımlar, canlı yem ve ekipmanlar.",
+        "img": ""
+      },
+      {
+        "key": "cat_1772746889991",
+        "name": "Yeni Kategori",
+        "desc": "",
+        "img": ""
+      }
+    ],
+    "orderTitle": "Nasıl Sipariş Verilir?",
+    "orderDesc": "Ödeme yok, karmaşık form yok.",
+    "steps": [
+      {
+        "num": 1,
+        "title": "Ürünleri Seçin",
+        "desc": "İstediğiniz ürünleri sepete ekleyin."
+      },
+      {
+        "num": 2,
+        "title": "Kontrol Edin",
+        "desc": "Kargo dahil toplam görünür."
+      },
+      {
+        "num": 3,
+        "title": "Bilgileri Girin",
+        "desc": "Telefon ve adresinizi girin."
+      },
+      {
+        "num": 4,
+        "title": "WhatsApp",
+        "desc": "Sipariş otomatik mesaj olarak gelir."
+      }
+    ],
+    "faq": [
+      {
+        "q": "Springtail nedir, ne işe yarar?",
+        "a": "Springtail'ler (Collembola) teraryum ve paludaryumlarda küf, mantar ve organik atıkları tüketerek ekosistemi dengede tutan küçük canlılardır. Zararsız, görünmez derecede küçük ve son derece faydalıdırlar."
+      },
+      {
+        "q": "Kaç adet sipariş vermem gerekiyor?",
+        "a": "Springtaillar için minimum 50 adet, isopodlar için minimum 8 adet sipariş alıyoruz. Sepet tutarı ₺250'nin altında kalan siparişler işleme alınamaz."
+      },
+      {
+        "q": "Kargo süreci nasıl işliyor?",
+        "a": "Siparişiniz WhatsApp üzerinden onaylandıktan sonra 2-4 iş günü içinde kargoya verilir. Canlı hayvan gönderimlerinde sağlıklı ulaşım için özel havalandırmalı paketleme yapılır."
+      },
+      {
+        "q": "Sipariş verirken ödeme yapıyor muyum?",
+        "a": "Hayır! Sitemizde ön ödeme yoktur. Sipariş WhatsApp'a yönlendirilir, ödeme ve teslimat detayları birebir görüşülür."
+      },
+      {
+        "q": "İsopod ve springtail aynı kapta yaşayabilir mi?",
+        "a": "Evet, birçok türde birlikte yaşarlar. Springtailler isopodların yemediği küfü temizlerken isopodlar daha büyük organik maddeleri parçalar. Mükemmel bir iş birliği!"
+      },
+      {
+        "q": "Teraryum sahibi değilim, yine de sipariş verebilir miyim?",
+        "a": "Evet! Canlılar başlangıç konteynerleriyle de kolayca bakılabilir. Sipariş öncesinde sorularınızı WhatsApp'tan bize iletebilirsiniz, yönlendirme yaparız."
+      }
+    ],
+    "reviews": [
+      {
+        "author": "Ayşe T.",
+        "text": "Springtailler süper sağlıklı geldi, teraryumum artık çok daha temiz!",
+        "stars": 5,
+        "prod": "Tropical White Springtail"
+      },
+      {
+        "author": "Mehmet K.",
+        "text": "Paketleme mükemmeldi, hiçbir canlı kayıp olmadan geldi. Kesinlikle tavsiye ederim.",
+        "stars": 5,
+        "prod": "Armadillidium Vulgare"
+      },
+      {
+        "author": "Selin A.",
+        "text": "Hızlı kargo, iletişim çok iyiydi. Tekrar alacağım.",
+        "stars": 5,
+        "prod": ""
+      }
+    ],
+    "instagram": "",
+    "youtube": "",
+    "youtubeVideoId": "",
+    "discord": "",
+    "workHours": {
+      "start": "09:00",
+      "end": "21:00",
+      "days": "Pazartesi–Pazar"
+    },
+    "campBanner": {
+      "active": false,
+      "text": "",
+      "color": "#2d6e2d",
+      "textColor": "#ffffff"
+    },
+    "featured": {
+      "active": false,
+      "id": 1,
+      "customDesc": ""
+    },
+    "subSection": {
+      "active": false,
+      "desc": "",
+      "formDesc": ""
+    },
+    "heroPhotos": [],
+    "splashPhotos": [],
+    "deliveryPhotos": [],
     "ghUser": "Duorainers",
-    "ghRepo": "kucukcanlilar"
+    "ghRepo": "kucukcanlilar",
+    "legalDocs": [
+      {
+        "id": "kvkk",
+        "title": "KVKK Aydınlatma Metni",
+        "icon": "🔒",
+        "content": "<h4>Veri Sorumlusu</h4><p>küçükcanlılar olarak kişisel verilerinizi 6698 sayılı KVKK kapsamında işlemekteyiz.</p><h4>Toplanan Veriler</h4><p>Sipariş sürecinde adınız, telefon numaranız ve teslimat adresiniz işlenmektedir.</p><h4>Kullanım Amacı</h4><p>Verileriniz yalnızca sipariş teslimatı için kullanılır; üçüncü şahıslarla paylaşılmaz.</p><h4>Haklarınız</h4><p>KVKK madde 11 kapsamında verilerinize erişim, düzeltme, silme ve itiraz haklarına sahipsiniz.</p>"
+      },
+      {
+        "id": "mesafe",
+        "title": "Uzak Mesafeli Satış Sözleşmesi",
+        "icon": "📄",
+        "content": "<h4>Taraflar</h4><p>Satıcı: küçükcanlılar. Alıcı: Sipariş veren kişi.</p><h4>Ürün ve Fiyat</h4><p>Fiyatlar WhatsApp sipariş özetinde belirtilir. Türk Lirası (₺) KDV dahildir.</p><h4>Teslimat</h4><p>Kargo süresi 2–4 iş günüdür. Canlı hayvan gönderiminde özel paketleme yapılır.</p><h4>İptal & İade</h4><p>Canlı hayvan teslimattan itibaren 24 saat içinde fotoğraflı bildirimle iade kapsamındadır.</p><h4>Cayma Hakkı</h4><p>Canlı organizmalarda hijyen kuralları gereği cayma hakkı kullanılamaz (TKHK m.15/ğ).</p>"
+      }
+    ],
+    "viewBubble": {
+      "show": false,
+      "min": 8,
+      "max": 24
+    },
+    "rozetler": [
+      {
+        "icon": "🌿",
+        "text": "%100 Doğal Yetiştirme"
+      },
+      {
+        "icon": "✅",
+        "text": "Sağlıklı Teslimat Garantisi"
+      },
+      {
+        "icon": "📦",
+        "text": "Özel Havalandırmalı Paketleme"
+      },
+      {
+        "icon": "🇹🇷",
+        "text": "Türkiye Geneli Kargo"
+      },
+      {
+        "icon": "💬",
+        "text": "WhatsApp Destek"
+      }
+    ],
+    "diffCards": null,
+    "stockCalendar": [],
+    "facts": [
+      {
+        "val": "10+",
+        "lbl": "Tür"
+      },
+      {
+        "val": "100%",
+        "lbl": "Doğal"
+      },
+      {
+        "val": "TR",
+        "lbl": "Geneli"
+      }
+    ],
+    "gistId": "0bd86a541d33677eeffbc7eb6ccfed64"
   },
   "gallery": [
     {
@@ -397,5 +397,5 @@
       "silent": false
     }
   ],
-  "updatedAt": "2026-03-06T08:33:52.651Z"
+  "updatedAt": "2026-03-06T18:43:47.755Z"
 }
