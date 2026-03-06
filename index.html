@@ -2195,7 +2195,9 @@ async function pushToGist(manual=false){
     const cleanGallery   = sanitizeForSync(gallery);
     const cleanCreatures = sanitizeForSync(creatures);
     const cleanAdmins    = admins; // admin verisi base64 içermez
-    const payload = { prods:cleanProds, sett:cleanSett, gallery:cleanGallery, creatures:cleanCreatures, admins:cleanAdmins, updatedAt:new Date().toISOString() };
+    const _now = new Date().toISOString();
+    sett._syncUpdAt = _now; // ziyaretçilerin değişikliği algılaması için
+    const payload = { prods:cleanProds, sett:cleanSett, gallery:cleanGallery, creatures:cleanCreatures, admins:cleanAdmins, updatedAt:_now };
     const content = btoa(unescape(encodeURIComponent(JSON.stringify(payload,null,2))));
     const body = { message:'küçükcanlılar veri güncellendi', content };
     if(_syncSHA) body.sha = _syncSHA;
@@ -4385,12 +4387,15 @@ function fullRerender(){
 let _lastRenderedSHA = '';
 setInterval(async()=>{
   if(!getGhUser() || !getGhRepo()) return;
-  const prevSHA = _syncSHA;
+  // updatedAt'i kaydet — token olmadan SHA alınamaz, updatedAt her cihazda çalışır
+  const prevUpdAt = _lastRenderedSHA;
   const ok = await fetchFromGist();
-  if(ok && _syncSHA !== prevSHA){
-    _lastRenderedSHA = _syncSHA;
+  // sett._syncUpdAt pushToGist tarafından set edilir (aşağıda)
+  const curUpdAt = (sett && sett._syncUpdAt) || '';
+  if(ok && curUpdAt && curUpdAt !== prevUpdAt){
+    _lastRenderedSHA = curUpdAt;
     fullRerender();
-    console.log('[KC] Güncellendi →', _syncSHA.slice(0,7));
+    console.log('[KC] Güncellendi, yeniden render edildi.', curUpdAt);
   }
 }, 10000);
 
