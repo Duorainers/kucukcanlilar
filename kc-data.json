@@ -120,7 +120,7 @@
     "a1": "küçükcanlılar, springtail ve isopod tutkunları tarafından kurulmuş küçük bir işletmedir.",
     "a2": "Her canlı doğal ortamına en yakın koşullarda yetiştirilir.",
     "a3": "Teraryum ve paludaryum konularında da yardımcı oluruz. 🌱",
-    "aboutImg": "",
+    "aboutImg": "https://raw.githubusercontent.com/Duorainers/kucukcanlilar/main/assets/imgs/img_1772875842120_x7ey.png",
     "sayac": [
       {
         "num": 500,
@@ -294,7 +294,7 @@
     "rozetler": [],
     "diffCards": null,
     "stockCalendar": [],
-    "_syncUpdAt": "2026-03-07T09:26:16.257Z"
+    "_syncUpdAt": "2026-03-07T09:30:46.137Z"
   },
   "gallery": [
     {
@@ -367,5 +367,5 @@
       "silent": false
     }
   ],
-  "updatedAt": "2026-03-07T09:26:16.257Z"
+  "updatedAt": "2026-03-07T09:30:46.137Z"
 }
