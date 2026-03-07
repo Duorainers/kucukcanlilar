@@ -31,7 +31,15 @@
     "a2": "Her canlı doğal ortamına en yakın koşullarda yetiştirilir.",
     "a3": "Teraryum ve paludaryum konularında da yardımcı oluruz. 🌱",
     "aboutImg": "https://raw.githubusercontent.com/Duorainers/kucukcanlilar/main/assets/imgs/img_1772877785430_weg1.png",
-    "sayac": [],
+    "sayac": [
+      {
+        "num": 50,
+        "suffix": "+",
+        "label": "test",
+        "icon": "🌿",
+        "color": "#7aaa7a"
+      }
+    ],
     "categories": [
       {
         "key": "springtail",
@@ -164,7 +172,7 @@
     "rozetler": [],
     "diffCards": null,
     "stockCalendar": [],
-    "_syncUpdAt": "2026-03-07T10:15:18.680Z",
+    "_syncUpdAt": "2026-03-07T10:15:42.724Z",
     "facts": [
       {
         "val": "test",
@@ -243,5 +251,5 @@
       "silent": false
     }
   ],
-  "updatedAt": "2026-03-07T10:15:18.680Z"
+  "updatedAt": "2026-03-07T10:15:42.724Z"
 }
