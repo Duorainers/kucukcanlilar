@@ -6,7 +6,7 @@
       "price": 1,
       "priceKr": 75,
       "oldPrice": 0,
-      "stockQty": 0,
+      "stockQty": 3,
       "minQty": 50,
       "cat": "springtail",
       "stock": "in",
@@ -209,7 +209,7 @@
     "rozetler": [],
     "diffCards": null,
     "stockCalendar": [],
-    "_syncUpdAt": "2026-03-07T12:44:41.009Z",
+    "_syncUpdAt": "2026-03-07T12:46:41.837Z",
     "facts": []
   },
   "gallery": [
@@ -237,5 +237,5 @@
     }
   ],
   "orders": [],
-  "updatedAt": "2026-03-07T12:44:41.009Z"
+  "updatedAt": "2026-03-07T12:46:41.837Z"
 }
