@@ -2,6 +2,25 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
+<!-- Google Analytics GA4 — Measurement ID'ni buraya gir -->
+<!-- KURULUM: analytics.google.com → Yeni Mülk → Web → Measurement ID al (G-XXXXXXXX) -->
+<script>
+(function(){
+  const GA_ID = localStorage.getItem('kc_ga_id') || ''; // Admin panelinden set edilir
+  if(!GA_ID) return;
+  const s=document.createElement('script');
+  s.async=true;
+  s.src='https://www.googletagmanager.com/gtag/js?id='+GA_ID;
+  document.head.appendChild(s);
+  window.dataLayer=window.dataLayer||[];
+  function gtag(){dataLayer.push(arguments);}
+  window.gtag=gtag;
+  gtag('js',new Date());
+  gtag('config',GA_ID,{anonymize_ip:true});
+  // Sipariş eventi
+  window.trackOrder=function(total){try{gtag('event','purchase',{currency:'TRY',value:total})}catch(e){}};
+})();
+</script>
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>küçükcanlılar — Türkiye'de Springtail & İsopod | Teraryum Canlıları</title>
 
@@ -881,6 +900,86 @@ body.dark-mode .sub-form{background:rgba(255,255,255,.04)!important}
 .oh-reorder{margin-top:10px;background:none;border:1px solid var(--bdr);border-radius:8px;padding:7px 16px;font-family:'Nunito',sans-serif;font-size:12px;font-weight:700;color:var(--g2);cursor:pointer;transition:.2s}
 .oh-reorder:hover{background:var(--g1);color:#fff}
 </style>
+<!-- Firebase Auth SDK — Google ile Giriş (Yorum için) -->
+<script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth-compat.js"></script>
+<script>
+/* ══ FİREBASE YAPILANDIRMA ══
+   KURULUM:
+   1. console.firebase.google.com → Proje oluştur
+   2. Proje Ayarları → Web uygulaması ekle
+   3. Authentication → Sign-in method → Google'ı etkinleştir
+   4. Aşağıdaki değerleri proje ayarlarından kopyala
+   5. Authorized domains'e küçükcanlılar.github.io ekle
+══════════════════════════════════════════════════ */
+const KC_FB_CONFIG = {
+  apiKey:            localStorage.getItem('kc_fb_key')    || '',
+  authDomain:        localStorage.getItem('kc_fb_domain') || '',
+  projectId:         localStorage.getItem('kc_fb_proj')   || '',
+  storageBucket:     '',
+  messagingSenderId: '',
+  appId:             localStorage.getItem('kc_fb_appid')  || ''
+};
+
+let _fbApp=null, _fbAuth=null, _googleUser=null;
+
+function initFirebase(){
+  if(_fbApp) return true;
+  if(!KC_FB_CONFIG.apiKey || !KC_FB_CONFIG.authDomain) return false;
+  try{
+    _fbApp  = firebase.initializeApp(KC_FB_CONFIG);
+    _fbAuth = firebase.auth(_fbApp);
+    _fbAuth.onAuthStateChanged(u=>{
+      _googleUser = u;
+      updateReviewLoginUI();
+    });
+    return true;
+  }catch(e){ console.warn('[KC Auth] Firebase init error:', e.message); return false; }
+}
+
+/* Maksimum güvenlik: Google OAuth popup — sahte kimlik imkânsız */
+async function googleSignIn(){
+  if(!initFirebase()){
+    toast('Firebase yapılandırması eksik. Admin panelinden ayarla.'); return;
+  }
+  try{
+    const provider = new firebase.auth.GoogleAuthProvider();
+    provider.addScope('profile');
+    provider.addScope('email');
+    // setCustomParameters ile sadece hesap seçici göster
+    provider.setCustomParameters({ prompt: 'select_account' });
+    await _fbAuth.signInWithPopup(provider);
+  }catch(e){
+    if(e.code !== 'auth/popup-closed-by-user')
+      toast('Giriş başarısız: ' + (e.message||e.code));
+  }
+}
+
+async function googleSignOut(){
+  if(_fbAuth) await _fbAuth.signOut();
+  _googleUser = null;
+  updateReviewLoginUI();
+}
+
+function updateReviewLoginUI(){
+  const btn = document.getElementById('revGoogleBtn');
+  const info = document.getElementById('revGoogleInfo');
+  if(!btn) return;
+  if(_googleUser){
+    btn.style.display='none';
+    if(info){
+      info.style.display='flex';
+      const nm = document.getElementById('revUserName');
+      const av = document.getElementById('revUserAvatar');
+      if(nm) nm.textContent = _googleUser.displayName || _googleUser.email;
+      if(av && _googleUser.photoURL) av.src = _googleUser.photoURL;
+    }
+  }else{
+    btn.style.display='flex';
+    if(info) info.style.display='none';
+  }
+}
+</script>
 </head>
 <body>
 <div class="toast" id="toast"></div>
@@ -1087,6 +1186,21 @@ body.dark-mode .sub-form{background:rgba(255,255,255,.04)!important}
           </div>
           <div style="display:flex;gap:10px;flex-wrap:wrap">
             <button onclick="saveGistConfig()" style="background:linear-gradient(135deg,#2d6e2d,#3d8a3d);color:#fff;border:none;border-radius:10px;padding:11px 20px;font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;cursor:pointer">✅ Token Kaydet</button>
+            
+<!-- Firebase Auth Yapılandırması (Yorum Güvenliği) -->
+<div style="margin-top:20px;padding-top:20px;border-top:1px solid rgba(255,255,255,.07)">
+  <p style="font-size:11px;font-weight:700;color:rgba(168,200,168,.5);letter-spacing:.08em;text-transform:uppercase;margin-bottom:10px">🔐 Firebase (Google Yorum Girişi)</p>
+  <p style="font-size:11px;color:rgba(255,255,255,.25);margin-bottom:12px;line-height:1.6">console.firebase.google.com → Proje Ayarları → Web</p>
+  <div style="display:grid;gap:8px">
+    <input id="fbKey"    placeholder="apiKey (AIza...)"        style="width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(168,200,168,.15);border-radius:8px;padding:9px 12px;font-family:monospace;font-size:11px;color:#e0e0e0;outline:none" value=""/>
+    <input id="fbDomain" placeholder="authDomain (xxx.firebaseapp.com)" style="width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(168,200,168,.15);border-radius:8px;padding:9px 12px;font-family:monospace;font-size:11px;color:#e0e0e0;outline:none" value=""/>
+    <input id="fbProj"   placeholder="projectId"               style="width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(168,200,168,.15);border-radius:8px;padding:9px 12px;font-family:monospace;font-size:11px;color:#e0e0e0;outline:none" value=""/>
+    <input id="fbAppId"  placeholder="appId (1:xxx:web:xxx)"   style="width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(168,200,168,.15);border-radius:8px;padding:9px 12px;font-family:monospace;font-size:11px;color:#e0e0e0;outline:none" value=""/>
+    <input id="gaId"     placeholder="Google Analytics ID (G-XXXXXXXX)" style="width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(168,200,168,.15);border-radius:8px;padding:9px 12px;font-family:monospace;font-size:11px;color:#e0e0e0;outline:none" value=""/>
+  </div>
+  <button onclick="saveFirebaseCfg()" style="margin-top:10px;width:100%;background:rgba(66,133,244,.15);border:1px solid rgba(66,133,244,.3);color:#7aaeff;border-radius:8px;padding:10px;font-family:'Nunito',sans-serif;font-size:13px;font-weight:700;cursor:pointer">💾 Firebase Ayarlarını Kaydet</button>
+  <p id="fbSaveOk" style="display:none;font-size:12px;color:#7aaa7a;margin-top:8px;text-align:center">✅ Kaydedildi! Sayfayı yenile.</p>
+</div>
             <button onclick="testGistConnection()" style="background:rgba(255,255,255,.07);color:#a8c8a8;border:1px solid rgba(168,200,168,.2);border-radius:10px;padding:11px 20px;font-family:'Nunito',sans-serif;font-size:13px;font-weight:700;cursor:pointer">🔗 Test Et</button>
             <button onclick="pushToGist(true)" style="background:rgba(37,211,102,.1);color:#25d366;border:1px solid rgba(37,211,102,.2);border-radius:10px;padding:11px 20px;font-family:'Nunito',sans-serif;font-size:13px;font-weight:700;cursor:pointer">⬆️ Şimdi Yükle</button>
           </div>
@@ -1694,6 +1808,22 @@ body.dark-mode .sub-form{background:rgba(255,255,255,.04)!important}
       <div id="ftDiscord" style="display:none;margin-top:10px"></div>
     </div>
   </div>
+  <!-- SSL & Güvenlik Rozetleri -->
+  <div style="display:flex;align-items:center;justify-content:center;gap:16px;padding:16px 0;border-top:1px solid rgba(255,255,255,.06);margin-bottom:0;flex-wrap:wrap">
+    <span title="SSL Şifreli Bağlantı" style="display:inline-flex;align-items:center;gap:5px;font-size:10px;font-weight:700;letter-spacing:.07em;color:rgba(140,200,140,.5);text-transform:uppercase">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><rect x="3" y="11" width="18" height="12" rx="2" fill="rgba(140,200,140,.2)" stroke="rgba(140,200,140,.6)" stroke-width="1.5"/><path d="M7 11V7a5 5 0 0 1 10 0v4" stroke="rgba(140,200,140,.6)" stroke-width="1.5" stroke-linecap="round"/><circle cx="12" cy="16" r="1.5" fill="rgba(140,200,140,.7)"/></svg>
+      HTTPS / SSL
+    </span>
+    <span style="color:rgba(255,255,255,.1)">|</span>
+    <span title="Güvenli Ödeme" style="display:inline-flex;align-items:center;gap:5px;font-size:10px;font-weight:700;letter-spacing:.07em;color:rgba(140,200,140,.5);text-transform:uppercase">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M12 2L4 6v6c0 5.25 3.5 10.15 8 11.35C16.5 22.15 20 17.25 20 12V6L12 2z" fill="rgba(140,200,140,.15)" stroke="rgba(140,200,140,.6)" stroke-width="1.5"/><path d="M9 12l2 2 4-4" stroke="rgba(140,200,140,.8)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Güvenli Alışveriş
+    </span>
+    <span style="color:rgba(255,255,255,.1)">|</span>
+    <span title="KVKK Uyumlu" style="display:inline-flex;align-items:center;gap:5px;font-size:10px;font-weight:700;letter-spacing:.07em;color:rgba(140,200,140,.5);text-transform:uppercase">
+      🔒 KVKK Uyumlu
+    </span>
+  </div>
   <div class="ft-bot">
     <span id="ftCopyright">© 2026 küçükcanlılar — Tüm hakları saklıdır.</span>
     <span>🌿 Türkiye'nin Küçük Canlı Dünyası</span>
@@ -2267,6 +2397,16 @@ function saveGistConfig(){
   testGistConnection();
 }
 
+function saveFirebaseCfg(){
+  const fields=[['kc_fb_key','fbKey'],['kc_fb_domain','fbDomain'],['kc_fb_proj','fbProj'],['kc_fb_appid','fbAppId'],['kc_ga_id','gaId']];
+  fields.forEach(([k,id])=>{const v=(document.getElementById(id)||{}).value.trim();if(v)localStorage.setItem(k,v);});
+  const ok=document.getElementById('fbSaveOk');if(ok){ok.style.display='block';setTimeout(()=>ok.style.display='none',2500);}
+  toast('Firebase ayarları kaydedildi. Sayfayı yenile!');
+}
+function loadFirebaseFields(){
+  const map=[['kc_fb_key','fbKey'],['kc_fb_domain','fbDomain'],['kc_fb_proj','fbProj'],['kc_fb_appid','fbAppId'],['kc_ga_id','gaId']];
+  map.forEach(([k,id])=>{const el=document.getElementById(id);if(el)el.value=localStorage.getItem(k)||'';});
+}
 function fillGistFields(){
   const u=document.getElementById('inputGhUser');
   const r=document.getElementById('inputGhRepo');
@@ -2627,7 +2767,8 @@ function cartQty(id,delta){
   const p=prods.find(x=>x.id===id);
   const minQ=p?(p.minQty||1):1;
   const item=cart.find(i=>i.id===id);if(!item)return;
-  item.qty=Math.max(minQ,item.qty+delta*minQ);
+  // +/- 1 artırır ama minimumun altına düşemez
+  item.qty=Math.max(minQ,item.qty+delta);
   renderCart();
 }
 
@@ -3259,7 +3400,7 @@ function delAdmin(id){if(!confirm('Bu admini sil?'))return;admins=admins.filter(
    SETTINGS FORM
 ════════════════════════════════════════ */
 function fillSForm(){
-  fillGistFields();
+  fillGistFields();loadFirebaseFields();initFirebase();
   updateGistStatus(!!getGhToken());
   // ensure sett fields exist
   ['heroBadge','facts','orderTitle','orderDesc','heroPhotos','splashPhotos','categories','steps','legalDocs','faq','sayac'].forEach(k=>{
@@ -3628,7 +3769,20 @@ function openReviewForm(){
     <div style="background:var(--bg2);border:1px solid var(--bdr);border-radius:22px;padding:32px;width:min(90vw,460px);max-height:90vh;overflow-y:auto">
       <h3 style="font-family:'Playfair Display',serif;font-size:22px;color:var(--g1);margin-bottom:6px">⭐ Yorum Yaz</h3>
       <p style="font-size:13px;color:var(--muted);margin-bottom:20px;line-height:1.6">Yorumun onaylandıktan sonra sitede görünecek.</p>
-      <div style="margin-bottom:12px"><label style="font-size:12px;font-weight:700;color:var(--g2);display:block;margin-bottom:4px">Adın</label><input id="rfName" style="width:100%;background:rgba(255,255,255,.07);border:1px solid var(--bdr);border-radius:10px;padding:11px 14px;font-family:'Nunito',sans-serif;font-size:14px;color:var(--text,#f0f6f0);outline:none;box-sizing:border-box" placeholder="Adın Soyadın"/></div>
+      <!-- Google ile Giriş -->
+      <div id="revGoogleBtn" onclick="googleSignIn()" style="display:flex;align-items:center;gap:12px;background:#fff;border:1.5px solid #e0e0e0;border-radius:12px;padding:11px 18px;cursor:pointer;margin-bottom:14px;transition:.2s;box-shadow:0 2px 8px rgba(0,0,0,.08)" onmouseover="this.style.boxShadow='0 4px 16px rgba(0,0,0,.15)'" onmouseout="this.style.boxShadow='0 2px 8px rgba(0,0,0,.08)'">
+        <svg width="20" height="20" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.08 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.36-8.16 2.36-6.26 0-11.57-3.59-13.46-8.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+        <span style="font-family:'Nunito',sans-serif;font-size:14px;font-weight:700;color:#3c3c3c">Google ile Giriş Yap</span>
+        <span style="margin-left:auto;font-size:11px;color:#999">Güvenli · Zorunlu</span>
+      </div>
+      <div id="revGoogleInfo" style="display:none;align-items:center;gap:10px;background:rgba(66,133,244,.08);border:1px solid rgba(66,133,244,.2);border-radius:12px;padding:10px 14px;margin-bottom:14px">
+        <img id="revUserAvatar" src="" width="32" height="32" style="border-radius:50%;border:2px solid rgba(66,133,244,.3)" onerror="this.style.display='none'"/>
+        <div>
+          <div id="revUserName" style="font-size:13px;font-weight:700;color:var(--text,#f0f6f0)"></div>
+          <div style="font-size:10px;color:rgba(200,220,200,.5);margin-top:1px">✅ Google ile doğrulandı</div>
+        </div>
+        <button onclick="googleSignOut()" style="margin-left:auto;background:none;border:none;font-size:11px;color:rgba(200,200,200,.4);cursor:pointer;padding:4px 8px;border-radius:6px" onmouseover="this.style.color='rgba(255,100,100,.7)'" onmouseout="this.style.color='rgba(200,200,200,.4)'">Çıkış</button>
+      </div>
       <div style="margin-bottom:12px"><label style="font-size:12px;font-weight:700;color:var(--g2);display:block;margin-bottom:4px">Puan</label>
         <div style="display:flex;gap:6px">${[1,2,3,4,5].map(n=>`<button onclick="setRevStar(${n})" id="rfStar${n}" style="font-size:24px;background:none;border:none;cursor:pointer;opacity:.4;transition:.15s" title="${n} yıldız">⭐</button>`).join('')}</div>
         <input type="hidden" id="rfStarVal" value="5"/>
@@ -3668,16 +3822,68 @@ async function handleRevMedia(inp){
 }
 
 function submitReview(){
-  const name=(document.getElementById('rfName')||{value:''}).value.trim();
-  const text=(document.getElementById('rfText')||{value:''}).value.trim();
-  const stars=parseInt(document.getElementById('rfStarVal')?.value)||5;
-  const prod=(document.getElementById('rfProd')||{value:''}).value.trim();
-  if(!name||!text){toast('Ad ve yorum zorunludur!');return}
-  const entry={name,text,stars,prod,media:rfMediaData,date:new Date().toLocaleDateString('tr-TR'),pending:true};
+  /* ── GÜVENLİK: Google OAuth zorunlu ── */
+  if(!_googleUser){
+    toast('Yorum göndermek için Google ile giriş yapmalısın.');
+    return;
+  }
+
+  const uid   = _googleUser.uid;   // Google tarafından garantili benzersiz
+  const email = _googleUser.email; // doğrulanmış e-posta
+
+  /* ── GÜVENLİK: Flood / spam koruması — aynı UID'den 24 saat içinde max 3 yorum ── */
+  const ratKey = 'kc_rev_rate_' + uid;
+  let rateData = {};
+  try{ rateData = JSON.parse(localStorage.getItem(ratKey)||'{}'); }catch(e){}
+  const now    = Date.now();
+  const day    = 86400000;
+  // 24 saatten eski kayıtları temizle
+  rateData.times = (rateData.times||[]).filter(t => now-t < day);
+  if(rateData.times.length >= 3){
+    toast('24 saat içinde en fazla 3 yorum gönderebilirsin.');
+    return;
+  }
+
+  /* ── GÜVENLİK: İçerik sanitizasyonu ── */
+  const rawText = (document.getElementById('rfText')||{value:''}).value;
+  const rawProd = (document.getElementById('rfProd')||{value:''}).value;
+  const stars   = parseInt(document.getElementById('rfStarVal')?.value)||5;
+
+  // XSS koruması: sadece düz metin kabul et, HTML etiket yok
+  const sanitize = s => String(s||'').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').substring(0,500).trim();
+  const text = sanitize(rawText);
+  const prod = sanitize(rawProd).substring(0,80);
+  // Kullanıcı adı Google'dan gelir — sahte olamaz
+  const name = sanitize(_googleUser.displayName || email.split('@')[0]).substring(0,60);
+
+  if(!text || text.length < 10){ toast('Yorumun en az 10 karakter olmalı.'); return; }
+  if(stars < 1 || stars > 5){ toast('Geçersiz puan.'); return; }
+
+  /* ── GÜVENLİK: Aynı kullanıcı aynı ürüne tekrar yorum yapamasın ── */
+  const allRevs = [...(sett.reviews||[]), ...pendingReviews];
+  const already = allRevs.find(r => r._uid === uid && r.prod && r.prod === prod && prod !== '');
+  if(already){ toast('Bu ürün için zaten bir yorumun var.'); return; }
+
+  const entry = {
+    name, text, stars, prod,
+    media: rfMediaData,
+    date: new Date().toLocaleDateString('tr-TR'),
+    pending: true,
+    _uid: uid,
+    _email: email.replace(/.{4}@/, '****@'), // e-posta kısmi maskeleme (admin görür)
+    _verified: true // Google ile doğrulandı
+  };
+
   pendingReviews.push(entry);
-  try{localStorage.setItem('kc_pending_rev',JSON.stringify(pendingReviews))}catch(e){}
-  rfMediaData='';
-  const ov=document.getElementById('revFormOv');if(ov)ov.style.display='none';
+  // Rate limit kaydet
+  rateData.times.push(now);
+  try{
+    localStorage.setItem('kc_pending_rev', JSON.stringify(pendingReviews));
+    localStorage.setItem(ratKey, JSON.stringify(rateData));
+  }catch(e){}
+
+  rfMediaData = '';
+  const ov=document.getElementById('revFormOv'); if(ov) ov.style.display='none';
   toast('✅ Yorumun alındı! Admin onayından sonra yayınlanacak.');
 }
 
