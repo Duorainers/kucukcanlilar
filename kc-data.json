@@ -81,7 +81,14 @@
         "key": "isopod",
         "name": "İsopodlar",
         "desc": "Farklı türlerde sağlıklı isopod kolonileri.",
-        "img": "https://raw.githubusercontent.com/Duorainers/kucukcanlilar/main/assets/imgs/img_1772876084628_bdg3.webp"
+        "img": "https://raw.githubusercontent.com/Duorainers/kucukcanlilar/main/assets/imgs/img_1772876084628_bdg3.webp",
+        "subs": [
+          "ARMADİLLİDAE",
+          "ARMADİLLİDİİDAE",
+          "CYLİSTİCİDAE",
+          "TRACHELİPODİDAE",
+          "PORCELLİONİDAE"
+        ]
       },
       {
         "key": "food",
@@ -202,7 +209,7 @@
     "rozetler": [],
     "diffCards": null,
     "stockCalendar": [],
-    "_syncUpdAt": "2026-03-07T12:41:54.503Z",
+    "_syncUpdAt": "2026-03-07T12:43:14.823Z",
     "facts": []
   },
   "gallery": [
@@ -230,5 +237,5 @@
     }
   ],
   "orders": [],
-  "updatedAt": "2026-03-07T12:41:54.503Z"
+  "updatedAt": "2026-03-07T12:43:14.823Z"
 }
