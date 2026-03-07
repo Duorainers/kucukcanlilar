@@ -31,36 +31,7 @@
     "a2": "Her canlı doğal ortamına en yakın koşullarda yetiştirilir.",
     "a3": "Teraryum ve paludaryum konularında da yardımcı oluruz. 🌱",
     "aboutImg": "",
-    "sayac": [
-      {
-        "num": 500,
-        "suffix": "+",
-        "label": "Mutlu Müşteri",
-        "icon": "😊",
-        "color": "#7aaa7a"
-      },
-      {
-        "num": 12,
-        "suffix": "+",
-        "label": "Aktif Tür",
-        "icon": "🪲",
-        "color": "#a8c8a8"
-      },
-      {
-        "num": 2,
-        "suffix": " yıl",
-        "label": "Deneyim",
-        "icon": "🌿",
-        "color": "#7aaa7a"
-      },
-      {
-        "num": 100,
-        "suffix": "%",
-        "label": "Doğal Yetiştirme",
-        "icon": "🌱",
-        "color": "#d4f0d4"
-      }
-    ],
+    "sayac": [],
     "categories": [
       {
         "key": "springtail",
@@ -193,7 +164,7 @@
     "rozetler": [],
     "diffCards": null,
     "stockCalendar": [],
-    "_syncUpdAt": "2026-03-07T09:37:16.783Z"
+    "_syncUpdAt": "2026-03-07T09:37:45.102Z"
   },
   "gallery": [
     {
@@ -266,5 +237,5 @@
       "silent": false
     }
   ],
-  "updatedAt": "2026-03-07T09:37:16.783Z"
+  "updatedAt": "2026-03-07T09:37:45.102Z"
 }
