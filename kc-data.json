@@ -210,7 +210,7 @@
     "rozetler": [],
     "diffCards": null,
     "stockCalendar": [],
-    "_syncUpdAt": "2026-03-07T13:46:27.357Z",
+    "_syncUpdAt": "2026-03-07T13:47:20.552Z",
     "facts": []
   },
   "gallery": [
@@ -257,8 +257,8 @@
         }
       ],
       "total": 362.5,
-      "status": "cancelled"
+      "status": "done"
     }
   ],
-  "updatedAt": "2026-03-07T13:46:27.357Z"
+  "updatedAt": "2026-03-07T13:47:20.552Z"
 }
