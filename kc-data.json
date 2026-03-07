@@ -229,20 +229,8 @@
     ],
     "reviews": [
       {
-        "author": "Ayşe T.",
-        "text": "Springtailler süper sağlıklı geldi, teraryumum çok daha temiz!",
-        "stars": 5,
-        "prod": "Tropical White Springtail"
-      },
-      {
-        "author": "Mehmet K.",
-        "text": "Paketleme mükemmeldi, hiçbir canlı kayıp olmadan geldi.",
-        "stars": 5,
-        "prod": "Armadillidium Vulgare"
-      },
-      {
-        "author": "Selin A.",
-        "text": "Hızlı kargo, iletişim çok iyiydi. Tekrar alacağım.",
+        "author": "Yeni Yorum",
+        "text": "",
         "stars": 5,
         "prod": ""
       }
@@ -299,7 +287,7 @@
     "rozetler": [],
     "diffCards": null,
     "stockCalendar": [],
-    "_syncUpdAt": "2026-03-07T09:23:28.298Z"
+    "_syncUpdAt": "2026-03-07T09:23:35.621Z"
   },
   "gallery": [
     {
@@ -372,5 +360,5 @@
       "silent": false
     }
   ],
-  "updatedAt": "2026-03-07T09:23:28.298Z"
+  "updatedAt": "2026-03-07T09:23:35.621Z"
 }
