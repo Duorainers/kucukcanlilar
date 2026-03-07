@@ -2259,6 +2259,12 @@ async function fetchFromGist(){
 
   if(!d){ return false; }
 
+  /* ── KORUMA: Push bekleniyorsa veya yeni push bitti (<30sn) yerel veriyi ezme ── */
+  if(_pushTimer || (Date.now() - _lastPushAt < 30000)){
+    console.log('[KC Sync] Veri çekildi ama yerel değişiklik korunuyor (push bekleniyor)');
+    return true;
+  }
+
   if(d.prods)     { prods     = d.prods; }
   if(d.sett)      { sett      = {...DEF_SETT,...d.sett}; }
   if(d.gallery)   { gallery   = d.gallery; }
@@ -2279,7 +2285,8 @@ async function fetchFromGist(){
 }
 
 /* ── PUSH (yazma — sadece admin token ile) ── */
-let _syncSHA = ''; // dosyanın mevcut SHA'sı (GitHub API zorunluluğu)
+let _syncSHA   = ''; // dosyanın mevcut SHA'sı (GitHub API zorunluluğu)
+let _lastPushAt = 0;  // son başarılı push zamanı — auto-sync koruması için
 
 /* base64 büyük görselleri temizle — sadece URL'ler kalsın */
 function sanitizeForSync(obj){
@@ -2365,6 +2372,7 @@ async function pushToGist(manual=false){
 
     const result = await r.json();
     _syncSHA = result.content?.sha || '';
+    _lastPushAt = Date.now(); // bu andan itibaren 30sn auto-sync veriyi ezmez
     if(manual) showGistMsg('✅ GitHub\'a kaydedildi! Tüm ziyaretçiler ~10 sn içinde günceli görecek.');
     updateGistStatus(true);
     return true;
