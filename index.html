@@ -1245,7 +1245,7 @@ function updateReviewLoginUI(){
             <button onclick="testGistConnection()" style="background:rgba(255,255,255,.07);color:#a8c8a8;border:1px solid rgba(168,200,168,.2);border-radius:10px;padding:11px 20px;font-family:'Nunito',sans-serif;font-size:13px;font-weight:700;cursor:pointer">🔗 Test Et</button>
             <button onclick="pushToGist(true)" style="background:rgba(37,211,102,.1);color:#25d366;border:1px solid rgba(37,211,102,.2);border-radius:10px;padding:11px 20px;font-family:'Nunito',sans-serif;font-size:13px;font-weight:700;cursor:pointer">⬆️ Şimdi Yükle</button>
           </div>
-          <div style="margin-top:14px;padding:12px;background:rgba(255,160,40,.07);border:1px solid rgba(255,160,40,.2);border-radius:10px">
+          <div id="ordersTokenSection" style="margin-top:14px;padding:12px;background:rgba(255,160,40,.07);border:1px solid rgba(255,160,40,.2);border-radius:10px;display:none">
             <div style="font-size:12px;font-weight:700;color:#ffb840;margin-bottom:8px">📦 Sipariş Tokeni <span style="font-weight:400;color:rgba(255,255,255,.4)">(müşterilerin siparişi GitHub'a yazdığı token — yalnızca <code>contents:write</code> izni yeterli)</span></div>
             <input id="ordersTokenInput" type="password" placeholder="ghp_xxxxxxxxxxxx" style="width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,160,40,.25);border-radius:8px;padding:9px 12px;font-family:monospace;font-size:12px;color:#e0e0e0;outline:none;box-sizing:border-box"/>
             <button onclick="saveOrdersToken()" style="margin-top:8px;width:100%;background:rgba(255,160,40,.15);border:1px solid rgba(255,160,40,.3);color:#ffb840;border-radius:8px;padding:9px;font-family:'Nunito',sans-serif;font-size:13px;font-weight:700;cursor:pointer">💾 Sipariş Tokenini Kaydet</button>
@@ -2276,6 +2276,8 @@ let KURUCU_PASS_LIVE=localStorage.getItem('kc_kpass')||KURUCU_PASS_DEFAULT;
 const GH_USER  = 'Duorainers';   // ← GitHub kullanıcı adın (örn: 'kucukcanlilar')
 const GH_REPO  = 'kucukcanlilar';   // ← Repo adın (örn: 'site')
 const GH_TOKEN_KEY = 'kc_gh_token';
+const ORDERS_TOKEN_KEY = 'kc_orders_token';
+function getOrdersToken(){ return localStorage.getItem(ORDERS_TOKEN_KEY) || sett.ordersToken || ''; }
 
 function getGhUser()  { return GH_USER  || ''; }
 function getGhRepo()  { return GH_REPO  || ''; }
@@ -2357,7 +2359,21 @@ async function fetchFromGist(){
     // Counter'ı güncelle — başka cihazdan yeni sipariş geldiyse
     const maxNo = orders.reduce((m,o)=>{const n=parseInt((o.id||'').replace('KC-',''))||0;return n>m?n:m;},orderCounter);
     if(maxNo > orderCounter){ orderCounter=maxNo; localStorage.setItem('kc_ord_counter',orderCounter); }
+    // Eğer sett'te ordersToken varsa localStorage'a aktar (admin başka cihazdan koymuşsa)
+    if(d.sett && d.sett.ordersToken && !localStorage.getItem(ORDERS_TOKEN_KEY)){
+      localStorage.setItem(ORDERS_TOKEN_KEY, d.sett.ordersToken);
+      sett.ordersToken = d.sett.ordersToken;
+    }
     // Müşterinin localStorage sipariş geçmişindeki durumu güncelle
+    // Silinmiş geçmiş kontrolü — temizlemeden SONRA gelen siparişleri göster, öncekini gösterme
+    const _ohCleared = parseInt(localStorage.getItem('kc_oh_cleared')||'0');
+    if(_ohCleared > 0){
+      // orderHistory'yi sadece cleared'dan sonraki siparişlerle güncelle
+      orderHistory = orderHistory.filter(oh=>{
+        const ohTime = new Date(oh.date).getTime() || 0;
+        return ohTime > _ohCleared;
+      });
+    }
     orderHistory = orderHistory.map(oh=>{
       const serverOrder = orders.find(o=>o.id===oh.id);
       if(serverOrder){
@@ -2411,7 +2427,10 @@ function sanitizeForSync(obj, parentKey=''){
   if(Array.isArray(obj)) return obj.map(x=>sanitizeForSync(x));
   if(typeof obj === 'object'){
     const out={};
-    for(const k in obj) out[k]=sanitizeForSync(obj[k], k);
+    for(const k in obj){
+      if(k==='ordersToken') continue; // token asla GitHub'a gitmesin — secret detection!
+      out[k]=sanitizeForSync(obj[k], k);
+    }
     return out;
   }
   return obj;
@@ -2621,7 +2640,7 @@ function debouncedOrderPush(){
   if(_orderPushTimer) clearTimeout(_orderPushTimer);
   _orderPushTimer = setTimeout(async ()=>{
     _orderPushTimer = null;
-    const token = sett.ordersToken;
+    const token = getOrdersToken();
     if(!token){ console.warn('[KC Orders] Sipariş tokeni yok, sipariş kaydedilemedi!'); return; }
     const user = getGhUser(); const repo = getGhRepo();
     if(!user||!repo) return;
@@ -2883,9 +2902,11 @@ function applySett(){
   // Splash logo
   const splLogo=document.getElementById('splLogoImg');if(splLogo)splLogo.innerHTML=LOGO_SVG;
 
-  // Sipariş tokenini göster (maskeli)
+  // Sipariş tokenini göster — sadece kurucu görebilir
   const oti = document.getElementById('ordersTokenInput');
-  if(oti && sett.ordersToken) oti.value = sett.ordersToken;
+  const ordTokDiv = document.getElementById('ordersTokenSection');
+  if(ordTokDiv) ordTokDiv.style.display = isKurucu ? 'block' : 'none';
+  if(oti){ const saved=localStorage.getItem(ORDERS_TOKEN_KEY)||sett.ordersToken||''; if(saved) oti.value=saved; }
   renderHeroPhotos();
   renderCats();
   renderSteps();
@@ -4086,7 +4107,9 @@ function reorder(i){
 
 function clearOrderHistory(){
   if(!confirm('Tüm sipariş geçmişini sil?'))return;
-  orderHistory=[];localStorage.removeItem('kc_orders');
+  orderHistory=[];
+  localStorage.removeItem('kc_orders');
+  localStorage.setItem('kc_oh_cleared', Date.now()); // bu zamandan önceki siparişleri gösterme
   renderOrderHistory();toast('Sipariş geçmişi temizlendi');
 }
 
