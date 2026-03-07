@@ -3,9 +3,9 @@
     {
       "name": "Lepidocyrtus Springtail",
       "desc": "Springtail",
-      "price": 10,
-      "priceKr": 0,
-      "oldPrice": 15,
+      "price": 1,
+      "priceKr": 75,
+      "oldPrice": 0,
       "stockQty": 0,
       "minQty": 50,
       "cat": "springtail",
@@ -187,7 +187,7 @@
     "rozetler": [],
     "diffCards": null,
     "stockCalendar": [],
-    "_syncUpdAt": "2026-03-07T12:24:55.476Z",
+    "_syncUpdAt": "2026-03-07T12:25:16.882Z",
     "facts": []
   },
   "gallery": [
@@ -214,5 +214,5 @@
       "silent": false
     }
   ],
-  "updatedAt": "2026-03-07T12:24:55.476Z"
+  "updatedAt": "2026-03-07T12:25:16.882Z"
 }
