@@ -52,7 +52,7 @@
     "phone": "905389886876",
     "shipping": 100,
     "minOrder": 250,
-    "shipNote": "2-4 iş günü",
+    "shipNote": "1-4 iş günü",
     "h1": "küçük",
     "h2": "canlılar",
     "hsub": "Springtail, isopod, teraryum ve canlı yem — her canlı özenle yetiştirilmiş.",
@@ -202,7 +202,7 @@
     "rozetler": [],
     "diffCards": null,
     "stockCalendar": [],
-    "_syncUpdAt": "2026-03-07T12:28:08.915Z",
+    "_syncUpdAt": "2026-03-07T12:41:54.503Z",
     "facts": []
   },
   "gallery": [
@@ -229,5 +229,6 @@
       "silent": false
     }
   ],
-  "updatedAt": "2026-03-07T12:28:08.915Z"
+  "orders": [],
+  "updatedAt": "2026-03-07T12:41:54.503Z"
 }
