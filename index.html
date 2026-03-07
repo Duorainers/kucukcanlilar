@@ -2342,7 +2342,11 @@ async function fetchFromGist(){
 
   if(!_isProtected){
     if(d.prods)     { prods     = d.prods; }
-    if(d.sett)      { sett      = {...DEF_SETT,...d.sett}; }
+    if(d.sett)      {
+      sett = {...DEF_SETT,...d.sett};
+      // Nested objeler spread ile birleştirilmez — featured gibi objeleri ayrıca merge et
+      if(d.sett.featured) sett.featured = {...(DEF_SETT.featured||{}), ...d.sett.featured};
+    }
     if(d.gallery)   { gallery   = d.gallery; }
     if(d.creatures) { creatures = d.creatures; }
     if(d.admins)    { admins    = d.admins; }
@@ -2365,14 +2369,10 @@ async function fetchFromGist(){
       sett.ordersToken = d.sett.ordersToken;
     }
     // Müşterinin localStorage sipariş geçmişindeki durumu güncelle
-    // Silinmiş geçmiş kontrolü — temizlemeden SONRA gelen siparişleri göster, öncekini gösterme
+    // Silinmiş geçmiş kontrolü — ts (timestamp) alanı ile güvenli karşılaştır
     const _ohCleared = parseInt(localStorage.getItem('kc_oh_cleared')||'0');
     if(_ohCleared > 0){
-      // orderHistory'yi sadece cleared'dan sonraki siparişlerle güncelle
-      orderHistory = orderHistory.filter(oh=>{
-        const ohTime = new Date(oh.date).getTime() || 0;
-        return ohTime > _ohCleared;
-      });
+      orderHistory = orderHistory.filter(oh=> (oh.ts||0) > _ohCleared);
     }
     orderHistory = orderHistory.map(oh=>{
       const serverOrder = orders.find(o=>o.id===oh.id);
@@ -3378,6 +3378,13 @@ function showDash(){
   const aw=document.getElementById('admWho');if(aw)aw.textContent='— '+curUser+(isKurucu?' (Kurucu)':'');
   document.getElementById('secTab').style.display=isKurucu?'block':'none';
   document.getElementById('usersTab').style.display=isKurucu?'block':'none';
+  // Sipariş tokeni sadece kurucu görür
+  const otSec=document.getElementById('ordersTokenSection');
+  if(otSec) otSec.style.display=isKurucu?'block':'none';
+  if(isKurucu){
+    const oti=document.getElementById('ordersTokenInput');
+    if(oti){ const t=localStorage.getItem(ORDERS_TOKEN_KEY)||sett.ordersToken||''; if(t) oti.value=t; }
+  }
   admTab('orders',document.querySelector('.adm-tab'));
   fillSForm();
 }
@@ -4044,9 +4051,11 @@ let orderHistory=[];
 try{orderHistory=JSON.parse(localStorage.getItem('kc_orders')||'[]')}catch(e){}
 
 function saveOrderToHistory(orderNum,items,total,phone,address){
+  const _now = Date.now();
   const entry={
     id:orderNum,
     date:new Date().toLocaleDateString('tr-TR',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}),
+    ts:_now,
     items:items.map(i=>({name:i.name,qty:i.qty,price:i.price,priceKr:i.priceKr||0})),
     total:total,
     phone:phone||'',
@@ -4730,7 +4739,7 @@ function renderFeaturedCreature(){
   const sec=document.getElementById('onceCikan');
   if(!sec)return;
   if(!fc.active){sec.style.display='none';return;}
-  const cre=creatures.find(c=>c.id===fc.id)||creatures[0];
+  const cre=creatures.find(c=>c.id==fc.id)||creatures[0]; // == ile tip farkını kapat
   if(!cre){sec.style.display='none';return;}
   sec.style.display='block';
   const el=id=>document.getElementById(id);
@@ -4744,7 +4753,7 @@ function renderFeaturedCreature(){
 }
 function saveFeaturedSett(){
   if(!sett.featured)sett.featured={};
-  sett.featured.active=document.getElementById('s-fc-active')?.checked||false;
+  sett.featured.active=!!(document.getElementById('s-fc-active')?.checked);
   sett.featured.id=parseInt((document.getElementById('s-fc-id')||{value:'1'}).value)||1;
   sett.featured.customDesc=(document.getElementById('s-fc-desc')||{value:''}).value.trim();
   saveS();renderFeaturedCreature();
