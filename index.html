@@ -4356,9 +4356,26 @@ function renderRevSett(){
       <input class="sinput" value="${esc(r.prod||'')}" style="font-size:11px" oninput="sett.reviews[${i}].prod=this.value" placeholder="Ürün (opsiyonel)"/>
     </div>`).join('');
 }
-function delReview(i){sett.reviews.splice(i,1);renderRevSett();renderReviews();toast('Yorum silindi')}
-function addReview(){if(!sett.reviews)sett.reviews=[];sett.reviews.push({author:'',text:'',stars:5,prod:''});renderRevSett();renderReviews();}
-function saveRevSett(){saveS();renderReviews();const el=document.getElementById('ok-rev');if(el){el.style.display='block';setTimeout(()=>el.style.display='none',2000);}toast('Yorumlar kaydedildi ✓')}
+function delReview(i){
+  sett.reviews.splice(i,1);
+  renderRevSett();renderReviews();
+  saveS(); // otomatik GitHub'a kaydet
+  toast('Yorum silindi ✓');
+}
+function addReview(){
+  if(!sett.reviews)sett.reviews=[];
+  sett.reviews.push({author:'Yeni Yorum',text:'',stars:5,prod:''});
+  renderRevSett();renderReviews();
+  // Kaydet butonu ile kaydedilecek — boş yorum kaydetme
+}
+function saveRevSett(){
+  // Boş author/text olanları filtrele
+  sett.reviews=(sett.reviews||[]).filter(r=>r.author&&r.author.trim()&&r.text&&r.text.trim());
+  saveS();renderReviews();renderRevSett();
+  const el=document.getElementById('ok-rev');
+  if(el){el.style.display='block';setTimeout(()=>el.style.display='none',2000);}
+  toast('Yorumlar kaydedildi ✓');
+}
 
 /* ════════════════════════════════════════
    DELIVERY GALLERY
@@ -4570,6 +4587,9 @@ function fullRerender(){
 }
 
 /* ── BAŞLANGIÇ: Önce GitHub'dan çek, sonra render et ── */
+// Firebase'i sayfa yüklenince başlat (1 kez girilmiş config yeterli)
+(function(){ try{ initFirebase(); }catch(e){} })();
+
 (async function initSync(){
   updateGistStatus(false);
 
