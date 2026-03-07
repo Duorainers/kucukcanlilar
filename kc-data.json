@@ -1,111 +1,5 @@
 {
-  "prods": [
-    {
-      "id": 1,
-      "name": "Tropical White Springtail",
-      "cat": "springtail",
-      "price": 150,
-      "priceKr": 0,
-      "oldPrice": 0,
-      "minQty": 50,
-      "stockQty": 0,
-      "desc": "Tropikal ortamlar için nemli zemin canlısı.",
-      "img": "",
-      "badge": "pop",
-      "stock": "in",
-      "label": ""
-    },
-    {
-      "id": 2,
-      "name": "Folsomia Candida",
-      "cat": "springtail",
-      "price": 130,
-      "priceKr": 50,
-      "oldPrice": 0,
-      "minQty": 50,
-      "stockQty": 0,
-      "desc": "Kuru ortamlara uygun, dayanıklı tür.",
-      "img": "",
-      "badge": "new",
-      "stock": "in",
-      "label": ""
-    },
-    {
-      "id": 3,
-      "name": "Armadillidium Vulgare",
-      "cat": "isopod",
-      "price": 200,
-      "priceKr": 0,
-      "oldPrice": 0,
-      "minQty": 8,
-      "stockQty": 0,
-      "desc": "Klasik top böceği. Kolay bakım.",
-      "img": "",
-      "badge": "pop",
-      "stock": "in",
-      "label": ""
-    },
-    {
-      "id": 4,
-      "name": "Porcellio Scaber",
-      "cat": "isopod",
-      "price": 180,
-      "priceKr": 0,
-      "oldPrice": 0,
-      "minQty": 8,
-      "stockQty": 0,
-      "desc": "Dayanıklı, aktif, bakımı kolay tür.",
-      "img": "",
-      "badge": "new",
-      "stock": "prod",
-      "label": ""
-    },
-    {
-      "id": 5,
-      "name": "Protein Mix",
-      "cat": "food",
-      "price": 80,
-      "priceKr": 0,
-      "oldPrice": 0,
-      "minQty": 1,
-      "stockQty": 0,
-      "desc": "Doğal protein karışımı.",
-      "img": "",
-      "badge": "",
-      "stock": "in",
-      "label": "sterilise"
-    },
-    {
-      "id": 6,
-      "name": "Meşe Yaprağı Karışımı",
-      "cat": "food",
-      "price": 60,
-      "priceKr": 0,
-      "oldPrice": 0,
-      "minQty": 1,
-      "stockQty": 0,
-      "desc": "Kurutulmuş substrat takviyesi.",
-      "img": "",
-      "badge": "",
-      "stock": "in",
-      "label": ""
-    },
-    {
-      "name": "test32112341341341431",
-      "desc": "",
-      "price": 0,
-      "priceKr": 0,
-      "oldPrice": 0,
-      "stockQty": 0,
-      "minQty": 1,
-      "cat": "springtail",
-      "stock": "in",
-      "badge": "",
-      "label": "",
-      "img": "",
-      "id": 1772827324557
-    }
-  ],
+  "prods": [],
   "sett": {
     "siteName": "küçükcanlılar",
     "tagline": "Türkiye'nin Küçük Canlı Dünyası",
@@ -294,7 +188,7 @@
     "rozetler": [],
     "diffCards": null,
     "stockCalendar": [],
-    "_syncUpdAt": "2026-03-07T09:30:46.137Z"
+    "_syncUpdAt": "2026-03-07T09:31:13.027Z"
   },
   "gallery": [
     {
@@ -367,5 +261,5 @@
       "silent": false
     }
   ],
-  "updatedAt": "2026-03-07T09:30:46.137Z"
+  "updatedAt": "2026-03-07T09:31:13.027Z"
 }
