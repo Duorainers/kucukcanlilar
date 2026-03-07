@@ -229,10 +229,10 @@
     ],
     "reviews": [
       {
-        "author": "Yeni Yorum",
-        "text": "",
+        "author": "testet",
+        "text": "testesteste",
         "stars": 5,
-        "prod": ""
+        "prod": "31test"
       }
     ],
     "instagram": "",
@@ -287,7 +287,7 @@
     "rozetler": [],
     "diffCards": null,
     "stockCalendar": [],
-    "_syncUpdAt": "2026-03-07T09:23:35.621Z"
+    "_syncUpdAt": "2026-03-07T09:23:45.563Z"
   },
   "gallery": [
     {
@@ -360,5 +360,5 @@
       "silent": false
     }
   ],
-  "updatedAt": "2026-03-07T09:23:35.621Z"
+  "updatedAt": "2026-03-07T09:23:45.563Z"
 }
