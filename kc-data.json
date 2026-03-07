@@ -9,7 +9,7 @@
       "stockQty": 0,
       "minQty": 50,
       "cat": "springtail",
-      "stock": "prod",
+      "stock": "in",
       "badge": "",
       "label": "",
       "img": "https://raw.githubusercontent.com/Duorainers/kucukcanlilar/main/assets/imgs/img_1772875899479_544u.jpg",
@@ -172,7 +172,7 @@
     "rozetler": [],
     "diffCards": null,
     "stockCalendar": [],
-    "_syncUpdAt": "2026-03-07T12:16:22.499Z",
+    "_syncUpdAt": "2026-03-07T12:16:33.885Z",
     "facts": []
   },
   "gallery": [
@@ -246,5 +246,5 @@
       "silent": false
     }
   ],
-  "updatedAt": "2026-03-07T12:16:22.499Z"
+  "updatedAt": "2026-03-07T12:16:33.885Z"
 }
