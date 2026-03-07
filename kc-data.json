@@ -29,6 +29,21 @@
       "label": "",
       "img": "https://raw.githubusercontent.com/Duorainers/kucukcanlilar/main/assets/imgs/img_1772886168444_i6pa.webp",
       "id": 1772886192866
+    },
+    {
+      "name": "Porcellionides Pruinosus Powder Blue",
+      "desc": "",
+      "price": 10,
+      "priceKr": 0,
+      "oldPrice": 12,
+      "stockQty": 0,
+      "minQty": 8,
+      "cat": "isopod",
+      "stock": "out",
+      "badge": "pop",
+      "label": "",
+      "img": "https://raw.githubusercontent.com/Duorainers/kucukcanlilar/main/assets/imgs/img_1772886267677_89g7.webp",
+      "id": 1772886273518
     }
   ],
   "sett": {
@@ -187,7 +202,7 @@
     "rozetler": [],
     "diffCards": null,
     "stockCalendar": [],
-    "_syncUpdAt": "2026-03-07T12:23:19.704Z",
+    "_syncUpdAt": "2026-03-07T12:24:35.432Z",
     "facts": []
   },
   "gallery": [
@@ -214,5 +229,5 @@
       "silent": false
     }
   ],
-  "updatedAt": "2026-03-07T12:23:19.704Z"
+  "updatedAt": "2026-03-07T12:24:35.432Z"
 }
