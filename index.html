@@ -1245,6 +1245,14 @@ function updateReviewLoginUI(){
             <button onclick="testGistConnection()" style="background:rgba(255,255,255,.07);color:#a8c8a8;border:1px solid rgba(168,200,168,.2);border-radius:10px;padding:11px 20px;font-family:'Nunito',sans-serif;font-size:13px;font-weight:700;cursor:pointer">🔗 Test Et</button>
             <button onclick="pushToGist(true)" style="background:rgba(37,211,102,.1);color:#25d366;border:1px solid rgba(37,211,102,.2);border-radius:10px;padding:11px 20px;font-family:'Nunito',sans-serif;font-size:13px;font-weight:700;cursor:pointer">⬆️ Şimdi Yükle</button>
           </div>
+          <div style="margin-top:14px;padding:12px;background:rgba(255,160,40,.07);border:1px solid rgba(255,160,40,.2);border-radius:10px">
+            <div style="font-size:12px;font-weight:700;color:#ffb840;margin-bottom:8px">📦 Sipariş Tokeni <span style="font-weight:400;color:rgba(255,255,255,.4)">(müşterilerin siparişi GitHub'a yazdığı token — yalnızca <code>contents:write</code> izni yeterli)</span></div>
+            <input id="ordersTokenInput" type="password" placeholder="ghp_xxxxxxxxxxxx" style="width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,160,40,.25);border-radius:8px;padding:9px 12px;font-family:monospace;font-size:12px;color:#e0e0e0;outline:none;box-sizing:border-box"/>
+            <button onclick="saveOrdersToken()" style="margin-top:8px;width:100%;background:rgba(255,160,40,.15);border:1px solid rgba(255,160,40,.3);color:#ffb840;border-radius:8px;padding:9px;font-family:'Nunito',sans-serif;font-size:13px;font-weight:700;cursor:pointer">💾 Sipariş Tokenini Kaydet</button>
+            <div id="ordersTokenMsg" style="display:none;font-size:11px;margin-top:6px;color:#25d366"></div>
+          </div>
+          <div style="display:none">
+          </div>
           <p id="gistMsg" style="font-size:12px;margin-top:10px;color:#25d366;display:none"></p>
         </div>
       </div>
@@ -1560,7 +1568,7 @@ function updateReviewLoginUI(){
   <div class="ord-modal">
     <h3>📦 Sipariş Bilgileri</h3>
     <p class="ord-sub">Bilgilerinizi girin, sipariş WhatsApp'a otomatik iletilecek.</p>
-    <div class="fg"><label>Ad Soyad</label><input class="fi" id="oName" placeholder="Ad Soyad"/></div>
+    <div class="fg"><label>Ad Soyad <span class="req">*</span></label><input class="fi" id="oName" placeholder="Ad Soyad (zorunlu)"/></div>
     <div class="fg"><label>Telefon <span class="req">*</span></label><input class="fi" type="tel" id="oPhone" placeholder="05XX XXX XX XX"/></div>
     <div class="fg"><label>Teslimat Adresi <span class="req">*</span></label><textarea class="fi" id="oAddr" rows="3" placeholder="Mahalle, cadde, bina no, şehir…"></textarea></div>
     <div class="fg"><label>Not</label><input class="fi" id="oNote" placeholder="İsteğe bağlı…"/></div>
@@ -2340,9 +2348,12 @@ async function fetchFromGist(){
     console.log('[KC Sync] Veri çekildi ama yerel değişiklik korunuyor (push bekleniyor)');
   }
 
-  /* orders status sync — korumadan BAĞIMSIZ: admin iptal/tamamlandı her zaman yansısın */
+  /* orders sync — status güncellemeleri her zaman yansısın, yeni local siparişler korunsun */
   if(d.orders)    {
-    orders = d.orders;
+    // MERGE: GitHub'da olmayan local siparişleri koru (push bekleyenler)
+    const serverIds = new Set(d.orders.map(o=>o.id));
+    const localOnly = orders.filter(o=>!serverIds.has(o.id)); // henüz push edilmemiş
+    orders = [...d.orders, ...localOnly];
     // Counter'ı güncelle — başka cihazdan yeni sipariş geldiyse
     const maxNo = orders.reduce((m,o)=>{const n=parseInt((o.id||'').replace('KC-',''))||0;return n>m?n:m;},orderCounter);
     if(maxNo > orderCounter){ orderCounter=maxNo; localStorage.setItem('kc_ord_counter',orderCounter); }
@@ -2594,12 +2605,60 @@ function debouncedPush(delay=1400){
 }
 
 function saveP(){ debouncedPush(); }
-function saveO(){ debouncedPush(); } // siparişler artık GitHub'a sync edilir
+function saveO(){
+  // Eğer admin token varsa normal push, yoksa ordersToken ile sadece orders'ı pushla
+  const adminToken = getGhToken();
+  if(adminToken){
+    debouncedPush();
+  } else {
+    debouncedOrderPush();
+  }
+}
+
+/* Sipariş tokenı ile sadece orders alanını push et */
+let _orderPushTimer = null;
+function debouncedOrderPush(){
+  if(_orderPushTimer) clearTimeout(_orderPushTimer);
+  _orderPushTimer = setTimeout(async ()=>{
+    _orderPushTimer = null;
+    const token = sett.ordersToken;
+    if(!token){ console.warn('[KC Orders] Sipariş tokeni yok, sipariş kaydedilemedi!'); return; }
+    const user = getGhUser(); const repo = getGhRepo();
+    if(!user||!repo) return;
+    const apiUrl = `https://api.github.com/repos/${user}/${repo}/contents/kc-data.json`;
+    try{
+      // Taze SHA + mevcut içerik al
+      const gr = await fetch(apiUrl,{headers:{'Authorization':'token '+token,'Accept':'application/vnd.github.v3+json'},cache:'no-store'});
+      if(!gr.ok) return;
+      const meta = await gr.json();
+      const currentData = JSON.parse(decodeURIComponent(escape(atob(meta.content.replace(/\n/g,'')))));
+      // Mevcut orders'a yeni siparişleri merge et
+      const serverIds = new Set((currentData.orders||[]).map(o=>o.id));
+      const newOrders = orders.filter(o=>!serverIds.has(o.id));
+      if(!newOrders.length) return; // zaten var, push gerek yok
+      currentData.orders = [...(currentData.orders||[]), ...newOrders];
+      currentData.updatedAt = new Date().toISOString();
+      const newContent = btoa(unescape(encodeURIComponent(JSON.stringify(currentData,null,2))));
+      const pr = await fetch(apiUrl,{method:'PUT',headers:{'Authorization':'token '+token,'Content-Type':'application/json','Accept':'application/vnd.github.v3+json'},body:JSON.stringify({message:'yeni sipariş',content:newContent,sha:meta.sha})});
+      if(pr.ok) console.log('[KC Orders] \u2705 Sipari\u015f GitHub\u2019a kaydedildi');
+      else console.warn('[KC Orders] Push failed:', pr.status);
+    }catch(e){ console.warn('[KC Orders] Hata:', e.message); }
+  }, 1400);
+}
 function saveS(){ setTimeout(applySett,0); debouncedPush(); }
 function saveG(){ debouncedPush(); }
 function saveCr(){ debouncedPush(); }
 function saveSec(){ /* güvenlik logu sadece bellekte */ }
 function saveAdm(){ debouncedPush(); }
+
+function saveOrdersToken(){
+  const v = (document.getElementById('ordersTokenInput')?.value||'').trim();
+  if(!v){ document.getElementById('ordersTokenMsg').style.display='block'; document.getElementById('ordersTokenMsg').textContent='❌ Token boş!'; document.getElementById('ordersTokenMsg').style.color='#e07070'; return; }
+  sett.ordersToken = v;
+  saveS();
+  const msg = document.getElementById('ordersTokenMsg');
+  if(msg){ msg.style.display='block'; msg.style.color='#25d366'; msg.textContent='✅ Kaydedildi ve GitHub\u2019a sync ediliyor...'; setTimeout(()=>msg.style.display='none',4000); }
+}
 
 
 /* ════════════════════════════════════════════════════
@@ -2824,6 +2883,9 @@ function applySett(){
   // Splash logo
   const splLogo=document.getElementById('splLogoImg');if(splLogo)splLogo.innerHTML=LOGO_SVG;
 
+  // Sipariş tokenini göster (maskeli)
+  const oti = document.getElementById('ordersTokenInput');
+  if(oti && sett.ordersToken) oti.value = sett.ordersToken;
   renderHeroPhotos();
   renderCats();
   renderSteps();
@@ -3093,7 +3155,7 @@ function submitOrder(){
   const kvkk=(document.getElementById('kvkkCk')||{checked:false}).checked;
   ['oName','oPhone','oAddr'].forEach(id=>{const el=document.getElementById(id);if(el)el.classList.remove('err')});
   let ok=true;
-  if(!name){const el=document.getElementById('oName');if(el)el.classList.add('err');ok=false}
+  if(!name){const el=document.getElementById('oName');if(el){el.classList.add('err');el.placeholder='Ad Soyad zorunludur!';}ok=false}
   if(!phone){const el=document.getElementById('oPhone');if(el)el.classList.add('err');ok=false}
   if(!addr){const el=document.getElementById('oAddr');if(el)el.classList.add('err');ok=false}
   if(!kvkk){toast('Sözleşmeleri onaylamanız gerekiyor.');return}
