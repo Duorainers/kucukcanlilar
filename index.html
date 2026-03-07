@@ -227,6 +227,10 @@ section{padding:90px 5vw}
 .cat-img-w{height:190px;overflow:hidden;position:relative}
 .cat-img-w img{width:100%;height:100%;object-fit:cover;transition:.4s}
 .cat-card:hover .cat-img-w img{transform:scale(1.07)}
+.cat-subs{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
+.cat-sub-tag{font-size:10px;font-weight:700;letter-spacing:.06em;background:rgba(90,138,90,.12);color:var(--g3);border:1px solid rgba(90,138,90,.22);border-radius:20px;padding:3px 10px;cursor:pointer;transition:.15s}
+.cat-sub-tag:hover{background:rgba(90,138,90,.25);color:var(--g2)}
+.cat-sub-tag.active{background:var(--g1);color:#fff;border-color:var(--g1)}
 .cat-ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(29,46,29,.5) 0%,transparent 55%)}
 .cat-body{padding:18px 22px 24px}
 .cat-body h3{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--g1);margin-bottom:5px}
@@ -265,6 +269,56 @@ section{padding:90px 5vw}
 .atc.added{background:var(--g4);animation:pop .3s ease}
 .atc:disabled{background:#c0c8c0;cursor:not-allowed;transform:none;opacity:.65}
 @keyframes pop{0%{transform:scale(1)}50%{transform:scale(1.25)}100%{transform:scale(1)}}
+/* ── 2. SCROLL ENTRANCE ── */
+.pc{opacity:0;transform:translateY(40px) scale(.96);transition:opacity .5s ease,transform .5s ease}
+.pc.visible{opacity:1;transform:translateY(0) scale(1)}
+/* Sıra gecikmesi - her kart biraz daha geç gelsin */
+.pc:nth-child(2){transition-delay:.06s}
+.pc:nth-child(3){transition-delay:.12s}
+.pc:nth-child(4){transition-delay:.18s}
+.pc:nth-child(5){transition-delay:.24s}
+.pc:nth-child(6){transition-delay:.30s}
+.pc:nth-child(n+7){transition-delay:.34s}
+
+/* ── 3. SEPETE UÇAN PARÇACIK ── */
+.cart-fly-img{position:fixed;border-radius:50%;pointer-events:none;z-index:99999;
+  width:52px;height:52px;object-fit:cover;border:2px solid var(--g3);
+  box-shadow:0 4px 16px rgba(0,0,0,.4);}
+@keyframes flyToCart{
+  0%  {transform:scale(1);opacity:1}
+  70% {transform:scale(.55);opacity:.85}
+  100%{transform:scale(.15);opacity:0}
+}
+.cart-burst{position:fixed;pointer-events:none;z-index:99999;
+  width:10px;height:10px;border-radius:50%;}
+@keyframes burstOut{
+  0%  {transform:translate(0,0) scale(1);opacity:.9}
+  100%{transform:translate(var(--bx),var(--by)) scale(0);opacity:0}
+}
+
+/* ── 6. DÜŞÜK STOK NABIZ ── */
+.sq-low{animation:stockPulse 1.6s ease-in-out infinite}
+@keyframes stockPulse{
+  0%,100%{background:rgba(220,60,60,.13);color:#e07070;box-shadow:0 0 0 0 rgba(220,60,60,.3)}
+  50%    {background:rgba(220,60,60,.28);color:#ff8080;box-shadow:0 0 0 5px rgba(220,60,60,0)}
+}
+/* Stok tükenmeye yakın ürün kartı kenarı */
+.pc.low-stock-card{border-color:rgba(220,60,60,.35)!important}
+.pc.low-stock-card::after{content:'';position:absolute;inset:-1px;border-radius:16px;
+  border:1px solid rgba(220,60,60,.5);animation:cardPulse 2s ease-in-out infinite;pointer-events:none}
+@keyframes cardPulse{
+  0%,100%{opacity:.5;box-shadow:0 0 0 0 rgba(220,60,60,.2)}
+  50%    {opacity:1;box-shadow:0 0 14px 3px rgba(220,60,60,.18)}
+}
+
+/* ── 7. KATEGORİ MORPH ── */
+@keyframes cardMorph{
+  0%  {opacity:0;transform:scale(.88) translateY(18px)}
+  60% {transform:scale(1.02) translateY(-3px)}
+  100%{opacity:1;transform:scale(1) translateY(0)}
+}
+.pc.morph-in{animation:cardMorph .38s cubic-bezier(.34,1.4,.64,1) both}
+
 /* min order banner */
 .min-banner{background:rgba(45,74,45,.07);border:1px solid rgba(45,74,45,.12);border-radius:8px;padding:8px 12px;font-size:11px;color:var(--muted);margin-bottom:10px;text-align:center}
 
@@ -1569,7 +1623,7 @@ function updateReviewLoginUI(){
 <nav>
   <a href="#" class="nav-logo">
     <div class="nav-logo-icon">
-      <svg width="36" height="36" viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg" style="filter:drop-shadow(0 0 5px rgba(255,160,40,.45))"><defs><radialGradient id="anbg" cx="42%" cy="36%" r="62%"><stop offset="0%" stop-color="#3e2008"/><stop offset="55%" stop-color="#1e1004"/><stop offset="100%" stop-color="#0a0502"/></radialGradient><linearGradient id="anring" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#ffdd44"/><stop offset="50%" stop-color="#ee8822"/><stop offset="100%" stop-color="#ffdd44"/></linearGradient><path id="anarc" d="M 25,110 A 85,85 0 0,1 195,110"/></defs><circle cx="110" cy="110" r="106" fill="none" stroke="url(#anring)" stroke-width="1.5" opacity=".45"/><circle cx="110" cy="110" r="100" fill="url(#anbg)"/><path d="M110 65 Q86 90 86 116 Q86 140 110 155 Q134 140 134 116 Q134 90 110 65Z" fill="#2a4a08" opacity=".6"/><ellipse cx="110" cy="112" rx="18" ry="22" fill="#cc2200"/><ellipse cx="110" cy="110" rx="16" ry="19" fill="#ee3300"/><path d="M110 92 L110 130" stroke="#880000" stroke-width="1.5" fill="none"/><circle cx="103" cy="101" r="4" fill="#880000" opacity=".8"/><circle cx="117" cy="101" r="4" fill="#880000" opacity=".8"/><circle cx="103" cy="114" r="3" fill="#880000" opacity=".7"/><circle cx="117" cy="114" r="3" fill="#880000" opacity=".7"/><ellipse cx="103" cy="98" rx="4" ry="5" fill="rgba(255,255,255,.14)" transform="rotate(-15,103,98)"/><circle cx="110" cy="88" r="10" fill="#1a1a1a"/><circle cx="105" cy="86" r="2" fill="#eecc00"/><circle cx="115" cy="86" r="2" fill="#eecc00"/><path d="M106 79 Q99 69 90 63" stroke="#ffdd44" stroke-width="1.8" fill="none" stroke-linecap="round"/><path d="M114 79 Q121 69 130 63" stroke="#ffdd44" stroke-width="1.8" fill="none" stroke-linecap="round"/><circle cx="90" cy="63" r="2.5" fill="#ff4422"/><circle cx="130" cy="63" r="2.5" fill="#ff4422"/><path d="M94 104 Q80 101 74 99" stroke="#aa2200" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M93 114 Q79 113 73 115" stroke="#aa2200" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M126 104 Q140 101 146 99" stroke="#aa2200" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M127 114 Q141 113 147 115" stroke="#aa2200" stroke-width="2" fill="none" stroke-linecap="round"/><text font-family="system-ui,sans-serif" font-size="13" font-weight="900" fill="#ffdd44" letter-spacing="5.5"><textPath href="#anarc" startOffset="50%" text-anchor="middle">K U C U K C A N L I L A R</textPath></text></svg>
+      <svg width="36" height="36" viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg" style="filter:drop-shadow(0 0 5px rgba(255,160,40,.45))"><defs><radialGradient id="anbg" cx="42%" cy="36%" r="62%"><stop offset="0%" stop-color="#3e2008"/><stop offset="55%" stop-color="#1e1004"/><stop offset="100%" stop-color="#0a0502"/></radialGradient><linearGradient id="anring" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#ffdd44"/><stop offset="50%" stop-color="#ee8822"/><stop offset="100%" stop-color="#ffdd44"/></linearGradient><path id="anarc" d="M 25,110 A 85,85 0 0,1 195,110"/></defs><circle cx="110" cy="110" r="106" fill="none" stroke="url(#anring)" stroke-width="1.5" opacity=".45"/><circle cx="110" cy="110" r="100" fill="url(#anbg)"/><path d="M110 65 Q86 90 86 116 Q86 140 110 155 Q134 140 134 116 Q134 90 110 65Z" fill="#2a4a08" opacity=".6"/><ellipse cx="110" cy="112" rx="18" ry="22" fill="#cc2200"/><ellipse cx="110" cy="110" rx="16" ry="19" fill="#ee3300"/><path d="M110 92 L110 130" stroke="#880000" stroke-width="1.5" fill="none"/><circle cx="103" cy="101" r="4" fill="#880000" opacity=".8"/><circle cx="117" cy="101" r="4" fill="#880000" opacity=".8"/><circle cx="103" cy="114" r="3" fill="#880000" opacity=".7"/><circle cx="117" cy="114" r="3" fill="#880000" opacity=".7"/><ellipse cx="103" cy="98" rx="4" ry="5" fill="rgba(255,255,255,.14)" transform="rotate(-15,103,98)"/><circle cx="110" cy="88" r="10" fill="#1a1a1a"/><circle cx="105" cy="86" r="2" fill="#eecc00"/><circle cx="115" cy="86" r="2" fill="#eecc00"/><path d="M106 79 Q99 69 90 63" stroke="#ffdd44" stroke-width="1.8" fill="none" stroke-linecap="round"/><path d="M114 79 Q121 69 130 63" stroke="#ffdd44" stroke-width="1.8" fill="none" stroke-linecap="round"/><circle cx="90" cy="63" r="2.5" fill="#ff4422"/><circle cx="130" cy="63" r="2.5" fill="#ff4422"/><path d="M94 104 Q80 101 74 99" stroke="#aa2200" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M93 114 Q79 113 73 115" stroke="#aa2200" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M126 104 Q140 101 146 99" stroke="#aa2200" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M127 114 Q141 113 147 115" stroke="#aa2200" stroke-width="2" fill="none" stroke-linecap="round"/><text font-family="system-ui,sans-serif" font-size="11" font-weight="900" fill="#ffdd44" letter-spacing="1.5"><textPath href="#anarc" startOffset="50%" text-anchor="middle">K U C U K C A N L I L A R</textPath></text></svg>
     </div>
     <span class="nav-logo-txt" id="navBrandName">küçük<em>canlılar</em></span>
   </a>
@@ -1772,7 +1826,7 @@ function updateReviewLoginUI(){
   <div class="ft-top">
     <div>
       <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
-        <svg width="36" height="36" viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg" style="filter:drop-shadow(0 0 6px rgba(255,160,40,.4))"><defs><radialGradient id="albg" cx="42%" cy="36%" r="62%"><stop offset="0%" stop-color="#3e2008"/><stop offset="55%" stop-color="#1e1004"/><stop offset="100%" stop-color="#0a0502"/></radialGradient><linearGradient id="alring" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#ffdd44"/><stop offset="50%" stop-color="#ee8822"/><stop offset="100%" stop-color="#ffdd44"/></linearGradient><path id="alarc" d="M 25,110 A 85,85 0 0,1 195,110"/></defs><circle cx="110" cy="110" r="106" fill="none" stroke="url(#alring)" stroke-width="1.2" opacity=".4"/><circle cx="110" cy="4" r="2.5" fill="#ffdd44" opacity=".8"/><circle cx="186" cy="44" r="1.6" fill="#ee8822" opacity=".55"/><circle cx="186" cy="176" r="1.6" fill="#ee8822" opacity=".55"/><circle cx="110" cy="216" r="2.5" fill="#ffdd44" opacity=".8"/><circle cx="34" cy="176" r="1.6" fill="#ee8822" opacity=".55"/><circle cx="34" cy="44" r="1.6" fill="#ee8822" opacity=".55"/><circle cx="110" cy="110" r="100" fill="url(#albg)"/><circle cx="110" cy="110" r="93" fill="none" stroke="rgba(255,140,30,.1)" stroke-width=".8"/><path d="M110 65 Q86 90 86 116 Q86 140 110 155 Q134 140 134 116 Q134 90 110 65Z" fill="#2a4a08" opacity=".6"/><ellipse cx="110" cy="112" rx="18" ry="22" fill="#cc2200"/><ellipse cx="110" cy="110" rx="16" ry="19" fill="#ee3300"/><path d="M110 92 L110 130" stroke="#880000" stroke-width="1.5" fill="none"/><circle cx="103" cy="101" r="4" fill="#880000" opacity=".8"/><circle cx="117" cy="101" r="4" fill="#880000" opacity=".8"/><circle cx="103" cy="114" r="3" fill="#880000" opacity=".7"/><circle cx="117" cy="114" r="3" fill="#880000" opacity=".7"/><circle cx="110" cy="122" r="2.5" fill="#880000" opacity=".6"/><ellipse cx="103" cy="98" rx="4" ry="5" fill="rgba(255,255,255,.14)" transform="rotate(-15,103,98)"/><circle cx="110" cy="88" r="10" fill="#1a1a1a"/><circle cx="105" cy="86" r="2" fill="#eecc00"/><circle cx="115" cy="86" r="2" fill="#eecc00"/><path d="M106 79 Q99 69 90 63" stroke="#ffdd44" stroke-width="1.8" fill="none" stroke-linecap="round"/><path d="M114 79 Q121 69 130 63" stroke="#ffdd44" stroke-width="1.8" fill="none" stroke-linecap="round"/><circle cx="90" cy="63" r="2.5" fill="#ff4422"/><circle cx="130" cy="63" r="2.5" fill="#ff4422"/><path d="M94 104 Q80 101 74 99" stroke="#aa2200" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M93 114 Q79 113 73 115" stroke="#aa2200" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M126 104 Q140 101 146 99" stroke="#aa2200" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M127 114 Q141 113 147 115" stroke="#aa2200" stroke-width="2" fill="none" stroke-linecap="round"/><text font-family="system-ui,sans-serif" font-size="13" font-weight="900" fill="#ffdd44" letter-spacing="5.5"><textPath href="#alarc" startOffset="50%" text-anchor="middle">K U C U K C A N L I L A R</textPath></text><text x="110" y="205" text-anchor="middle" font-size="8" fill="rgba(255,160,40,.4)">✦  ✦  ✦</text></svg>
+        <svg width="36" height="36" viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg" style="filter:drop-shadow(0 0 6px rgba(255,160,40,.4))"><defs><radialGradient id="albg" cx="42%" cy="36%" r="62%"><stop offset="0%" stop-color="#3e2008"/><stop offset="55%" stop-color="#1e1004"/><stop offset="100%" stop-color="#0a0502"/></radialGradient><linearGradient id="alring" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#ffdd44"/><stop offset="50%" stop-color="#ee8822"/><stop offset="100%" stop-color="#ffdd44"/></linearGradient><path id="alarc" d="M 25,110 A 85,85 0 0,1 195,110"/></defs><circle cx="110" cy="110" r="106" fill="none" stroke="url(#alring)" stroke-width="1.2" opacity=".4"/><circle cx="110" cy="4" r="2.5" fill="#ffdd44" opacity=".8"/><circle cx="186" cy="44" r="1.6" fill="#ee8822" opacity=".55"/><circle cx="186" cy="176" r="1.6" fill="#ee8822" opacity=".55"/><circle cx="110" cy="216" r="2.5" fill="#ffdd44" opacity=".8"/><circle cx="34" cy="176" r="1.6" fill="#ee8822" opacity=".55"/><circle cx="34" cy="44" r="1.6" fill="#ee8822" opacity=".55"/><circle cx="110" cy="110" r="100" fill="url(#albg)"/><circle cx="110" cy="110" r="93" fill="none" stroke="rgba(255,140,30,.1)" stroke-width=".8"/><path d="M110 65 Q86 90 86 116 Q86 140 110 155 Q134 140 134 116 Q134 90 110 65Z" fill="#2a4a08" opacity=".6"/><ellipse cx="110" cy="112" rx="18" ry="22" fill="#cc2200"/><ellipse cx="110" cy="110" rx="16" ry="19" fill="#ee3300"/><path d="M110 92 L110 130" stroke="#880000" stroke-width="1.5" fill="none"/><circle cx="103" cy="101" r="4" fill="#880000" opacity=".8"/><circle cx="117" cy="101" r="4" fill="#880000" opacity=".8"/><circle cx="103" cy="114" r="3" fill="#880000" opacity=".7"/><circle cx="117" cy="114" r="3" fill="#880000" opacity=".7"/><circle cx="110" cy="122" r="2.5" fill="#880000" opacity=".6"/><ellipse cx="103" cy="98" rx="4" ry="5" fill="rgba(255,255,255,.14)" transform="rotate(-15,103,98)"/><circle cx="110" cy="88" r="10" fill="#1a1a1a"/><circle cx="105" cy="86" r="2" fill="#eecc00"/><circle cx="115" cy="86" r="2" fill="#eecc00"/><path d="M106 79 Q99 69 90 63" stroke="#ffdd44" stroke-width="1.8" fill="none" stroke-linecap="round"/><path d="M114 79 Q121 69 130 63" stroke="#ffdd44" stroke-width="1.8" fill="none" stroke-linecap="round"/><circle cx="90" cy="63" r="2.5" fill="#ff4422"/><circle cx="130" cy="63" r="2.5" fill="#ff4422"/><path d="M94 104 Q80 101 74 99" stroke="#aa2200" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M93 114 Q79 113 73 115" stroke="#aa2200" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M126 104 Q140 101 146 99" stroke="#aa2200" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M127 114 Q141 113 147 115" stroke="#aa2200" stroke-width="2" fill="none" stroke-linecap="round"/><text font-family="system-ui,sans-serif" font-size="11" font-weight="900" fill="#ffdd44" letter-spacing="1.5"><textPath href="#alarc" startOffset="50%" text-anchor="middle">K U C U K C A N L I L A R</textPath></text><text x="110" y="205" text-anchor="middle" font-size="8" fill="rgba(255,160,40,.4)">✦  ✦  ✦</text></svg>
         <div class="ft-brand">küçük<em>canlılar</em></div>
       </div>
       <p>Türkiye'nin küçük canlı dünyası.</p>
@@ -1854,7 +1908,7 @@ function updateReviewLoginUI(){
 })();
 
 /* ── LOGO SVG ── */
-const LOGO_SVG=`<svg width="200" height="200" viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="lbg" cx="42%" cy="36%" r="62%"><stop offset="0%" stop-color="#3e2008"/><stop offset="55%" stop-color="#1e1004"/><stop offset="100%" stop-color="#0a0502"/></radialGradient><linearGradient id="lring" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#ffdd44"/><stop offset="50%" stop-color="#ee8822"/><stop offset="100%" stop-color="#ffdd44"/></linearGradient><path id="larc" d="M 25,110 A 85,85 0 0,1 195,110"/></defs><circle cx="110" cy="110" r="106" fill="none" stroke="url(#lring)" stroke-width="1.2" opacity=".4"/><circle cx="110" cy="4" r="2.5" fill="#ffdd44" opacity=".8"/><circle cx="186" cy="44" r="1.6" fill="#ee8822" opacity=".55"/><circle cx="186" cy="176" r="1.6" fill="#ee8822" opacity=".55"/><circle cx="110" cy="216" r="2.5" fill="#ffdd44" opacity=".8"/><circle cx="34" cy="176" r="1.6" fill="#ee8822" opacity=".55"/><circle cx="34" cy="44" r="1.6" fill="#ee8822" opacity=".55"/><circle cx="110" cy="110" r="100" fill="url(#lbg)"/><circle cx="110" cy="110" r="93" fill="none" stroke="rgba(255,140,30,.1)" stroke-width=".8"/><path d="M110 65 Q86 90 86 116 Q86 140 110 155 Q134 140 134 116 Q134 90 110 65Z" fill="#2a4a08" opacity=".6"/><ellipse cx="110" cy="112" rx="18" ry="22" fill="#cc2200"/><ellipse cx="110" cy="110" rx="16" ry="19" fill="#ee3300"/><path d="M110 92 L110 130" stroke="#880000" stroke-width="1.5" fill="none"/><circle cx="103" cy="101" r="4" fill="#880000" opacity=".8"/><circle cx="117" cy="101" r="4" fill="#880000" opacity=".8"/><circle cx="103" cy="114" r="3" fill="#880000" opacity=".7"/><circle cx="117" cy="114" r="3" fill="#880000" opacity=".7"/><circle cx="110" cy="122" r="2.5" fill="#880000" opacity=".6"/><ellipse cx="103" cy="98" rx="4" ry="5" fill="rgba(255,255,255,.14)" transform="rotate(-15,103,98)"/><circle cx="110" cy="88" r="10" fill="#1a1a1a"/><circle cx="105" cy="86" r="2" fill="#eecc00"/><circle cx="115" cy="86" r="2" fill="#eecc00"/><path d="M106 79 Q99 69 90 63" stroke="#ffdd44" stroke-width="1.8" fill="none" stroke-linecap="round"/><path d="M114 79 Q121 69 130 63" stroke="#ffdd44" stroke-width="1.8" fill="none" stroke-linecap="round"/><circle cx="90" cy="63" r="2.5" fill="#ff4422"/><circle cx="130" cy="63" r="2.5" fill="#ff4422"/><path d="M94 104 Q80 101 74 99" stroke="#aa2200" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M93 114 Q79 113 73 115" stroke="#aa2200" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M126 104 Q140 101 146 99" stroke="#aa2200" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M127 114 Q141 113 147 115" stroke="#aa2200" stroke-width="2" fill="none" stroke-linecap="round"/><text font-family="system-ui,sans-serif" font-size="13" font-weight="900" fill="#ffdd44" letter-spacing="5.5"><textPath href="#larc" startOffset="50%" text-anchor="middle">K U C U K C A N L I L A R</textPath></text><text x="110" y="205" text-anchor="middle" font-size="8" fill="rgba(255,160,40,.4)">&#10022;  &#10022;  &#10022;</text></svg>`;
+const LOGO_SVG=`<svg width="200" height="200" viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="lbg" cx="42%" cy="36%" r="62%"><stop offset="0%" stop-color="#3e2008"/><stop offset="55%" stop-color="#1e1004"/><stop offset="100%" stop-color="#0a0502"/></radialGradient><linearGradient id="lring" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#ffdd44"/><stop offset="50%" stop-color="#ee8822"/><stop offset="100%" stop-color="#ffdd44"/></linearGradient><path id="larc" d="M 25,110 A 85,85 0 0,1 195,110"/></defs><circle cx="110" cy="110" r="106" fill="none" stroke="url(#lring)" stroke-width="1.2" opacity=".4"/><circle cx="110" cy="4" r="2.5" fill="#ffdd44" opacity=".8"/><circle cx="186" cy="44" r="1.6" fill="#ee8822" opacity=".55"/><circle cx="186" cy="176" r="1.6" fill="#ee8822" opacity=".55"/><circle cx="110" cy="216" r="2.5" fill="#ffdd44" opacity=".8"/><circle cx="34" cy="176" r="1.6" fill="#ee8822" opacity=".55"/><circle cx="34" cy="44" r="1.6" fill="#ee8822" opacity=".55"/><circle cx="110" cy="110" r="100" fill="url(#lbg)"/><circle cx="110" cy="110" r="93" fill="none" stroke="rgba(255,140,30,.1)" stroke-width=".8"/><path d="M110 65 Q86 90 86 116 Q86 140 110 155 Q134 140 134 116 Q134 90 110 65Z" fill="#2a4a08" opacity=".6"/><ellipse cx="110" cy="112" rx="18" ry="22" fill="#cc2200"/><ellipse cx="110" cy="110" rx="16" ry="19" fill="#ee3300"/><path d="M110 92 L110 130" stroke="#880000" stroke-width="1.5" fill="none"/><circle cx="103" cy="101" r="4" fill="#880000" opacity=".8"/><circle cx="117" cy="101" r="4" fill="#880000" opacity=".8"/><circle cx="103" cy="114" r="3" fill="#880000" opacity=".7"/><circle cx="117" cy="114" r="3" fill="#880000" opacity=".7"/><circle cx="110" cy="122" r="2.5" fill="#880000" opacity=".6"/><ellipse cx="103" cy="98" rx="4" ry="5" fill="rgba(255,255,255,.14)" transform="rotate(-15,103,98)"/><circle cx="110" cy="88" r="10" fill="#1a1a1a"/><circle cx="105" cy="86" r="2" fill="#eecc00"/><circle cx="115" cy="86" r="2" fill="#eecc00"/><path d="M106 79 Q99 69 90 63" stroke="#ffdd44" stroke-width="1.8" fill="none" stroke-linecap="round"/><path d="M114 79 Q121 69 130 63" stroke="#ffdd44" stroke-width="1.8" fill="none" stroke-linecap="round"/><circle cx="90" cy="63" r="2.5" fill="#ff4422"/><circle cx="130" cy="63" r="2.5" fill="#ff4422"/><path d="M94 104 Q80 101 74 99" stroke="#aa2200" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M93 114 Q79 113 73 115" stroke="#aa2200" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M126 104 Q140 101 146 99" stroke="#aa2200" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M127 114 Q141 113 147 115" stroke="#aa2200" stroke-width="2" fill="none" stroke-linecap="round"/><text font-family="system-ui,sans-serif" font-size="11" font-weight="900" fill="#ffdd44" letter-spacing="1.5"><textPath href="#larc" startOffset="50%" text-anchor="middle">K U C U K C A N L I L A R</textPath></text><text x="110" y="205" text-anchor="middle" font-size="8" fill="rgba(255,160,40,.4)">&#10022;  &#10022;  &#10022;</text></svg>`;
 (function(){
   // Önizleme
   const prev=document.getElementById('logoPreviewArea');
@@ -2296,6 +2350,7 @@ async function fetchFromGist(){
   if(d.gallery)   { gallery   = d.gallery; }
   if(d.creatures) { creatures = d.creatures; }
   if(d.admins)    { admins    = d.admins; }
+  if(d.orders)    { orders    = d.orders; } // siparişleri sync et
   console.log('[KC Sync] ✅ Veri yüklendi (' + source + ')');
 
   // SHA'yı çek — sadece token varsa gerekli (admin yazma işlemi için)
@@ -2363,7 +2418,7 @@ async function _doPushToGist(manual=false){
     const cleanSett      = sanitizeForSync({...sett, ghUser:getGhUser(), ghRepo:getGhRepo()});
     const cleanGallery   = sanitizeForSync(gallery);
     const cleanCreatures = sanitizeForSync(creatures);
-    const payload = { prods:cleanProds, sett:cleanSett, gallery:cleanGallery, creatures:cleanCreatures, admins, updatedAt:_now };
+    const payload = { prods:cleanProds, sett:cleanSett, gallery:cleanGallery, creatures:cleanCreatures, admins, orders, updatedAt:_now };
     return btoa(unescape(encodeURIComponent(JSON.stringify(payload,null,2))));
   }
 
@@ -2498,7 +2553,7 @@ let admins    = JSON.parse(JSON.stringify(DEF_ADMINS));
 
 
 let cart=[], adminIn=false, curUser='', isKurucu=false;
-let curFilter='all', editProdId=null, editCreId=null, editAdminId=null;
+let curFilter='all', curSubFilter='', _lastFilter='all', editProdId=null, editCreId=null, editAdminId=null;
 let failCnt  = parseInt(localStorage.getItem('kc_fails')||'0');
 let lockUntil= parseInt(localStorage.getItem('kc_lock')||'0');
 let creMediaArr=[];
@@ -2512,12 +2567,88 @@ function debouncedPush(delay=1400){
 }
 
 function saveP(){ debouncedPush(); }
-function saveO(){ /* siparişler sadece bellekte — cihaza özel */ }
+function saveO(){ debouncedPush(); } // siparişler artık GitHub'a sync edilir
 function saveS(){ setTimeout(applySett,0); debouncedPush(); }
 function saveG(){ debouncedPush(); }
 function saveCr(){ debouncedPush(); }
 function saveSec(){ /* güvenlik logu sadece bellekte */ }
 function saveAdm(){ debouncedPush(); }
+
+
+/* ════════════════════════════════════════════════════
+   ANİMASYON SİSTEMİ
+   2. Scroll Entrance  3. Sepete Uçuş  6. Stok Nabız  7. Morph
+════════════════════════════════════════════════════ */
+
+/* ── 2. SCROLL ENTRANCE (IntersectionObserver) ── */
+let _cardObserver = null;
+function initCardObserver(){
+  if(_cardObserver) _cardObserver.disconnect();
+  _cardObserver = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting) e.target.classList.add('visible');
+    });
+  },{threshold:0.08, rootMargin:'0px 0px -30px 0px'});
+  document.querySelectorAll('.pc').forEach(c=>_cardObserver.observe(c));
+}
+
+/* ── 3. SEPETE UÇAN PARÇACIK ── */
+function flyToCart(btn, imgSrc){
+  const cartIcon = document.getElementById('cartIcon') || document.querySelector('.nav-cart-btn');
+  if(!cartIcon) return;
+  const btnRect  = btn.getBoundingClientRect();
+  const cartRect = cartIcon.getBoundingClientRect();
+
+  /* Görsel klonu oluştur */
+  const fly = document.createElement('img');
+  fly.className = 'cart-fly-img';
+  fly.src = imgSrc || PLACEHOLDER;
+  fly.style.cssText = `left:${btnRect.left + btnRect.width/2 - 26}px;top:${btnRect.top + btnRect.height/2 - 26}px`;
+  document.body.appendChild(fly);
+
+  /* Hedef: sepet ikonu merkezi */
+  const tx = cartRect.left + cartRect.width/2  - (btnRect.left + btnRect.width/2);
+  const ty = cartRect.top  + cartRect.height/2 - (btnRect.top  + btnRect.height/2);
+
+  fly.animate([
+    {transform:'translate(0,0) scale(1)',   opacity:1},
+    {transform:`translate(${tx*.4}px,${ty*.3}px) scale(.75)`, opacity:.9, offset:.4},
+    {transform:`translate(${tx}px,${ty}px)  scale(.2)`,       opacity:0}
+  ],{duration:620, easing:'cubic-bezier(.25,.46,.45,.94)', fill:'forwards'})
+  .onfinish = ()=> fly.remove();
+
+  /* Patlama parçacıkları */
+  const colors = ['#6eff88','#ffdd44','#ff8844','#44ddff','#ee3300'];
+  for(let i=0;i<10;i++){
+    const p = document.createElement('div');
+    p.className = 'cart-burst';
+    const angle = (i/10)*Math.PI*2;
+    const dist  = 28 + Math.random()*22;
+    p.style.cssText = `left:${btnRect.left+btnRect.width/2}px;top:${btnRect.top+btnRect.height/2}px;
+      background:${colors[i%colors.length]};
+      --bx:${Math.cos(angle)*dist}px;--by:${Math.sin(angle)*dist}px`;
+    document.body.appendChild(p);
+    p.animate([
+      {transform:'translate(0,0) scale(1)',opacity:.9},
+      {transform:`translate(${Math.cos(angle)*dist}px,${Math.sin(angle)*dist}px) scale(0)`,opacity:0}
+    ],{duration:480+Math.random()*160, easing:'ease-out', fill:'forwards'})
+    .onfinish = ()=> p.remove();
+  }
+}
+
+/* ── 7. KATEGORİ MORPH ── */
+function morphCards(){
+  const cards = document.querySelectorAll('.pc');
+  cards.forEach((c,i)=>{
+    c.classList.remove('morph-in','visible');
+    /* Farklı gecikme → kaskad efekti */
+    setTimeout(()=>{
+      c.classList.add('morph-in','visible');
+    }, i * 55);
+  });
+  /* Observer'ı yeniden bağla */
+  setTimeout(initCardObserver, cards.length * 55 + 400);
+}
 
 /* ── TOAST ── */
 function toast(m,d=2400){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),d)}
@@ -2726,11 +2857,25 @@ function renderProdFilters(){
 function renderCats(){
   const g=document.getElementById('catsGrid');if(!g)return;
   const cats=sett.categories||[];
-  g.innerHTML=cats.map(c=>`
-    <div class="cat-card" onclick="filterProds('${esc(c.key)}')">
+  g.innerHTML=cats.map(c=>{
+    const subs=(c.subs||[]).filter(Boolean);
+    const subTags=subs.length?`<div class="cat-subs">${subs.map(s=>`<span class="cat-sub-tag" onclick="event.stopPropagation();filterBySub('${esc(c.key)}','${esc(s)}')">${esc(s)}</span>`).join('')}</div>`:'';
+    return `<div class="cat-card" onclick="filterProds('${esc(c.key)}')">
       <div class="cat-img-w"><img src="${c.img||PLACEHOLDER}" alt="${esc(c.name)}" onerror="this.src='${PLACEHOLDER}'"/><div class="cat-ov"></div></div>
-      <div class="cat-body"><h3>${esc(c.name)}</h3><p>${esc(c.desc||'')}</p><span class="cat-link">Görüntüle →</span></div>
-    </div>`).join('');
+      <div class="cat-body"><h3>${esc(c.name)}</h3><p>${esc(c.desc||'')}</p>${subTags}<span class="cat-link">Görüntüle →</span></div>
+    </div>`;
+  }).join('');
+}
+
+/* Alt kategori filtrele */
+function filterBySub(catKey, sub){
+  curFilter=catKey;
+  curSubFilter=sub;
+  document.querySelectorAll('.fb').forEach(b=>b.classList.remove('active'));
+  const catBtn=Array.from(document.querySelectorAll('.fb')).find(b=>b.textContent.trim()&&b.onclick&&b.onclick.toString().includes(catKey));
+  if(catBtn)catBtn.classList.add('active');
+  renderProds();
+  document.getElementById('urunler')?.scrollIntoView({behavior:'smooth'});
 }
 
 /* ── Steps ── */
@@ -2773,7 +2918,10 @@ function renderProds(){
   g.classList.add('fading');
   setTimeout(()=>{
     g.classList.remove('fading');
-    const list=prods.filter(p=>curFilter==='all'||p.cat===curFilter);
+    let list=prods.filter(p=>curFilter==='all'||p.cat===curFilter);
+    if(curSubFilter) list=list.filter(p=>(p.subcat||'')=== curSubFilter||(p.tags||[]).includes(curSubFilter));
+    const _isMorphing = (curFilter!==_lastFilter);
+    _lastFilter = curFilter;
     if(!list.length){g.innerHTML='<p style="color:var(--muted);padding:20px 0">Bu kategoride ürün yok.</p>';return}
     g.innerHTML=list.map(p=>{
       const minQ=p.minQty||1;
@@ -2793,7 +2941,8 @@ function renderProds(){
       if(isOut)btnHtml=`<button class="atc" disabled>✕ Yok</button>`;
       else if(isProd)btnHtml=`<button class="atc" disabled style="background:#c47e00">⏳ Yakında</button>`;
       else btnHtml=`<button class="atc" onclick="addCart(this,${p.id})">+ Sepet</button>`;
-      return `<div class="pc" id="prod-${p.id}" onmousemove="tiltCard(event,this)" onmouseleave="resetTilt(this)">${bdg}${stk}
+      const isLowSt = p.stock==="in" && p.stockQty>0 && p.stockQty<=5;
+      return `<div class="pc${isLowSt?" low-stock-card":""}" id="prod-${p.id}" onmousemove="tiltCard(event,this)" onmouseleave="resetTilt(this)">${bdg}${stk}
         <div class="pc-img"><img src="${p.img||PLACEHOLDER}" alt="${esc(p.name)}" onerror="this.src='${PLACEHOLDER}'"/></div>
         <div class="pc-info">
           <span class="pc-cat">${catLbl(p.cat)}</span>
@@ -2810,11 +2959,14 @@ function renderProds(){
         </div>
       </div>`;
     }).join('');
-    // Re-init tilt
+    // Animasyon: morph efekti tüm kartlara uygula
+    setTimeout(()=>{ morphCards(); }, 10);
   },150);
 }
 
 function filterProds(cat,btn){
+  curSubFilter=''; // alt kategori filtresini sıfırla
+  document.querySelectorAll('.cat-sub-tag').forEach(t=>t.classList.remove('active'));
   curFilter=cat;
   if(btn){document.querySelectorAll('.fb').forEach(b=>b.classList.remove('active'));btn.classList.add('active')}
   renderProds();
@@ -2835,7 +2987,14 @@ function addCart(btn,id){
   const ex=cart.find(i=>i.id===id);
   if(ex)ex.qty+=minQ;
   else cart.push({id,name:p.name,price:p.price,priceKr:p.priceKr||0,img:p.img||'',qty:minQ,cat:p.cat,label:p.label||''});
-  if(btn){btn.textContent='✓ Eklendi';btn.classList.add('added');setTimeout(()=>{btn.textContent='+ Sepet';btn.classList.remove('added')},800)}
+  if(btn){
+    btn.textContent='✓ Eklendi';btn.classList.add('added');
+    setTimeout(()=>{btn.textContent='+ Sepet';btn.classList.remove('added')},800);
+    /* Uçan parçacık efekti */
+    const card=btn.closest('.pc');
+    const imgEl=card&&card.querySelector('.pc-img img');
+    flyToCart(btn, imgEl?imgEl.src:'');
+  }
   renderCart();
   if(!document.getElementById('cartSb').classList.contains('open'))toggleCart();
 }
@@ -2876,7 +3035,7 @@ function renderCart(){
         <span class="ci-qty-num">${item.qty}</span>
         <button class="ci-qty-btn" onclick="cartQty(${item.id},1)">+</button>
       </div>
-      <span class="ci-price">${fmtPrice(Math.round(getItemTotal(item)),0)}</span>
+      <span class="ci-price">${(()=>{const t=getItemTotal(item);const l=Math.floor(t);const k=Math.round((t-l)*100);return fmtPrice(l,k);})()}</span>
       <button class="ci-rm" onclick="removeFromCart(${item.id})">✕</button>
     </div>`;
   }).join('');
@@ -2886,7 +3045,9 @@ function renderCart(){
 function updateCartTotal(){
   const sub=cart.reduce((s,i)=>s+getItemTotal(i),0);
   const total=sub+(sett.shipping||100);
-  const tot=document.getElementById('cartTotal');if(tot)tot.textContent=fmtPrice(Math.round(total),0);
+  const totLira=Math.floor(total);
+  const totKr=Math.round((total-totLira)*100);
+  const tot=document.getElementById('cartTotal');if(tot)tot.textContent=fmtPrice(totLira,totKr);
   const warn=document.getElementById('cartMinWarn');
   const minOrd=sett.minOrder||250;
   if(warn){
@@ -3478,6 +3639,7 @@ function delAdmin(id){if(!confirm('Bu admini sil?'))return;admins=admins.filter(
 ════════════════════════════════════════ */
 function fillSForm(){
   fillGistFields();loadFirebaseFields();initFirebase();
+  setTimeout(initCardObserver, 1200);
   updateGistStatus(!!getGhToken());
   // ensure sett fields exist
   ['heroBadge','facts','orderTitle','orderDesc','heroPhotos','splashPhotos','categories','steps','legalDocs','faq','sayac'].forEach(k=>{
@@ -3600,6 +3762,7 @@ function renderCatsSett(){
         <div style="flex:1;min-width:0">
           <input class="sinput" value="${esc(c.name)}" style="margin-bottom:4px;font-size:12px" oninput="sett.categories[${i}].name=this.value" placeholder="Kategori adı"/>
           <input class="sinput" value="${esc(c.desc||'')}" style="font-size:11px" oninput="sett.categories[${i}].desc=this.value" placeholder="Açıklama"/>
+          <input class="sinput" value="${(c.subs||[]).join(', ')}" style="font-size:10px;color:rgba(255,255,255,.5)" oninput="sett.categories[${i}].subs=this.value.split(',').map(s=>s.trim()).filter(Boolean)" placeholder="Alt kategoriler (virgülle): Tropical, Temperate, Arboreal..."/>
         </div>
         <button onclick="delCat(${i})" style="background:rgba(180,50,50,.15);border:1px solid rgba(180,50,50,.2);color:#e07070;border-radius:6px;padding:4px 8px;cursor:pointer;font-size:13px;flex-shrink:0">✕</button>
       </div>
@@ -4119,7 +4282,7 @@ function renderSocial(){
     if(vid){
       ytEmbed.innerHTML=`<div class="yt-embed-wrap"><iframe src="https://www.youtube.com/embed/${esc(vid)}?rel=0&modestbranding=1" allowfullscreen></iframe></div>`;
     } else if(yt){
-      ytEmbed.innerHTML=`<div class="yt-no-vid" style="padding:30px 24px">🎬 Kanal bağlantısı var — Video ID ekle (Admin → Ayarlar → Sosyal Medya)</div>`;
+      ytEmbed.innerHTML=''; ytEmbed.style.display='none'; // kanal var ama video ID yok — gizle
     } else {
       ytEmbed.innerHTML=`<div class="yt-no-vid">Video henüz eklenmemiş.</div>`;
     }
@@ -4647,7 +4810,7 @@ setInterval(async()=>{
     fullRerender();
     console.log('[KC] Güncellendi, yeniden render edildi.', curUpdAt);
   }
-}, 10000);
+}, 60000); // 1 dakikada bir sync — gereksiz trafik azaltıldı
 
 </script>
 </body>
