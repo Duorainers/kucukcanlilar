@@ -166,7 +166,7 @@
       "textColor": "#ffffff"
     },
     "featured": {
-      "active": false,
+      "active": true,
       "id": 1,
       "customDesc": ""
     },
@@ -211,7 +211,7 @@
     "rozetler": [],
     "diffCards": null,
     "stockCalendar": [],
-    "_syncUpdAt": "2026-03-07T13:50:43.170Z",
+    "_syncUpdAt": "2026-03-07T13:51:16.538Z",
     "facts": []
   },
   "gallery": [
@@ -261,5 +261,5 @@
       "status": "done"
     }
   ],
-  "updatedAt": "2026-03-07T13:50:43.170Z"
+  "updatedAt": "2026-03-07T13:51:16.538Z"
 }
