@@ -209,7 +209,7 @@
     "rozetler": [],
     "diffCards": null,
     "stockCalendar": [],
-    "_syncUpdAt": "2026-03-07T13:09:07.415Z",
+    "_syncUpdAt": "2026-03-07T13:09:29.980Z",
     "facts": []
   },
   "gallery": [
@@ -257,28 +257,7 @@
       ],
       "total": 362.5,
       "status": "done"
-    },
-    {
-      "id": "KC-1001",
-      "date": "07.03.2026 16:09:05",
-      "name": "test245",
-      "phone": "test24",
-      "addr": "test oha",
-      "items": [
-        {
-          "id": 1772875924158,
-          "name": "Lepidocyrtus Springtail",
-          "price": 1,
-          "priceKr": 75,
-          "img": "https://raw.githubusercontent.com/Duorainers/kucukcanlilar/main/assets/imgs/img_1772875899479_544u.jpg",
-          "qty": 150,
-          "cat": "springtail",
-          "label": ""
-        }
-      ],
-      "total": 362.5,
-      "status": "new"
     }
   ],
-  "updatedAt": "2026-03-07T13:09:07.415Z"
+  "updatedAt": "2026-03-07T13:09:29.980Z"
 }
