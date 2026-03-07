@@ -200,7 +200,7 @@
         "id": "mesafe",
         "title": "Uzak Mesafeli Satış Sözleşmesi",
         "icon": "📄",
-        "content": "<h4>Taraflar</h4><p>Satıcı: küçükcanlılar. Alıcı: Sipariş veren kişi.</p><h4>Ürün ve Fiyat</h4><p>Fiyatlar WhatsApp sipariş özetinde belirtilir.</p><h4>Teslimat</h4><p>Kargo süresi 2–4 iş günüdür.</p><h4>İptal & İade</h4><p>Canlı hayvan teslimattan itibaren 24 saat içinde fotoğraflı bildirimle iade kapsamındadır.</p>"
+        "content": "<h4>Taraflar</h4><p>Satıcı: küçükcanlılar. Alıcı: Sipariş veren kişi.</p><h4>Ürün ve Fiyat</h4><p>Fiyatlar WhatsApp sipariş özetinde belirtilir.</p><h4>Teslimat</h4><p>Kargo süresi 1–4 iş günüdür.</p><h4>İptal & İade</h4><p>Canlı hayvan teslimattan itibaren 24 saat içinde fotoğraflı bildirimle iade kapsamındadır.</p>"
       }
     ],
     "viewBubble": {
@@ -211,7 +211,7 @@
     "rozetler": [],
     "diffCards": null,
     "stockCalendar": [],
-    "_syncUpdAt": "2026-03-07T14:04:55.811Z",
+    "_syncUpdAt": "2026-03-07T14:06:00.892Z",
     "facts": []
   },
   "gallery": [
@@ -239,5 +239,5 @@
     }
   ],
   "orders": [],
-  "updatedAt": "2026-03-07T14:04:55.811Z"
+  "updatedAt": "2026-03-07T14:06:00.892Z"
 }
