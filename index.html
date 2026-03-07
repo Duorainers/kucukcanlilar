@@ -269,16 +269,7 @@ section{padding:90px 5vw}
 .atc.added{background:var(--g4);animation:pop .3s ease}
 .atc:disabled{background:#c0c8c0;cursor:not-allowed;transform:none;opacity:.65}
 @keyframes pop{0%{transform:scale(1)}50%{transform:scale(1.25)}100%{transform:scale(1)}}
-/* ── 2. SCROLL ENTRANCE ── */
-.pc{opacity:0;transform:translateY(40px) scale(.96);transition:opacity .5s ease,transform .5s ease}
-.pc.visible{opacity:1;transform:translateY(0) scale(1)}
-/* Sıra gecikmesi - her kart biraz daha geç gelsin */
-.pc:nth-child(2){transition-delay:.06s}
-.pc:nth-child(3){transition-delay:.12s}
-.pc:nth-child(4){transition-delay:.18s}
-.pc:nth-child(5){transition-delay:.24s}
-.pc:nth-child(6){transition-delay:.30s}
-.pc:nth-child(n+7){transition-delay:.34s}
+
 
 /* ── 3. SEPETE UÇAN PARÇACIK ── */
 .cart-fly-img{position:fixed;border-radius:50%;pointer-events:none;z-index:99999;
@@ -311,13 +302,7 @@ section{padding:90px 5vw}
   50%    {opacity:1;box-shadow:0 0 14px 3px rgba(220,60,60,.18)}
 }
 
-/* ── 7. KATEGORİ MORPH ── */
-@keyframes cardMorph{
-  0%  {opacity:0;transform:scale(.88) translateY(18px)}
-  60% {transform:scale(1.02) translateY(-3px)}
-  100%{opacity:1;transform:scale(1) translateY(0)}
-}
-.pc.morph-in{animation:cardMorph .38s cubic-bezier(.34,1.4,.64,1) both}
+
 
 /* min order banner */
 .min-banner{background:rgba(45,74,45,.07);border:1px solid rgba(45,74,45,.12);border-radius:8px;padding:8px 12px;font-size:11px;color:var(--muted);margin-bottom:10px;text-align:center}
@@ -1477,7 +1462,8 @@ function updateReviewLoginUI(){
   <div class="pe-modal">
     <h3 id="peTitle">Yeni Ürün</h3>
     <div class="pe-row"><label>Ad</label><input class="pe-in" id="peName"/></div>
-    <div class="pe-row"><label>Kategori</label><select class="pe-in" id="peCat"><option value="springtail">Springtail</option><option value="isopod">İsopod</option><option value="food">Besin & Takviye & Teçhizat</option></select></div>
+    <div class="pe-row"><label>Kategori</label><select class="pe-in" id="peCat" onchange="updatePeSubcats()"></select></div>
+    <div class="pe-row" id="peSubcatRow" style="display:none"><label>Alt Kategori <span style="color:rgba(255,255,255,.35);font-size:10px">opsiyonel</span></label><select class="pe-in" id="peSubcat"><option value="">— Seçme —</option></select></div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
       <div class="pe-row"><label>Fiyat Tam (₺)</label><input class="pe-in" type="number" id="pePrice" placeholder="150"/></div>
       <div class="pe-row"><label>Kuruş (0-99)</label><input class="pe-in" type="number" id="pePriceKr" placeholder="0" min="0" max="99"/></div>
@@ -2350,7 +2336,17 @@ async function fetchFromGist(){
   if(d.gallery)   { gallery   = d.gallery; }
   if(d.creatures) { creatures = d.creatures; }
   if(d.admins)    { admins    = d.admins; }
-  if(d.orders)    { orders    = d.orders; } // siparişleri sync et
+  if(d.orders)    {
+    orders = d.orders;
+    // Müşterinin localStorage sipariş geçmişindeki durumu güncelle
+    orderHistory = orderHistory.map(oh=>{
+      const serverOrder = orders.find(o=>o.id===oh.id);
+      if(serverOrder) oh.status = serverOrder.status; // admin 'done' yaptıysa buraya yansır
+      return oh;
+    });
+    try{localStorage.setItem('kc_orders',JSON.stringify(orderHistory))}catch(e){}
+    renderOrderHistory();
+  }
   console.log('[KC Sync] ✅ Veri yüklendi (' + source + ')');
 
   // SHA'yı çek — sadece token varsa gerekli (admin yazma işlemi için)
@@ -2553,7 +2549,7 @@ let admins    = JSON.parse(JSON.stringify(DEF_ADMINS));
 
 
 let cart=[], adminIn=false, curUser='', isKurucu=false;
-let curFilter='all', curSubFilter='', _lastFilter='all', editProdId=null, editCreId=null, editAdminId=null;
+let curFilter='all', curSubFilter='', editProdId=null, editCreId=null, editAdminId=null;
 let failCnt  = parseInt(localStorage.getItem('kc_fails')||'0');
 let lockUntil= parseInt(localStorage.getItem('kc_lock')||'0');
 let creMediaArr=[];
@@ -2580,17 +2576,7 @@ function saveAdm(){ debouncedPush(); }
    2. Scroll Entrance  3. Sepete Uçuş  6. Stok Nabız  7. Morph
 ════════════════════════════════════════════════════ */
 
-/* ── 2. SCROLL ENTRANCE (IntersectionObserver) ── */
-let _cardObserver = null;
-function initCardObserver(){
-  if(_cardObserver) _cardObserver.disconnect();
-  _cardObserver = new IntersectionObserver((entries)=>{
-    entries.forEach(e=>{
-      if(e.isIntersecting) e.target.classList.add('visible');
-    });
-  },{threshold:0.08, rootMargin:'0px 0px -30px 0px'});
-  document.querySelectorAll('.pc').forEach(c=>_cardObserver.observe(c));
-}
+
 
 /* ── 3. SEPETE UÇAN PARÇACIK ── */
 function flyToCart(btn, imgSrc){
@@ -2636,19 +2622,7 @@ function flyToCart(btn, imgSrc){
   }
 }
 
-/* ── 7. KATEGORİ MORPH ── */
-function morphCards(){
-  const cards = document.querySelectorAll('.pc');
-  cards.forEach((c,i)=>{
-    c.classList.remove('morph-in','visible');
-    /* Farklı gecikme → kaskad efekti */
-    setTimeout(()=>{
-      c.classList.add('morph-in','visible');
-    }, i * 55);
-  });
-  /* Observer'ı yeniden bağla */
-  setTimeout(initCardObserver, cards.length * 55 + 400);
-}
+
 
 /* ── TOAST ── */
 function toast(m,d=2400){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),d)}
@@ -2920,8 +2894,6 @@ function renderProds(){
     g.classList.remove('fading');
     let list=prods.filter(p=>curFilter==='all'||p.cat===curFilter);
     if(curSubFilter) list=list.filter(p=>(p.subcat||'')=== curSubFilter||(p.tags||[]).includes(curSubFilter));
-    const _isMorphing = (curFilter!==_lastFilter);
-    _lastFilter = curFilter;
     if(!list.length){g.innerHTML='<p style="color:var(--muted);padding:20px 0">Bu kategoride ürün yok.</p>';return}
     g.innerHTML=list.map(p=>{
       const minQ=p.minQty||1;
@@ -2936,12 +2908,12 @@ function renderProds(){
       const discBadge=hasOld?`<span class="pc-discount-badge">-%${discPct}</span>`:'';
       // Stock qty indicator
       const sqty=p.stockQty||0;
-      const sqHtml=sqty>0&&p.stock==='in'?`<span class="stock-qty-pill ${sqty<=5?'sq-low':'sq-ok'}">${sqty<=5?`⚠️ Son ${sqty} adet`:`📦 ${sqty} adet`}</span>`:'';
+      const sqHtml=sqty>0&&p.stock==='in'?`<span class="stock-qty-pill ${sqty<=100?'sq-low':'sq-ok'}">${sqty<=100?`⚠️ Son ${sqty} adet`:`📦 ${sqty} adet`}</span>`:'';
       let btnHtml;
       if(isOut)btnHtml=`<button class="atc" disabled>✕ Yok</button>`;
       else if(isProd)btnHtml=`<button class="atc" disabled style="background:#c47e00">⏳ Yakında</button>`;
       else btnHtml=`<button class="atc" onclick="addCart(this,${p.id})">+ Sepet</button>`;
-      const isLowSt = p.stock==="in" && p.stockQty>0 && p.stockQty<=5;
+      const isLowSt = p.stock==="in" && p.stockQty>0 && p.stockQty<=100;
       return `<div class="pc${isLowSt?" low-stock-card":""}" id="prod-${p.id}" onmousemove="tiltCard(event,this)" onmouseleave="resetTilt(this)">${bdg}${stk}
         <div class="pc-img"><img src="${p.img||PLACEHOLDER}" alt="${esc(p.name)}" onerror="this.src='${PLACEHOLDER}'"/></div>
         <div class="pc-info">
@@ -2959,8 +2931,6 @@ function renderProds(){
         </div>
       </div>`;
     }).join('');
-    // Animasyon: morph efekti tüm kartlara uygula
-    setTimeout(()=>{ morphCards(); }, 10);
   },150);
 }
 
@@ -3383,7 +3353,11 @@ function openPE(id){
   document.getElementById('peOldPrice').value=p?(p.oldPrice||0):0;
   document.getElementById('peStockQty').value=p?(p.stockQty||0):0;
   document.getElementById('peMinQty').value=p?(p.minQty||1):1;
-  document.getElementById('peCat').value=p?p.cat:'springtail';
+  // Kategori listesini dinamik doldur
+  const peC=document.getElementById('peCat');
+  peC.innerHTML=(sett.categories||[]).map(c=>`<option value="${esc(c.key)}">${esc(c.name)}</option>`).join('');
+  peC.value=p?p.cat:(sett.categories?.[0]?.key||'springtail');
+  updatePeSubcats(p?p.subcat:'');
   document.getElementById('peStock').value=p?p.stock:'in';
   document.getElementById('peBadge').value=p?p.badge:'';
   document.getElementById('peLabel').value=p?(p.label||''):'';
@@ -3392,6 +3366,23 @@ function openPE(id){
   if(prev){prev.src=p&&p.img?p.img:PLACEHOLDER;prev.style.display='block'}
 }
 function closePE(){document.getElementById('peOv').classList.remove('open')}
+
+function updatePeSubcats(selectedSub=''){
+  const catKey = document.getElementById('peCat')?.value;
+  const cat = (sett.categories||[]).find(c=>c.key===catKey);
+  const subs = cat?.subs||[];
+  const row = document.getElementById('peSubcatRow');
+  const sel = document.getElementById('peSubcat');
+  if(!row||!sel) return;
+  if(subs.length){
+    row.style.display='block';
+    sel.innerHTML='<option value="">— Seçme —</option>'+subs.map(s=>`<option value="${esc(s)}">${esc(s)}</option>`).join('');
+    sel.value=selectedSub||'';
+  } else {
+    row.style.display='none';
+    sel.innerHTML='<option value="">— Seçme —</option>';
+  }
+}
 function handlePeImg(inp){
   const f=inp.files[0];if(!f)return;
   if(f.size>15e6){toast('Maks 15MB');return}
@@ -3411,6 +3402,7 @@ function saveProd(){
     stockQty:parseInt(document.getElementById('peStockQty').value)||0,
     minQty:parseInt(document.getElementById('peMinQty').value)||1,
     cat:document.getElementById('peCat').value,
+    subcat:document.getElementById('peSubcat')?.value||'',
     stock:document.getElementById('peStock').value,
     badge:document.getElementById('peBadge').value,
     label:document.getElementById('peLabel').value.trim(),
@@ -3639,7 +3631,6 @@ function delAdmin(id){if(!confirm('Bu admini sil?'))return;admins=admins.filter(
 ════════════════════════════════════════ */
 function fillSForm(){
   fillGistFields();loadFirebaseFields();initFirebase();
-  setTimeout(initCardObserver, 1200);
   updateGistStatus(!!getGhToken());
   // ensure sett fields exist
   ['heroBadge','facts','orderTitle','orderDesc','heroPhotos','splashPhotos','categories','steps','legalDocs','faq','sayac'].forEach(k=>{
