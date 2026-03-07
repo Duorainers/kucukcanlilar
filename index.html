@@ -518,6 +518,7 @@ footer{background:#111e11;color:rgba(240,246,240,.48);padding:52px 5vw 28px}
 .ot tr:hover td{background:rgba(255,255,255,.02)}
 .os{display:inline-block;font-size:9px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:3px 9px;border-radius:20px}
 .os-new{background:rgba(168,200,168,.15);color:var(--g5)}.os-done{background:rgba(37,211,102,.12);color:#25d366}
+.os-can{background:rgba(220,60,60,.12);color:#e07070}
 .adm-btn{font-family:'Nunito',sans-serif;font-size:10px;font-weight:700;padding:4px 10px;border-radius:20px;cursor:pointer;transition:.15s;border:1px solid}
 .abtn-ok{background:rgba(37,211,102,.08);border-color:rgba(37,211,102,.18);color:#25d366}.abtn-ok:hover{background:rgba(37,211,102,.18)}
 .abtn-del{background:rgba(180,50,50,.08);border-color:rgba(180,50,50,.18);color:#e07070}.abtn-del:hover{background:rgba(180,50,50,.18)}
@@ -934,6 +935,7 @@ body.dark-mode .sub-form{background:rgba(255,255,255,.04)!important}
 .oh-status{font-size:10px;font-weight:800;padding:3px 10px;border-radius:10px}
 .oh-new{background:rgba(240,152,0,.1);color:#f09800;border:1px solid rgba(240,152,0,.2)}
 .oh-done{background:rgba(37,211,102,.1);color:#25d366;border:1px solid rgba(37,211,102,.2)}
+.oh-can{background:rgba(220,60,60,.1);color:#e07070;border-color:rgba(220,60,60,.3)}
 .oh-items{margin-top:12px;padding-top:12px;border-top:1px solid var(--bdr);font-size:13px;color:var(--muted);display:none;line-height:1.8}
 .oh-item.expanded .oh-items{display:block}
 .oh-reorder{margin-top:10px;background:none;border:1px solid var(--bdr);border-radius:8px;padding:7px 16px;font-family:'Nunito',sans-serif;font-size:12px;font-weight:700;color:var(--g2);cursor:pointer;transition:.2s}
@@ -2338,6 +2340,9 @@ async function fetchFromGist(){
   if(d.admins)    { admins    = d.admins; }
   if(d.orders)    {
     orders = d.orders;
+    // Counter'ı güncelle — başka cihazdan yeni sipariş geldiyse
+    const maxNo = orders.reduce((m,o)=>{const n=parseInt((o.id||'').replace('KC-',''))||0;return n>m?n:m;},orderCounter);
+    if(maxNo > orderCounter){ orderCounter=maxNo; localStorage.setItem('kc_ord_counter',orderCounter); }
     // Müşterinin localStorage sipariş geçmişindeki durumu güncelle
     orderHistory = orderHistory.map(oh=>{
       const serverOrder = orders.find(o=>o.id===oh.id);
@@ -2553,7 +2558,18 @@ let curFilter='all', curSubFilter='', editProdId=null, editCreId=null, editAdmin
 let failCnt  = parseInt(localStorage.getItem('kc_fails')||'0');
 let lockUntil= parseInt(localStorage.getItem('kc_lock')||'0');
 let creMediaArr=[];
-let orderCounter=1000;
+// Order counter: localStorage + mevcut orders'tan en büyük no'yu al
+let orderCounter = (()=>{
+  try {
+    const saved = parseInt(localStorage.getItem('kc_ord_counter')||'0');
+    // Yüklü orders içindeki max no'yu da kontrol et
+    const maxFromOrders = orders.reduce((max,o)=>{
+      const n = parseInt((o.id||'').replace('KC-',''))||0;
+      return n > max ? n : max;
+    }, 0);
+    return Math.max(1000, saved, maxFromOrders);
+  } catch(e){ return 1000; }
+})();
 
 /* Debounced push — hızlı ardarda kayıtlarda sadece 1 push, Pages build spam olmaz */
 let _pushTimer = null;
@@ -3069,6 +3085,7 @@ function submitOrder(){
   if(!ok){toast('Lütfen zorunlu alanları doldurun.');return}
 
   orderCounter++;
+  localStorage.setItem('kc_ord_counter', orderCounter);
   const ordNo='KC-'+orderCounter;
   const sub=cart.reduce((s,i)=>s+getItemTotal(i),0);
   const total=sub+(sett.shipping||100);
@@ -3303,10 +3320,12 @@ function renderOrders(){
     <td style="font-size:11px;max-width:120px">${esc(o.addr)}</td>
     <td style="font-size:11px">${o.items.map(i=>`${esc(i.name)} x${i.qty}`).join('<br>')}</td>
     <td><strong style="color:var(--g5)">₺${Math.round(o.total||0)}</strong></td>
-    <td><span class="os ${o.status==='done'?'os-done':'os-new'}">${o.status==='done'?'Tamamlandı':'Yeni'}</span></td>
+    <td><span class="os ${o.status==='done'?'os-done':o.status==='cancelled'?'os-can':'os-new'}">${o.status==='done'?'✅ Tamamlandı':o.status==='cancelled'?'❌ İptal':'🆕 Yeni'}</span></td>
     <td>
-      <button class="adm-btn abtn-ok" onclick="markOrder('${o.id}','done')">✓</button>
-      <button class="adm-btn abtn-del" onclick="delOrder('${o.id}')">🗑</button>
+      <button class="adm-btn abtn-ok" onclick="markOrder('${o.id}','done')" title="Tamamlandı">✓</button>
+      <button class="adm-btn" style="background:rgba(180,100,0,.15);color:#e09040;border:1px solid rgba(180,100,0,.2);border-radius:6px;padding:4px 8px;cursor:pointer;font-size:12px" onclick="markOrder('${o.id}','cancelled')" title="İptal Et">✕</button>
+      <button class="adm-btn" style="background:rgba(80,80,80,.2);color:#aaa;border:1px solid rgba(120,120,120,.2);border-radius:6px;padding:4px 8px;cursor:pointer;font-size:12px" onclick="markOrder('${o.id}','new')" title="İşleme Al">↩</button>
+      <button class="adm-btn abtn-del" onclick="delOrder('${o.id}')" title="Sil">🗑</button>
     </td></tr>`).join(''):`<tr><td colspan="9" style="text-align:center;color:rgba(255,255,255,.25);padding:24px">Henüz sipariş yok.</td></tr>`;
 }
 function markOrder(id,st){const o=orders.find(x=>x.id===id);if(o){o.status=st;saveO();renderOrders()}}
@@ -3956,7 +3975,7 @@ function renderOrderHistory(){
           <div class="oh-date">${esc(o.date)}</div>
         </div>
         <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
-          <span class="oh-status ${o.status==='done'?'oh-done':'oh-new'}">${o.status==='done'?'✅ Tamamlandı':'⏳ İşlemde'}</span>
+          <span class="oh-status ${o.status==='done'?'oh-done':o.status==='cancelled'?'oh-can':'oh-new'}">${o.status==='done'?'✅ Tamamlandı':o.status==='cancelled'?'❌ İptal Edildi':'⏳ İşlemde'}</span>
           <span class="oh-total">₺${o.total?.toFixed(2)||'—'}</span>
           <span style="font-size:18px;color:var(--muted);transition:.2s" id="oh-arr-${i}">⌄</span>
         </div>
