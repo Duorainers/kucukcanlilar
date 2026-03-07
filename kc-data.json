@@ -131,21 +131,7 @@
         "a": "Evet! Başlangıç konteynerleriyle bakılabilir. Sorularını WhatsApp'tan sor, yönlendiririz."
       }
     ],
-    "reviews": [
-      {
-        "author": "Fares Fakhouri",
-        "text": "cok guzel iyi muhtesem fares",
-        "stars": 5,
-        "prod": "Springtail",
-        "media": ""
-      },
-      {
-        "author": "testet",
-        "text": "testesteste",
-        "stars": 5,
-        "prod": "31test"
-      }
-    ],
+    "reviews": [],
     "instagram": "",
     "youtube": "",
     "youtubeVideoId": "",
@@ -207,7 +193,7 @@
     "rozetler": [],
     "diffCards": null,
     "stockCalendar": [],
-    "_syncUpdAt": "2026-03-07T09:37:06.086Z"
+    "_syncUpdAt": "2026-03-07T09:37:16.783Z"
   },
   "gallery": [
     {
@@ -280,5 +266,5 @@
       "silent": false
     }
   ],
-  "updatedAt": "2026-03-07T09:37:06.086Z"
+  "updatedAt": "2026-03-07T09:37:16.783Z"
 }
