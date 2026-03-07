@@ -1256,7 +1256,10 @@ function updateReviewLoginUI(){
         <div class="scard"><h4>🖼️ Logo</h4>
           <p style="font-size:12px;color:rgba(255,255,255,.32);margin-bottom:14px;line-height:1.6">Springtail & İsopod temalı SVG logo.</p>
           <div id="logoPreviewArea" style="margin-bottom:12px"></div>
-          <a id="logoDlBtn" href="#" download="kucukcanlilar-logo.svg" class="logo-dl-btn">⬇ Logo İndir (SVG)</a>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:4px">
+            <a id="logoDlBtn" href="#" download="kucukcanlilar-logo.svg" class="logo-dl-btn">⬇ SVG İndir</a>
+            <button id="logoPngBtn" class="logo-dl-btn" style="border:none;cursor:pointer">⬇ PNG İndir (600px · Şeffaf)</button>
+          </div>
         </div>
       </div>
       <!-- Extra settings: Categories, Steps, Hero Photos, About, Splash -->
@@ -1614,7 +1617,7 @@ function updateReviewLoginUI(){
 <section id="sayac">
   <div class="sayac-inner">
     <span class="sayac-label">Canlı İstatistikler</span>
-    <h2 class="sayac-title">Sayılarla <em style="font-style:italic;color:#7aaa7a">küçükcanlılar</em></h2>
+    <h2 class="sayac-title">Neden Biz?</h2>
     <div class="sayac-grid" id="sayacGrid"></div>
   </div>
 </section>
@@ -1869,11 +1872,50 @@ function updateReviewLoginUI(){
 /* ── LOGO SVG ── */
 const LOGO_SVG=`<svg width="200" height="200" viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="lbg" cx="42%" cy="36%" r="62%"><stop offset="0%" stop-color="#3e2008"/><stop offset="55%" stop-color="#1e1004"/><stop offset="100%" stop-color="#0a0502"/></radialGradient><linearGradient id="lring" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#ffdd44"/><stop offset="50%" stop-color="#ee8822"/><stop offset="100%" stop-color="#ffdd44"/></linearGradient><path id="larc" d="M 25,110 A 85,85 0 0,1 195,110"/></defs><circle cx="110" cy="110" r="106" fill="none" stroke="url(#lring)" stroke-width="1.2" opacity=".4"/><circle cx="110" cy="4" r="2.5" fill="#ffdd44" opacity=".8"/><circle cx="186" cy="44" r="1.6" fill="#ee8822" opacity=".55"/><circle cx="186" cy="176" r="1.6" fill="#ee8822" opacity=".55"/><circle cx="110" cy="216" r="2.5" fill="#ffdd44" opacity=".8"/><circle cx="34" cy="176" r="1.6" fill="#ee8822" opacity=".55"/><circle cx="34" cy="44" r="1.6" fill="#ee8822" opacity=".55"/><circle cx="110" cy="110" r="100" fill="url(#lbg)"/><circle cx="110" cy="110" r="93" fill="none" stroke="rgba(255,140,30,.1)" stroke-width=".8"/><path d="M110 65 Q86 90 86 116 Q86 140 110 155 Q134 140 134 116 Q134 90 110 65Z" fill="#2a4a08" opacity=".6"/><ellipse cx="110" cy="112" rx="18" ry="22" fill="#cc2200"/><ellipse cx="110" cy="110" rx="16" ry="19" fill="#ee3300"/><path d="M110 92 L110 130" stroke="#880000" stroke-width="1.5" fill="none"/><circle cx="103" cy="101" r="4" fill="#880000" opacity=".8"/><circle cx="117" cy="101" r="4" fill="#880000" opacity=".8"/><circle cx="103" cy="114" r="3" fill="#880000" opacity=".7"/><circle cx="117" cy="114" r="3" fill="#880000" opacity=".7"/><circle cx="110" cy="122" r="2.5" fill="#880000" opacity=".6"/><ellipse cx="103" cy="98" rx="4" ry="5" fill="rgba(255,255,255,.14)" transform="rotate(-15,103,98)"/><circle cx="110" cy="88" r="10" fill="#1a1a1a"/><circle cx="105" cy="86" r="2" fill="#eecc00"/><circle cx="115" cy="86" r="2" fill="#eecc00"/><path d="M106 79 Q99 69 90 63" stroke="#ffdd44" stroke-width="1.8" fill="none" stroke-linecap="round"/><path d="M114 79 Q121 69 130 63" stroke="#ffdd44" stroke-width="1.8" fill="none" stroke-linecap="round"/><circle cx="90" cy="63" r="2.5" fill="#ff4422"/><circle cx="130" cy="63" r="2.5" fill="#ff4422"/><path d="M94 104 Q80 101 74 99" stroke="#aa2200" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M93 114 Q79 113 73 115" stroke="#aa2200" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M126 104 Q140 101 146 99" stroke="#aa2200" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M127 114 Q141 113 147 115" stroke="#aa2200" stroke-width="2" fill="none" stroke-linecap="round"/><text font-family="system-ui,sans-serif" font-size="13" font-weight="900" fill="#ffdd44" letter-spacing="5.5"><textPath href="#larc" startOffset="50%" text-anchor="middle">K U C U K C A N L I L A R</textPath></text><text x="110" y="205" text-anchor="middle" font-size="8" fill="rgba(255,160,40,.4)">&#10022;  &#10022;  &#10022;</text></svg>`;
 (function(){
-  const blob=new Blob([LOGO_SVG.replace('width="80" height="80"','width="200" height="200"')],{type:'image/svg+xml'});
-  const url=URL.createObjectURL(blob);
-  const btn=document.getElementById('logoDlBtn');if(btn)btn.href=url;
+  // Önizleme
   const prev=document.getElementById('logoPreviewArea');
-  if(prev)prev.innerHTML=`<div style="background:#1a2e1a;display:inline-flex;padding:12px;border-radius:12px">${LOGO_SVG}</div>`;
+  if(prev)prev.innerHTML=`
+    <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:8px">
+      <div style="background:#1a2e1a;display:inline-flex;padding:12px;border-radius:12px">${LOGO_SVG}</div>
+      <div style="background:repeating-conic-gradient(#ccc 0% 25%,#fff 0% 50%) 0 0/16px 16px;display:inline-flex;padding:12px;border-radius:12px">${LOGO_SVG}</div>
+    </div>`;
+
+  // SVG indir butonu
+  const btn=document.getElementById('logoDlBtn');
+  if(btn){
+    const svgBlob=new Blob([LOGO_SVG],{type:'image/svg+xml'});
+    btn.href=URL.createObjectURL(svgBlob);
+    btn.download='kucukcanlilar-logo.svg';
+    btn.textContent='⬇ SVG İndir';
+  }
+
+  // PNG indir butonu (600x600, transparent)
+  const pngBtn=document.getElementById('logoPngBtn');
+  if(pngBtn){
+    pngBtn.onclick=function(){
+      const SIZE=600;
+      // SVG'yi viewBox'a göre 600x600 canvas'a çiz
+      const svgStr=LOGO_SVG.replace(/width="[^"]*"/, `width="${SIZE}"`).replace(/height="[^"]*"/, `height="${SIZE}"`);
+      const img=new Image();
+      const blob=new Blob([svgStr],{type:'image/svg+xml;charset=utf-8'});
+      const url=URL.createObjectURL(blob);
+      img.onload=function(){
+        const c=document.createElement('canvas');
+        c.width=SIZE;c.height=SIZE;
+        const ctx=c.getContext('2d');
+        // Transparan arka plan (clearRect zaten transparan)
+        ctx.drawImage(img,0,0,SIZE,SIZE);
+        URL.revokeObjectURL(url);
+        c.toBlob(function(pngBlob){
+          const a=document.createElement('a');
+          a.href=URL.createObjectURL(pngBlob);
+          a.download='kucukcanlilar-logo-600px.png';
+          a.click();
+        },'image/png');
+      };
+      img.src=url;
+    };
+  }
 })();
 
 /* ── RATE LIMITER ── */
@@ -2289,17 +2331,21 @@ let _syncSHA   = ''; // dosyanın mevcut SHA'sı (GitHub API zorunluluğu)
 let _lastPushAt = 0;  // son başarılı push zamanı — auto-sync koruması için
 
 /* base64 büyük görselleri temizle — sadece URL'ler kalsın */
-function sanitizeForSync(obj){
+function sanitizeForSync(obj, parentKey=''){
   if(!obj) return obj;
   if(typeof obj === 'string'){
-    // base64 data URL'i varsa boş string döndür (PLACEHOLDER ile gösterilecek)
-    if(obj.startsWith('data:image') || obj.startsWith('data:video')) return '';
+    // base64 data URL — sette aboutImg ise koru (küçükse), büyükse sil
+    if(obj.startsWith('data:image') || obj.startsWith('data:video')){
+      // aboutImg base64 ise sync et (max ~500KB base64 = ~375KB görsel)
+      if(parentKey === 'aboutImg') return obj.length < 600000 ? obj : '';
+      return ''; // diğer base64'ler çok büyük, sil
+    }
     return obj;
   }
-  if(Array.isArray(obj)) return obj.map(sanitizeForSync);
+  if(Array.isArray(obj)) return obj.map(x=>sanitizeForSync(x));
   if(typeof obj === 'object'){
     const out={};
-    for(const k in obj) out[k]=sanitizeForSync(obj[k]);
+    for(const k in obj) out[k]=sanitizeForSync(obj[k], k);
     return out;
   }
   return obj;
@@ -3677,9 +3723,22 @@ function renderAboutImgSett(){
   </div>`;
 }
 function uploadAboutImg(){
+  // Token yoksa base64 da kabul et ama uyar
+  const token = getGhToken();
+  if(!token){
+    toast('⚠️ GitHub token girilmeden fotoğraf sadece bu cihazda görünür!', 4000);
+  }
   pickFile('image/*',false,async(files)=>{
-    const f=files[0];if(!f)return;if(f.size>8e6){toast('Maks 8MB');return}
-    sett.aboutImg=await uploadOrReadWithToast(f);saveS();applySett();renderAboutImgSett();toast('Fotoğraf güncellendi ✓');
+    const f=files[0];if(!f)return;
+    if(f.size>8e6){toast('Maks 8MB!');return}
+    toast('⬆️ Fotoğraf yükleniyor...', 4000);
+    const result = await uploadOrRead(f, msg=>toast(msg,3000));
+    // Token olmasa bile base64'ü kaydet (sadece lokal, sync olmaz)
+    sett.aboutImg = result;
+    // sanitizeForSync'in silmemesi için: base64 ise özel işaretle
+    if(result && result.startsWith('data:')) sett._aboutImgBase64 = true;
+    else delete sett._aboutImgBase64;
+    saveS();applySett();renderAboutImgSett();toast('✅ Fotoğraf güncellendi');
   });
 }
 
