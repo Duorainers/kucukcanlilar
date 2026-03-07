@@ -171,7 +171,9 @@
       "desc": "",
       "formDesc": ""
     },
-    "heroPhotos": [],
+    "heroPhotos": [
+      "https://raw.githubusercontent.com/Duorainers/kucukcanlilar/main/assets/imgs/img_1772876187357_ikyx.jpg"
+    ],
     "splashPhotos": [],
     "deliveryPhotos": [],
     "ghUser": "Duorainers",
@@ -198,7 +200,7 @@
     "rozetler": [],
     "diffCards": null,
     "stockCalendar": [],
-    "_syncUpdAt": "2026-03-07T09:36:20.756Z"
+    "_syncUpdAt": "2026-03-07T09:36:30.354Z"
   },
   "gallery": [
     {
@@ -271,5 +273,5 @@
       "silent": false
     }
   ],
-  "updatedAt": "2026-03-07T09:36:20.756Z"
+  "updatedAt": "2026-03-07T09:36:30.354Z"
 }
