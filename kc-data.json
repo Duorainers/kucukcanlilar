@@ -229,6 +229,13 @@
     ],
     "reviews": [
       {
+        "author": "Fares Fakhouri",
+        "text": "cok guzel iyi muhtesem fares",
+        "stars": 5,
+        "prod": "Springtail",
+        "media": ""
+      },
+      {
         "author": "testet",
         "text": "testesteste",
         "stars": 5,
@@ -287,7 +294,7 @@
     "rozetler": [],
     "diffCards": null,
     "stockCalendar": [],
-    "_syncUpdAt": "2026-03-07T09:23:52.907Z"
+    "_syncUpdAt": "2026-03-07T09:26:11.808Z"
   },
   "gallery": [
     {
@@ -360,5 +367,5 @@
       "silent": false
     }
   ],
-  "updatedAt": "2026-03-07T09:23:52.907Z"
+  "updatedAt": "2026-03-07T09:26:11.808Z"
 }
