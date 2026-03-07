@@ -106,7 +106,7 @@
     "instagram": "https://www.instagram.com/kucukcanlilar.tr/",
     "youtube": "https://www.youtube.com/@K%C3%BC%C3%A7%C3%BCkCanl%C4%B1lartr",
     "youtubeVideoId": "",
-    "discord": "",
+    "discord": "https://discord.gg/4PZND82zhA",
     "workHours": {
       "start": "09:00",
       "end": "21:00",
@@ -164,7 +164,7 @@
     "rozetler": [],
     "diffCards": null,
     "stockCalendar": [],
-    "_syncUpdAt": "2026-03-07T09:54:39.130Z"
+    "_syncUpdAt": "2026-03-07T09:55:43.918Z"
   },
   "gallery": [
     {
@@ -237,5 +237,5 @@
       "silent": false
     }
   ],
-  "updatedAt": "2026-03-07T09:54:39.130Z"
+  "updatedAt": "2026-03-07T09:55:43.918Z"
 }
