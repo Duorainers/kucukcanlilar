@@ -2327,17 +2327,20 @@ async function fetchFromGist(){
 
   if(!d){ return false; }
 
-  /* ── KORUMA: Push bekleniyorsa veya yeni push bitti (<30sn) yerel veriyi ezme ── */
-  if(_pushTimer || (Date.now() - _lastPushAt < 30000)){
+  /* ── KORUMA: Push bekleniyorsa veya yeni push bitti (<30sn) ürün/ayar verisini ezme ── */
+  const _isProtected = _pushTimer || (Date.now() - _lastPushAt < 30000);
+
+  if(!_isProtected){
+    if(d.prods)     { prods     = d.prods; }
+    if(d.sett)      { sett      = {...DEF_SETT,...d.sett}; }
+    if(d.gallery)   { gallery   = d.gallery; }
+    if(d.creatures) { creatures = d.creatures; }
+    if(d.admins)    { admins    = d.admins; }
+  } else {
     console.log('[KC Sync] Veri çekildi ama yerel değişiklik korunuyor (push bekleniyor)');
-    return true;
   }
 
-  if(d.prods)     { prods     = d.prods; }
-  if(d.sett)      { sett      = {...DEF_SETT,...d.sett}; }
-  if(d.gallery)   { gallery   = d.gallery; }
-  if(d.creatures) { creatures = d.creatures; }
-  if(d.admins)    { admins    = d.admins; }
+  /* orders status sync — korumadan BAĞIMSIZ: admin iptal/tamamlandı her zaman yansısın */
   if(d.orders)    {
     orders = d.orders;
     // Counter'ı güncelle — başka cihazdan yeni sipariş geldiyse
@@ -2346,7 +2349,19 @@ async function fetchFromGist(){
     // Müşterinin localStorage sipariş geçmişindeki durumu güncelle
     orderHistory = orderHistory.map(oh=>{
       const serverOrder = orders.find(o=>o.id===oh.id);
-      if(serverOrder) oh.status = serverOrder.status; // admin 'done' yaptıysa buraya yansır
+      if(serverOrder){
+        // Sadece admin bilinçli değiştirdiyse güncelle:
+        // 'new' → 'new' geçişi engelle (yanlış overwrite önlemi)
+        // local 'new' ise server 'done'/'cancelled' ise güncelle
+        // local 'done'/'cancelled' ise server 'new'e dönme (geçici desync önlemi)
+        const localSt  = oh.status || 'new';
+        const serverSt = serverOrder.status || 'new';
+        if(serverSt === 'done' || serverSt === 'cancelled'){
+          oh.status = serverSt;
+        } else if(localSt === 'new'){
+          oh.status = 'new'; // server'da hâlâ 'new' → değiştirme
+        }
+      }
       return oh;
     });
     try{localStorage.setItem('kc_orders',JSON.stringify(orderHistory))}catch(e){}
@@ -3304,7 +3319,7 @@ function admTab(tab,btn){
 /* ── Orders ── */
 function renderOrders(){
   const stats=document.getElementById('admStats');
-  const totalRev=orders.reduce((s,o)=>s+(o.total||0),0);
+  const totalRev=orders.filter(o=>o.status!=='cancelled').reduce((s,o)=>s+(o.total||0),0);
   const newO=orders.filter(o=>o.status==='new').length;
   if(stats)stats.innerHTML=`
     <div class="sc"><div class="sv">${orders.length}</div><div class="sl">Toplam</div></div>
