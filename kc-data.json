@@ -172,7 +172,7 @@
     "rozetler": [],
     "diffCards": null,
     "stockCalendar": [],
-    "_syncUpdAt": "2026-03-07T12:16:45.744Z",
+    "_syncUpdAt": "2026-03-07T12:20:20.200Z",
     "facts": []
   },
   "gallery": [
@@ -189,54 +189,7 @@
       "items": []
     }
   ],
-  "creatures": [
-    {
-      "id": 1,
-      "name": "Tropical White Springtail",
-      "scientific": "Collembola sp.",
-      "cat": "springtail",
-      "short": "Tropikal bölgelere özgü nemli ortam canlısı.",
-      "img": "",
-      "badges": [
-        "Kolay Bakım",
-        "Nemlicil"
-      ],
-      "info": "Küçük boyutları ve hızlı üremeleri sayesinde koloni kurmak kolaydır.",
-      "care": "Haftada 1-2 kez hafifçe nemlendirin.",
-      "habitat": "%60-80 nem, 20-26°C ideal.",
-      "diet": "Mantar spoları, çürüyen bitki artıkları.",
-      "stats": {
-        "s1": "0.5-1 mm",
-        "s2": "20-26°C",
-        "s3": "%65-80",
-        "s4": "~3-4 ay"
-      },
-      "media": []
-    },
-    {
-      "id": 2,
-      "name": "Armadillidium Vulgare",
-      "scientific": "Armadillidium vulgare",
-      "cat": "isopod",
-      "short": "Top böceği olarak bilinen kolay bakımlı isopod.",
-      "img": "",
-      "badges": [
-        "Kolay Bakım",
-        "Dayanıklı"
-      ],
-      "info": "Tehdit hissettiklerinde top gibi yuvarlanırlar.",
-      "care": "2-3 günde bir hafifçe nemlendirin.",
-      "habitat": "%30 nemli %70 kuru. 18-26°C.",
-      "diet": "Düşmüş yapraklar, sebze artıkları. Kalsiyum önemli.",
-      "stats": {
-        "s1": "10-18 mm",
-        "s2": "18-26°C",
-        "s3": "%40-60",
-        "s4": "2-3 yıl"
-      },
-      "media": []
-    }
-  ],
+  "creatures": [],
   "admins": [
     {
       "id": 1,
@@ -246,5 +199,5 @@
       "silent": false
     }
   ],
-  "updatedAt": "2026-03-07T12:16:45.744Z"
+  "updatedAt": "2026-03-07T12:20:20.200Z"
 }
