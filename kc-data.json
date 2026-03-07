@@ -79,12 +79,6 @@
         "name": "Besin & Takviye",
         "desc": "Doğal karışımlar ve ekipmanlar.",
         "img": ""
-      },
-      {
-        "key": "cat_1772827264201",
-        "name": "test312",
-        "desc": "fsdfasdfadf",
-        "img": ""
       }
     ],
     "orderTitle": "Nasıl Sipariş Verilir?",
@@ -204,7 +198,7 @@
     "rozetler": [],
     "diffCards": null,
     "stockCalendar": [],
-    "_syncUpdAt": "2026-03-07T09:32:31.675Z"
+    "_syncUpdAt": "2026-03-07T09:34:43.069Z"
   },
   "gallery": [
     {
@@ -277,5 +271,5 @@
       "silent": false
     }
   ],
-  "updatedAt": "2026-03-07T09:32:31.675Z"
+  "updatedAt": "2026-03-07T09:34:43.069Z"
 }
