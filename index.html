@@ -604,23 +604,23 @@ footer{background:#111e11;color:rgba(240,246,240,.48);padding:52px 5vw 28px}
 .food-card-info p{font-size:12px;color:var(--muted);line-height:1.65;margin-bottom:10px}
 .food-label-pill{display:inline-block;font-size:10px;font-weight:700;padding:3px 10px;border-radius:20px;background:rgba(122,170,122,.12);color:var(--g3);border:1px solid rgba(122,170,122,.25);margin-bottom:8px}
 /* ── CANLI SAYAÇ ── */
-#sayac{background:var(--g1);padding:72px 5vw;overflow:hidden;position:relative}
-#sayac::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 20% 50%,rgba(90,138,90,.3),transparent 60%),radial-gradient(ellipse at 80% 50%,rgba(45,74,45,.4),transparent 60%)}
-.sayac-inner{position:relative;z-index:1}
-.sayac-label{font-size:10px;font-weight:800;letter-spacing:.28em;text-transform:uppercase;color:rgba(168,200,168,.6);margin-bottom:16px;display:block}
-.sayac-title{font-family:'Playfair Display',serif;font-size:clamp(20px,3vw,30px);font-weight:700;color:#f0f6f0;margin-bottom:48px;line-height:1.3}
-.sayac-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:24px}
-.sayac-card{background:rgba(255,255,255,.05);border:1px solid rgba(168,200,168,.14);border-radius:18px;padding:28px 20px;text-align:center;position:relative;overflow:hidden;transition:.3s}
-.sayac-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(168,200,168,.06),transparent);transition:.4s}
-.sayac-card:hover{border-color:rgba(168,200,168,.35);transform:translateY(-5px);box-shadow:0 18px 48px rgba(0,0,0,.35)}
-.sayac-card:hover::before{background:linear-gradient(135deg,rgba(168,200,168,.12),transparent)}
-.sayac-num{font-family:'Playfair Display',serif;font-size:clamp(36px,6vw,62px);font-weight:900;color:#a8c8a8;line-height:1;display:block;transition:color .3s;text-shadow:0 0 40px rgba(168,200,168,.35)}
-.sayac-card:hover .sayac-num{color:#d4f0d4;text-shadow:0 0 60px rgba(168,200,168,.6)}
-.sayac-suffix{font-size:clamp(16px,2.5vw,24px);color:rgba(168,200,168,.7);font-weight:700}
-.sayac-lbl{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:rgba(240,246,240,.38);margin-top:10px;display:block}
-.sayac-icon{font-size:28px;margin-bottom:12px;display:block;filter:drop-shadow(0 0 12px rgba(168,200,168,.4))}
-.sayac-bar{height:3px;background:linear-gradient(90deg,transparent,rgba(168,200,168,.5),transparent);margin-top:16px;border-radius:2px;transform:scaleX(0);transition:transform .5s .2s ease}
-.sayac-card:hover .sayac-bar{transform:scaleX(1)}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /* ── SSS ── */
 #sss{background:var(--bg2);padding:80px 5vw}
@@ -1376,14 +1376,7 @@ function updateReviewLoginUI(){
       </div>
       <div class="save-ok" id="ok-faq">✓ Kaydedildi!</div>
 
-      <div class="adm-st" style="margin-top:28px">📊 Canlı Sayaç</div>
-      <p style="font-size:12px;color:rgba(255,255,255,.3);margin-bottom:12px;line-height:1.6">Ana sayfadaki animasyonlu istatistikler. Sayı, etiket, ikon ve suffix düzenle.</p>
-      <div id="settSayacGrid" style="display:flex;flex-direction:column;gap:8px;margin-bottom:12px"></div>
-      <div style="display:flex;gap:8px;flex-wrap:wrap">
-        <button class="adm-green-btn" onclick="addSayac()">+ Sayaç Ekle</button>
-        <button class="save-btn" onclick="saveSayacSett()">Kaydet</button>
-      </div>
-      <div class="save-ok" id="ok-sayac">✓ Kaydedildi!</div>
+      
 
       <div class="adm-st" style="margin-top:28px">🌐 Siteyi Paylaşma — Seçenekler</div>
       <div style="background:rgba(255,255,255,.04);border:1px solid rgba(168,200,168,.09);border-radius:12px;padding:20px;font-size:13px;color:rgba(255,255,255,.55);line-height:2">
@@ -1611,15 +1604,6 @@ function updateReviewLoginUI(){
   <div style="margin-top:14px;display:flex;align-items:center;justify-content:center"><span id="workBadgeHero"></span></div>
   <div class="hero-photos" id="heroPhotosRow"></div>
   <div class="hero-scroll"><div class="scroll-ln"></div>kaydır</div>
-</section>
-
-<!-- CANLARI SAYAC -->
-<section id="sayac">
-  <div class="sayac-inner">
-    <span class="sayac-label">Canlı İstatistikler</span>
-    <h2 class="sayac-title">Neden Biz?</h2>
-    <div class="sayac-grid" id="sayacGrid"></div>
-  </div>
 </section>
 
 <!-- CATEGORIES -->
@@ -2350,7 +2334,20 @@ function sanitizeForSync(obj, parentKey=''){
   }
   return obj;
 }
+let _pushLock = false; // mutex — aynı anda 1 push
+
 async function pushToGist(manual=false){
+  /* Başka bir push devam ediyorsa kuyruğa al, bitince tekrar dene */
+  if(_pushLock){
+    if(!manual) return false; // sessiz iptal
+    await new Promise(res=>{ const iv=setInterval(()=>{ if(!_pushLock){clearInterval(iv);res();} },300); });
+  }
+  _pushLock = true;
+  try{ return await _doPushToGist(manual); }
+  finally{ _pushLock = false; }
+}
+
+async function _doPushToGist(manual=false){
   const apiUrl = getApiUrl();
   const token  = getGhToken();
   if(!apiUrl || !token){
@@ -2697,7 +2694,6 @@ function applySett(){
   renderSplashPhotos();
   renderProdFilters();
   renderFaq();
-  renderSayac();
   renderCart();
   // Live update all dynamic sections
   renderSocial();
@@ -2798,7 +2794,7 @@ function renderProds(){
       else if(isProd)btnHtml=`<button class="atc" disabled style="background:#c47e00">⏳ Yakında</button>`;
       else btnHtml=`<button class="atc" onclick="addCart(this,${p.id})">+ Sepet</button>`;
       return `<div class="pc" id="prod-${p.id}" onmousemove="tiltCard(event,this)" onmouseleave="resetTilt(this)">${bdg}${stk}
-        <div class="pc-img"><img src="${p.img||PLACEHOLDER}" loading="lazy" alt="${esc(p.name)}" onerror="this.src='${PLACEHOLDER}'"/></div>
+        <div class="pc-img"><img src="${p.img||PLACEHOLDER}" alt="${esc(p.name)}" onerror="this.src='${PLACEHOLDER}'"/></div>
         <div class="pc-info">
           <span class="pc-cat">${catLbl(p.cat)}</span>
           ${lbl}<h4>${esc(p.name)}</h4>
@@ -2975,7 +2971,7 @@ function renderGallery(){
       <div class="gal-sec-head"><div class="gal-sec-title">${esc(cat.name)}</div><div class="gal-sec-desc">${esc(cat.desc||'')}</div></div>
       ${cat.items.length?`<div class="gal-strip">${cat.items.map((m,i)=>`
         <div class="gal-item" onclick="openLB('${esc(m.src||'')}','${m.type||'img'}','${esc(m.caption||'')}')">
-          ${m.type==='video'?`<video src="${m.src}" muted loop playsinline preload="metadata"></video><div class="gi-vid-lbl">▶ Video</div>`:`<img src="${m.src}" loading="lazy" alt="${esc(m.caption||'')}"/>`}
+          ${m.type==='video'?`<video src="${m.src}" muted loop playsinline preload="metadata"></video><div class="gi-vid-lbl">▶ Video</div>`:`<img src="${m.src}" alt="${esc(m.caption||'')}"/>`}
           <span class="gi-src ${m.srcType==='own'?'gi-own':'gi-web'}">${m.srcType==='own'?'Benim':'Web'}</span>
           ${m.caption?`<div class="gi-cap"><span>${esc(m.caption)}</span></div>`:''}
         </div>`).join('')}</div>`:'<p style="color:var(--muted);font-size:13px;padding:14px 0">Henüz fotoğraf yok.</p>'}
@@ -3004,7 +3000,7 @@ function renderCreatures(){
   if(!creatures.length){g.innerHTML='<p style="color:var(--muted);padding:20px">Henüz canlı eklenmemiş.</p>';return}
   g.innerHTML=creatures.map(c=>`
     <div class="creature-card" onclick="openCM(${c.id})">
-      <div class="cc-img"><img src="${c.img||PLACEHOLDER}" loading="lazy" alt="${esc(c.name)}" onerror="this.src='${PLACEHOLDER}'"/><div class="cc-img-ov"></div></div>
+      <div class="cc-img"><img src="${c.img||PLACEHOLDER}" alt="${esc(c.name)}" onerror="this.src='${PLACEHOLDER}'"/><div class="cc-img-ov"></div></div>
       <div class="cc-info">
         <span class="cc-tag">${esc(c.cat==='springtail'?'Springtail':'İsopod')}</span>
         <h3>${esc(c.name)}</h3>
@@ -3549,7 +3545,6 @@ function fillSForm(){
   renderFactsSett();
   renderLegalDocsSett();
   renderFaqSett();
-  renderSayacSett();
 }
 
 function saveSett(g){
@@ -3583,12 +3578,12 @@ function renderFactsSett(){
   const facts=sett.facts||[];
   g.innerHTML=facts.map((f,i)=>`
     <div style="display:flex;gap:8px;align-items:center;background:rgba(255,255,255,.04);border:1px solid rgba(168,200,168,.1);border-radius:8px;padding:10px">
-      <input class="sinput" value="${esc(f.val)}" style="width:80px;text-align:center;font-weight:700" oninput="sett.facts[${i}].val=this.value" placeholder="10+"/>
-      <input class="sinput" value="${esc(f.lbl)}" style="flex:1" oninput="sett.facts[${i}].lbl=this.value" placeholder="Tür"/>
+      <input class="sinput" value="${esc(f.val)}" style="width:80px;text-align:center;font-weight:700" oninput="if(sett.facts&&sett.facts[${i}])sett.facts[${i}].val=this.value" placeholder="10+"/>
+      <input class="sinput" value="${esc(f.lbl)}" style="flex:1" oninput="if(sett.facts&&sett.facts[${i}])sett.facts[${i}].lbl=this.value" placeholder="Tür"/>
       <button onclick="delFact(${i})" style="background:rgba(180,50,50,.15);border:1px solid rgba(180,50,50,.2);color:#e07070;border-radius:6px;padding:4px 10px;cursor:pointer;font-size:13px">✕</button>
     </div>`).join('');
 }
-function delFact(i){sett.facts.splice(i,1);renderFactsSett()}
+function delFact(i){if(!sett.facts)return;sett.facts.splice(i,1);renderFactsSett();saveFactsSett();}
 function addFact(){if(!sett.facts)sett.facts=[];sett.facts.push({val:'',lbl:''});renderFactsSett()}
 function saveFactsSett(){saveS();applySett();const el=document.getElementById('ok-facts');if(el){el.style.display='block';setTimeout(()=>el.style.display='none',2200)}toast('Kaydedildi ✓')}
 
@@ -4022,73 +4017,8 @@ function rejectReview(i){
 }
 
 
-function renderSayac(){
-  const g=document.getElementById('sayacGrid');if(!g)return;
-  const items=(sett.sayac||DEF_SETT.sayac||[]);
-  if(!items.length){g.innerHTML='';return;}
-  g.innerHTML=items.map((s,i)=>`
-    <div class="sayac-card" data-target="${s.num||0}" data-suffix="${esc(s.suffix||'')}" style="--sayac-color:${s.color||'#7aaa7a'}">
-      <span class="sayac-icon">${s.icon||'🌿'}</span>
-      <span class="sayac-num" id="sc-num-${i}">0</span><span class="sayac-suffix" style="color:${s.color||'#7aaa7a'};font-size:clamp(14px,2vw,20px)">${esc(s.suffix||'')}</span>
-      <span class="sayac-lbl">${esc(s.label||'')}</span>
-      <div class="sayac-bar" style="background:linear-gradient(90deg,transparent,${s.color||'#7aaa7a'},transparent)"></div>
-    </div>`).join('');
-  // Animate on scroll
-  animateSayac();
-}
 
-function animateSayac(){
-  const cards=document.querySelectorAll('.sayac-card');
-  if(!cards.length)return;
-  const obs=new IntersectionObserver(entries=>{
-    entries.forEach(entry=>{
-      if(!entry.isIntersecting)return;
-      const card=entry.target;
-      const target=parseInt(card.dataset.target)||0;
-      const numEl=card.querySelector('.sayac-num');
-      if(!numEl||numEl.dataset.animated)return;
-      numEl.dataset.animated='1';
-      const dur=1800,fps=60,steps=dur/1000*fps;
-      let cur=0,step=0;
-      const ease=t=>t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2;
-      const tick=()=>{
-        step++;
-        const t=ease(step/steps);
-        cur=Math.round(t*target);
-        numEl.textContent=cur.toLocaleString('tr-TR');
-        if(step<steps)requestAnimationFrame(tick);
-        else numEl.textContent=target.toLocaleString('tr-TR');
-      };
-      requestAnimationFrame(tick);
-      obs.unobserve(card);
-    });
-  },{threshold:0.3});
-  cards.forEach(c=>obs.observe(c));
-}
 
-/* Sayac settings */
-function renderSayacSett(){
-  const g=document.getElementById('settSayacGrid');if(!g)return;
-  const items=sett.sayac||[];
-  g.innerHTML=items.map((s,i)=>`
-    <div style="background:rgba(255,255,255,.04);border:1px solid rgba(168,200,168,.1);border-radius:10px;padding:12px">
-      <div style="display:grid;grid-template-columns:50px 1fr 1fr 80px 80px auto;gap:8px;align-items:center">
-        <input class="sinput" value="${esc(s.icon||'')}" style="text-align:center;font-size:18px" oninput="sett.sayac[${i}].icon=this.value" placeholder="🌿"/>
-        <input class="sinput" value="${esc(s.label||'')}" oninput="sett.sayac[${i}].label=this.value" placeholder="Etiket"/>
-        <input class="sinput" value="${s.num||0}" type="number" oninput="sett.sayac[${i}].num=parseInt(this.value)||0" placeholder="100"/>
-        <input class="sinput" value="${esc(s.suffix||'')}" oninput="sett.sayac[${i}].suffix=this.value" placeholder="+"/>
-        <input class="sinput" value="${esc(s.color||'#7aaa7a')}" type="color" style="padding:4px;height:36px" oninput="sett.sayac[${i}].color=this.value"/>
-        <button onclick="delSayac(${i})" style="background:rgba(180,50,50,.15);border:1px solid rgba(180,50,50,.2);color:#e07070;border-radius:6px;padding:6px 10px;cursor:pointer">✕</button>
-      </div>
-    </div>`).join('');
-}
-function delSayac(i){sett.sayac.splice(i,1);renderSayacSett();renderSayac()}
-function addSayac(){
-  if(!sett.sayac)sett.sayac=[];
-  sett.sayac.push({num:0,suffix:'+',label:'Yeni Sayaç',icon:'🌿',color:'#7aaa7a'});
-  renderSayacSett();renderSayac();
-}
-function saveSayacSett(){saveS();renderSayac();const el=document.getElementById('ok-sayac');if(el){el.style.display='block';setTimeout(()=>el.style.display='none',2200);}toast('Sayaçlar kaydedildi ✓')}
 
 /* ════════════════════════════════════════
    SSS — FAQ
@@ -4187,7 +4117,7 @@ function renderSocial(){
   const ytEmbed=document.getElementById('ytEmbedArea');
   if(ytEmbed){
     if(vid){
-      ytEmbed.innerHTML=`<div class="yt-embed-wrap"><iframe src="https://www.youtube.com/embed/${esc(vid)}?rel=0&modestbranding=1" allowfullscreen loading="lazy"></iframe></div>`;
+      ytEmbed.innerHTML=`<div class="yt-embed-wrap"><iframe src="https://www.youtube.com/embed/${esc(vid)}?rel=0&modestbranding=1" allowfullscreen></iframe></div>`;
     } else if(yt){
       ytEmbed.innerHTML=`<div class="yt-no-vid" style="padding:30px 24px">🎬 Kanal bağlantısı var — Video ID ekle (Admin → Ayarlar → Sosyal Medya)</div>`;
     } else {
