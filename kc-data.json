@@ -227,20 +227,7 @@
         "a": "Evet! Başlangıç konteynerleriyle bakılabilir. Sorularını WhatsApp'tan sor, yönlendiririz."
       }
     ],
-    "reviews": [
-      {
-        "author": "Mehmet K.",
-        "text": "Paketleme mükemmeldi, hiçbir canlı kayıp olmadan geldi.",
-        "stars": 5,
-        "prod": "Armadillidium Vulgare"
-      },
-      {
-        "author": "Selin A.",
-        "text": "Hızlı kargo, iletişim çok iyiydi. Tekrar alacağım.",
-        "stars": 5,
-        "prod": ""
-      }
-    ],
+    "reviews": [],
     "instagram": "",
     "youtube": "",
     "youtubeVideoId": "",
@@ -293,7 +280,7 @@
     "rozetler": [],
     "diffCards": null,
     "stockCalendar": [],
-    "_syncUpdAt": "2026-03-07T09:04:43.864Z"
+    "_syncUpdAt": "2026-03-07T09:06:45.734Z"
   },
   "gallery": [
     {
@@ -366,5 +353,5 @@
       "silent": false
     }
   ],
-  "updatedAt": "2026-03-07T09:06:45.423Z"
+  "updatedAt": "2026-03-07T09:06:46.053Z"
 }
