@@ -6,14 +6,15 @@
       "price": 1,
       "priceKr": 75,
       "oldPrice": 0,
-      "stockQty": 3,
+      "stockQty": 0,
       "minQty": 50,
       "cat": "springtail",
-      "stock": "in",
+      "stock": "prod",
       "badge": "pop",
       "label": "",
       "img": "https://raw.githubusercontent.com/Duorainers/kucukcanlilar/main/assets/imgs/img_1772875899479_544u.jpg",
-      "id": 1772875924158
+      "id": 1772875924158,
+      "subcat": ""
     },
     {
       "name": "Falsomia Candida",
@@ -210,7 +211,7 @@
     "rozetler": [],
     "diffCards": null,
     "stockCalendar": [],
-    "_syncUpdAt": "2026-03-07T13:49:33.331Z",
+    "_syncUpdAt": "2026-03-07T13:50:34.441Z",
     "facts": []
   },
   "gallery": [
@@ -237,6 +238,28 @@
       "silent": false
     }
   ],
-  "orders": [],
-  "updatedAt": "2026-03-07T13:49:33.331Z"
+  "orders": [
+    {
+      "id": "KC-1004",
+      "date": "07.03.2026 16:44:59",
+      "name": "tes",
+      "phone": "test",
+      "addr": "tes t t",
+      "items": [
+        {
+          "id": 1772875924158,
+          "name": "Lepidocyrtus Springtail",
+          "price": 1,
+          "priceKr": 75,
+          "img": "https://raw.githubusercontent.com/Duorainers/kucukcanlilar/main/assets/imgs/img_1772875899479_544u.jpg",
+          "qty": 150,
+          "cat": "springtail",
+          "label": ""
+        }
+      ],
+      "total": 362.5,
+      "status": "done"
+    }
+  ],
+  "updatedAt": "2026-03-07T13:50:34.441Z"
 }
