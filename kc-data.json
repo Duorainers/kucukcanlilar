@@ -229,10 +229,11 @@
     ],
     "reviews": [
       {
-        "author": "Ayşe T.",
-        "text": "Springtailler süper sağlıklı geldi, teraryumum çok daha temiz!",
+        "author": "Fares Fakhouri",
+        "text": "testtetetetst",
         "stars": 5,
-        "prod": "Tropical White Springtail"
+        "prod": "test",
+        "media": ""
       },
       {
         "author": "Mehmet K.",
@@ -372,5 +373,5 @@
       "silent": false
     }
   ],
-  "updatedAt": "2026-03-07T08:44:56.117Z"
+  "updatedAt": "2026-03-07T08:46:31.414Z"
 }
